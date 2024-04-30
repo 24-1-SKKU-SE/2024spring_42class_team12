@@ -1,1 +1,1 @@
-# 2024spring_42class_team12 (push test)
+# 2024spring_42class_team12

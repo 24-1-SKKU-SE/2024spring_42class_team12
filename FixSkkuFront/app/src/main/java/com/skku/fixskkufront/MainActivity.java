@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
     List<Message> messageList;
     MessageAdapter messageAdapter;
     ImageView imageView;
-    ImageView imageicon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

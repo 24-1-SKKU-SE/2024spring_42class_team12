@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-22.04
     env:
-      working-directory: 2024spring_42class_team12/FixSkkuBack
+      working-directory: FixSkkuBack/fixskku
 
     steps:
       - name: 체크아웃

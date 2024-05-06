@@ -4,6 +4,8 @@ package com.skku.fixskkufront;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -13,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity2 extends AppCompatActivity {
     RecyclerView recyclerView;
     TextView welcomeTextView;
     EditText messageEditText;
@@ -22,11 +24,12 @@ public class MainActivity extends AppCompatActivity {
     List<Message> messageList;
     MessageAdapter messageAdapter;
     ImageView imageView;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_chat);
 
         messageList = new ArrayList<>();
 
@@ -47,7 +50,15 @@ public class MainActivity extends AppCompatActivity {
 
         /* 아이콘 넣으려고 했으나, 실패했습니다. ㅠ
         * 첫 메세지 */
-        addToChat("안녕하세요! 픽스꾸 봇 입니다! 무엇을 도와드릴까요?",Message.SENT_BY_BOT);
+
+        intent = getIntent();
+        String FAQ = intent.getStringExtra(MainActivity.EXT_FAQ);
+        /* 만약 FAQ 가 1이라면 FAQ1에 대한 답변을 생성함. */
+        if (FAQ != null && FAQ.equals("1")) {
+            addToChat("(FAQ1 에 대한 답변)",Message.SENT_BY_BOT);
+        }
+
+        //addToChat("안녕하세요! 픽스꾸 봇 입니다! 무엇을 도와드릴까요?",Message.SENT_BY_BOT);
 
         /* 메세지 전송 */
         sendButton.setOnClickListener((v)->{
@@ -60,7 +71,8 @@ public class MainActivity extends AppCompatActivity {
         });
         /* 뒤로가기 */
         backButton.setOnClickListener((v)->{
-            addToChat("Temp Answer...",Message.SENT_BY_BOT); // 메세지 답변
+            //addToChat("Temp Answer...",Message.SENT_BY_BOT); // 메세지 답변
+            finish();
         });
     }
 

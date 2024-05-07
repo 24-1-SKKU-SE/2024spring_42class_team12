@@ -8,7 +8,7 @@ jobs:
   deploy-ci:
     runs-on: ubuntu-22.04
     env:
-      working-directory: 2024spring_42class_team12/FixSkkuBack
+      working-directory: FixSkkuBack/fixskku
 
     steps: 
     - uses: actions/checkout@v3
@@ -22,14 +22,14 @@ jobs:
     - name: application.yml 생성
       run: | 
           cd src/main/resources
-          echo "${{ secrets.APPLICATION }}" > ./application-deploy.yml
+          echo "${{ secrets.APPLICATION }}" > ./application.yml
       working-directory: ${{ env.working-directory }}
 
     - name: 빌드
+      working-directory: ${{ env.working-directory }}
       run: |
           chmod +x gradlew
           ./gradlew build -x test
-      working-directory: ${{ env.working-directory }}
       shell: bash
 
 ######## 여기까지는 CI.yml와 동일 #########
@@ -47,6 +47,7 @@ jobs:
       run: |
         docker build --platform linux/amd64 -t alenjb/fixskku .
         docker push alenjb/fixskku
+      working-directory: ${{ env.working-directory }}
 
   deploy-cd:      
     needs: deploy-ci

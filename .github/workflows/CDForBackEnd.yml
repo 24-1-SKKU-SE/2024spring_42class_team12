@@ -46,7 +46,7 @@ jobs:
     - name: docker image 빌드 및 푸시
       run: |
         docker build --platform linux/amd64 -t alenjb/fixskku .
-    #    docker push alenjb/fixskku
+        docker push alenjb/fixskku
       working-directory: ${{ env.working-directory }}
 
   deploy-cd:      

@@ -19,6 +19,28 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_launcher_background" />
 
+    <ImageButton
+        android:id="@+id/imageButtonLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/baseline_arrow_left_24"
+        android:background="@android:color/transparent"
+        android:layout_marginStart="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/textViewDetailStatus"
+        app:layout_constraintTop_toTopOf="@+id/textViewDetailStatus"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewDetailStatus"/>
+
+    <ImageButton
+        android:id="@+id/imageButtonRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/baseline_arrow_right_24"
+        android:background="@android:color/transparent"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintStart_toEndOf="@+id/textViewDetailStatus"
+        app:layout_constraintTop_toTopOf="@+id/textViewDetailStatus"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewDetailStatus"/>
+
     <TextView
         android:id="@+id/textViewDetailName"
         android:layout_width="wrap_content"
@@ -35,7 +57,7 @@
 
     <TextView
         android:id="@+id/textViewDetailStatus"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
@@ -131,7 +153,7 @@
         android:layout_marginBottom="16dp"
         android:background="@android:color/transparent"
         android:stateListAnimator="@null"
-        android:text="Cancel"
+        android:text="Delete"
         android:textAllCaps="false"
         android:textColor="@android:color/holo_blue_dark"
         app:layout_constraintBottom_toBottomOf="parent"

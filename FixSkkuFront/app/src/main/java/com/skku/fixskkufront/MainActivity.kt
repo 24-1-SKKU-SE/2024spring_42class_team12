@@ -26,6 +26,11 @@ class MainActivity : AppCompatActivity() {
         items.add(AdminRoom("책상 고장", "Can anybody give me the hint? I will be very happy if you help. If nobody help me, I will be very sad.", R.drawable.ic_launcher_background, "반려", "24-05-06 7:15 p.m."))
         items.add(AdminRoom("콘센트 고장", "Hey.", R.drawable.ic_launcher_background, "수리 중", "24-05-06 4:21 p.m."))
         items.add(AdminRoom("의자 고장", "Emoji", R.drawable.ic_launcher_background, "수리 완료", "24-05-06 4:05 p.m."))
+        items.add(AdminRoom("의자 고장", "제1공학관 5층 34호(21534)\nA-28", R.drawable.ic_launcher_background, "수리 접수", "24-05-06 8:24 p.m."))
+        items.add(AdminRoom("책상 고장", "Can anybody give me the hint? I will be very happy if you help. If nobody help me, I will be very sad.", R.drawable.ic_launcher_background, "반려", "24-05-06 7:15 p.m."))
+        items.add(AdminRoom("콘센트 고장", "Hey.", R.drawable.ic_launcher_background, "수리 중", "24-05-06 4:21 p.m."))
+        items.add(AdminRoom("의자 고장", "Emoji", R.drawable.ic_launcher_background, "수리 완료", "24-05-06 4:05 p.m."))
+
 
         val myAdapter = AdminRoomAdapter(items, applicationContext)
         val listView = findViewById<ListView>(R.id.listViewChatRoom)

@@ -108,6 +108,10 @@ class AdminRoomAdapter (val data: ArrayList<AdminRoom>, val context: Context): B
 
         var stat = status
 
+        val btnClose = dialog.findViewById<ImageButton>(R.id.imageButtonClose)
+        btnClose.setOnClickListener {
+            dialog.dismiss()
+        }
         // Okay 버튼 누를 때 변경 사항 저장.
         val btnOkay = dialog.findViewById<Button>(R.id.btn_okay)
         btnOkay.setOnClickListener {

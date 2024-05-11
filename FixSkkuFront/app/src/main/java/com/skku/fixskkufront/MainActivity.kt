@@ -22,15 +22,14 @@ class MainActivity : AppCompatActivity() {
 
         val items = ArrayList<AdminRoom>()
         /* 임시2 */
-        items.add(AdminRoom("의자 고장", "제1공학관 5층 34호(21534)\nA-28", R.drawable.ic_launcher_background, "수리 접수", "24-05-06 8:24 p.m."))
-        items.add(AdminRoom("책상 고장", "Can anybody give me the hint? I will be very happy if you help. If nobody help me, I will be very sad.", R.drawable.ic_launcher_background, "반려", "24-05-06 7:15 p.m."))
-        items.add(AdminRoom("콘센트 고장", "Hey.", R.drawable.ic_launcher_background, "수리 중", "24-05-06 4:21 p.m."))
-        items.add(AdminRoom("의자 고장", "Emoji", R.drawable.ic_launcher_background, "수리 완료", "24-05-06 4:05 p.m."))
-        items.add(AdminRoom("의자 고장", "제1공학관 5층 34호(21534)\nA-28", R.drawable.ic_launcher_background, "수리 접수", "24-05-06 8:24 p.m."))
-        items.add(AdminRoom("책상 고장", "Can anybody give me the hint? I will be very happy if you help. If nobody help me, I will be very sad.", R.drawable.ic_launcher_background, "반려", "24-05-06 7:15 p.m."))
-        items.add(AdminRoom("콘센트 고장", "Hey.", R.drawable.ic_launcher_background, "수리 중", "24-05-06 4:21 p.m."))
-        items.add(AdminRoom("의자 고장", "Emoji", R.drawable.ic_launcher_background, "수리 완료", "24-05-06 4:05 p.m."))
-
+        items.add(AdminRoom("의자 고장", "제1공학관 5층 34호(21534) A-28", R.drawable.ic_launcher_background, "수리 접수", "24-05-06 8:24 p.m.", "제1공학관 5층 34호(21534) A-28 입니다!"))
+        items.add(AdminRoom("책상 고장", "제2공학관 1층 24호(22124) A-13", R.drawable.ic_launcher_background, "반려", "24-05-06 7:15 p.m.", "Can anybody give me the hint? I will be very happy if you help. If nobody help me, I will be very sad."))
+        items.add(AdminRoom("콘센트 고장", "제2공학관 1층 24호(22124) A-15", R.drawable.ic_launcher_background, "수리 중", "24-05-06 4:21 p.m.", "수리 필요. 의자."))
+        items.add(AdminRoom("의자 고장", "제3공학관 2층 12호(23212) A-5", R.drawable.ic_launcher_background, "수리 완료", "24-05-06 4:05 p.m.", "공백"))
+        items.add(AdminRoom("의자 고장", "제1공학관 5층 34호(21534) A-28", R.drawable.ic_launcher_background, "수리 접수", "24-05-06 8:24 p.m.", "제1공학관 5층 34호(21534) A-28 입니다!"))
+        items.add(AdminRoom("책상 고장", "제2공학관 1층 24호(22124) A-13", R.drawable.ic_launcher_background, "반려", "24-05-06 7:15 p.m.", "Can anybody give me the hint? I will be very happy if you help. If nobody help me, I will be very sad."))
+        items.add(AdminRoom("콘센트 고장", "제2공학관 1층 24호(22124) A-15", R.drawable.ic_launcher_background, "수리 중", "24-05-06 4:21 p.m.", "수리 필요. 의자."))
+        items.add(AdminRoom("의자 고장", "제3공학관 2층 12호(23212) A-5", R.drawable.ic_launcher_background, "수리 완료", "24-05-06 4:05 p.m.", "공백"))
 
         val myAdapter = AdminRoomAdapter(items, this)
         val listView = findViewById<ListView>(R.id.listViewChatRoom)

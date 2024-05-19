@@ -18,7 +18,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 
 
-class AdminRoomAdapter (val data: ArrayList<AdminRoom>, val context: Context): BaseAdapter() {
+class AdminRoomAdapter (var data: ArrayList<AdminRoom>, val context: Context): BaseAdapter() {
     private lateinit var dialog: Dialog
 
     init {
@@ -26,6 +26,11 @@ class AdminRoomAdapter (val data: ArrayList<AdminRoom>, val context: Context): B
         clearSharedPreferences()
     }
 
+    fun updateList(newList: List<AdminRoom>) {
+        data.clear() // 기존 목록 지우기
+        data.addAll(newList) // 새로운 목록 추가
+        notifyDataSetChanged() // UI 업데이트 요청
+    }
     override fun getCount(): Int {
         return data.size
     }
@@ -197,4 +202,6 @@ class AdminRoomAdapter (val data: ArrayList<AdminRoom>, val context: Context): B
         val sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
         sharedPreferences.edit().clear().apply()
     }
+
+
 }

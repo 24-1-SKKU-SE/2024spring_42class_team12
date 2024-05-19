@@ -15,7 +15,7 @@
         app:layout_constraintBottom_toTopOf="@+id/scrollView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/guideline_80_v"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_10_h" />
+        app:layout_constraintTop_toBottomOf="@+id/guideline_20_h" />
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/search_view"
@@ -25,10 +25,10 @@
         android:layout_margin="8dp"
         app:iconifiedByDefault="false"
         app:queryHint="Search Here!"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_5_h"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_10_h"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_10_h"/>
+        app:layout_constraintTop_toBottomOf="@+id/guideline_20_h"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_80_v"
@@ -38,28 +38,21 @@
         app:layout_constraintGuide_percent="0.8" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_5_h"
+        android:id="@+id/guideline_10_h"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.1" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_10_h"
+        android:id="@+id/guideline_20_h"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.2" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_20_h"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.3" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_90_h"
+        android:id="@+id/guideline_100_h"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -80,7 +73,7 @@
         android:text="시설물 관리 현황"
         android:gravity="center"
         android:textSize="30dp"
-        app:layout_constraintBottom_toTopOf="@id/guideline_5_h"
+        app:layout_constraintBottom_toTopOf="@id/guideline_10_h"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
@@ -92,7 +85,7 @@
         app:layout_constraintBottom_toTopOf="@id/guideline_20_h"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guideline_90_h">
+        app:layout_constraintTop_toBottomOf="@id/guideline_100_h">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -111,15 +104,16 @@
     <HorizontalScrollView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:scrollbars="none"
         app:layout_constraintBottom_toTopOf="@+id/scrollView2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline_80_v"
-        app:layout_constraintTop_toBottomOf="@+id/guideline_10_h">
+        app:layout_constraintTop_toBottomOf="@+id/search_view">
 
         <LinearLayout
             android:id="@+id/linearlayout_button"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <Button
@@ -127,43 +121,43 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="8dp"
-                android:layout_marginVertical="0dp"
+                android:layout_marginVertical="4dp"
                 android:layout_weight="1"
                 android:background="@drawable/rounded_corner_white"
-                android:text="수리 접수"
-                android:textColor="@color/white" />
+                android:textColor="@color/black"
+
+                android:text="수리 접수" />
 
             <Button
                 android:id="@+id/button3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginVertical="4dp"
                 android:layout_weight="1"
                 android:background="@drawable/rounded_corner_white"
-                android:text="수리 중"
-                android:textColor="@color/white" />
+                android:textColor="@color/black"
+                android:text="수리 중" />
 
             <Button
                 android:id="@+id/button4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="8dp"
+                android:layout_marginVertical="4dp"
                 android:layout_weight="1"
                 android:background="@drawable/rounded_corner_white"
-                android:text="수리 완료"
-                android:textColor="@color/white"
-
-                />
+                android:textColor="@color/black"
+                android:text="수리 완료" />
 
             <Button
                 android:id="@+id/button5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginVertical="4dp"
                 android:layout_weight="1"
                 android:background="@drawable/rounded_corner_white"
-                android:text="반려"
-                android:textColor="@color/white"
-
-                />
+                android:textColor="@color/black"
+                android:text="반려" />
         </LinearLayout>
     </HorizontalScrollView>
 

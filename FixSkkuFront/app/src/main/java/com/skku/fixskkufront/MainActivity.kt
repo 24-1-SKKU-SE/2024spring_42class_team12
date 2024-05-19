@@ -1,6 +1,9 @@
 package com.skku.fixskkufront
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ListView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -28,6 +31,24 @@ class MainActivity : AppCompatActivity() {
         val myAdapter = AdminRoomAdapter(items, this)
         val listView = findViewById<ListView>(R.id.listViewChatRoom)
         listView.adapter = myAdapter
+
+        val btnBefore = findViewById<Button>(R.id.button2)
+        val btnIng = findViewById<Button>(R.id.button3)
+        val btnAfter = findViewById<Button>(R.id.button4)
+        val btnReject = findViewById<Button>(R.id.button5)
+
+        /* 수리 접수 버튼을 눌렀을 때, */
+        btnBefore.setOnClickListener {
+            val currentTextColor = btnBefore.currentTextColor
+            if (currentTextColor == Color.BLACK) {
+                btnBefore.setBackgroundResource(R.drawable.rounded_corner_grey)
+                btnBefore.setTextColor(Color.WHITE)
+            } else {
+                //btnBefore.setBackgroundColor(Color.TRANSPARENT)
+                btnBefore.setBackgroundResource(R.drawable.rounded_corner_white)
+                btnBefore.setTextColor(Color.BLACK)
+            }
+        }
 
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->

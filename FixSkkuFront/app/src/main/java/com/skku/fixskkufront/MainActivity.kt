@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         listView.adapter = myAdapter
 
         /* SearchView 대신 EditText로 검색 기능 구현 */
+        /* 시간 순서대로 리스트뷰 정렬 기능 구현 */
 
         val btnBefore = findViewById<Button>(R.id.button2)
         val btnIng = findViewById<Button>(R.id.button3)
@@ -49,6 +50,7 @@ class MainActivity : AppCompatActivity() {
         var btnRejectPressed = false
         /* 수리 접수 버튼을 눌렀을 때, 나머지 검정색(활성화된) 버튼을 하얀색(비활성화)으로 */
         btnBefore.setOnClickListener {
+            /* 원본 대입. clear하면 원본 리스트도 왜인지 모르게 사라져서... 대안으로 작성된 코드임 */
             items = item_init
 
             btnIngPressed = false

@@ -1,5 +1,8 @@
 package com.skku.fixskku.token.service;
 
+import com.skku.fixskku.apipayload.ResponseApi;
+import com.skku.fixskku.apipayload.ResponseStatus;
+import com.skku.fixskku.apipayload.exception.GeneralException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Service;
@@ -36,16 +39,18 @@ public class TokenService {
                     .parseClaimsJws(token);
             return true;
         } catch (Exception e) {
-            return false;
+            throw new GeneralException(ResponseStatus._INTERNAL_SERVER_ERROR);
         }
     }
 
     public ResponseEntity<?> processToken(String token) {
         if (token != null && validateToken(token)) {
-            return ResponseEntity.ok(Collections.singletonMap("message", "토큰 확인 성공"));
-        } else {
+            return ResponseApi.tokenOk();
+        } else if (token == null) {
             String newToken = createInfiniteToken();
             return ResponseEntity.ok(Collections.singletonMap("token", newToken));
+        } else {
+            return ResponseApi.serverError();
         }
     }
 }

@@ -18,16 +18,16 @@ public class Facility {
     @Column(name = "facility_id")  // 데이터베이스 컬럼명과 일치하도록
     private Long facilityId;
 
-    @Column(name = "campus")  // 변경이 필요 없으면 생략 가능
+    @Column(name = "campus")
     private String campus;
 
-    @Column(name = "building")  // 변경이 필요 없으면 생략 가능
+    @Column(name = "building")
     private Long building;
 
-    @Column(name = "floor")  // 변경이 필요 없으면 생략 가능
+    @Column(name = "floor")
     private String floor;
 
-    @Column(name = "classroom")  // 변경이 필요 없으면 생략 가능
+    @Column(name = "classroom")
     private Long classroom;
 
     @Column(name = "facility_type")  // 데이터베이스 컬럼명과 일치하도록

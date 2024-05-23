@@ -8,11 +8,13 @@ public class ResponseApi {
     @Getter
     @Builder
     private static class Body {
+        private int code;
         private String message;
     }
 
     public static ResponseEntity of(ResponseStatus status) {
         Body body = Body.builder()
+                .code(status.getHttpStatus().value())
                 .message(status.getMessage())
                 .build();
         return new ResponseEntity<>(body, status.getHttpStatus());
@@ -33,15 +35,13 @@ public class ResponseApi {
         return of(ResponseStatus._BAD_REQUEST);
     }
 
-
-
     // 401
-    public static  ResponseEntity unauthorized() {
+    public static ResponseEntity unauthorized() {
         return of(ResponseStatus._UNAUTHORIZED);
     }
 
     // 404
-    public static ResponseEntity notfound() {
+    public static ResponseEntity notFound() {
         return of(ResponseStatus._NOT_FOUND);
     }
 

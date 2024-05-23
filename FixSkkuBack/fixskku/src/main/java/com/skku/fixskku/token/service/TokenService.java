@@ -39,7 +39,7 @@ public class TokenService {
                     .parseClaimsJws(token);
             return true;
         } catch (Exception e) {
-            throw new GeneralException(ResponseStatus._INTERNAL_SERVER_ERROR);
+            throw new GeneralException(ResponseStatus._UNAUTHORIZED);
         }
     }
 

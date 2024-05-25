@@ -9,5 +9,5 @@ public interface ReportService {
      * 신고하는 기능
      * @param report 신고 객체
      */
-    void doReport(Report report);
+    long doReport(Report report);
 }

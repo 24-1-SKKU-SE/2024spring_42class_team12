@@ -2,6 +2,10 @@ package com.skku.fixskku.common.domain;
 
 import lombok.Getter;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Getter
 public enum ReportStatus {
     REPORT_RECEIVED("신고접수"),   // 신고접수
@@ -16,4 +20,9 @@ public enum ReportStatus {
         this.name = name;
     }
 
+    public static List<String> getStatusNames() {
+        return Arrays.stream(ReportStatus.values())
+                .map(ReportStatus::getName)
+                .collect(Collectors.toList());
+    }
 }

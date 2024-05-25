@@ -1,6 +1,7 @@
 package com.skku.fixskku.facility.service;
 
-import com.skku.fixskku.entity.Facility;
+import com.skku.fixskku.common.domain.ReportStatus;
+import com.skku.fixskku.facility.domain.Facility;
 import com.skku.fixskku.facility.repository.FacilityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,6 @@ public class FacilityService {
     }
 
     public List<Facility> findFacilitiesByStatus(Long classroom) {
-        List<String> statuses = Arrays.asList("신고접수", "수리접수", "수리중");
-        return facilityRepository.findByClassroomAndFacilityStatusIn(classroom, statuses);
+        return facilityRepository.findByClassroomAndFacilityStatusIn(classroom, ReportStatus.getStatusNames());
     }
 }

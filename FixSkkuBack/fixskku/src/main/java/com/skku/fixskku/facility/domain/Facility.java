@@ -16,7 +16,7 @@ import lombok.*;
 @Table(name = "facilities")
 public class Facility {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "facilityid")
     private long id;
 

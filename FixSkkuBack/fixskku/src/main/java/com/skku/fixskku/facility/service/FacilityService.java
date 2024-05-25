@@ -19,6 +19,6 @@ public class FacilityService {
     }
 
     public List<Facility> findFacilitiesByStatus(Long classroom) {
-        return facilityRepository.findByClassroomAndFacilityStatusIn(classroom, ReportStatus.getStatusNames());
+        return facilityRepository.findByClassroomNumberAndStatusIn(classroom, ReportStatus.getStatusNames());
     }
 }

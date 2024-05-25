@@ -20,8 +20,10 @@ public enum ResponseStatus {
     _TOKEN_OK(OK, "토큰 확인 성공"),
 
     //관리자 관련
-    _ADMIN_NOT_FOUND(NOT_FOUND, "해당 신고가 존재하지 않습니다.");
+    _ADMIN_NOT_FOUND(NOT_FOUND, "해당 신고가 존재하지 않습니다."),
 
+    //시설물 현황 관련
+    _FACILITY_INFO_SUCCESS(OK, "망가진 시설물 정보 조회 성공");
     private final HttpStatus httpStatus;
     private final String message;
 }

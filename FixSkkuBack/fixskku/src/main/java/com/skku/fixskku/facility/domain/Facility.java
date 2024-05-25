@@ -1,22 +1,22 @@
-package com.skku.fixskku.facility.dto;
+package com.skku.fixskku.facility.domain;
 
 import com.skku.fixskku.common.domain.FacilityStatus;
 import com.skku.fixskku.common.domain.BuildingType;
 import com.skku.fixskku.common.domain.CampusType;
 import com.skku.fixskku.common.domain.FacilityType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Entity @Getter @Builder
+@Entity
+@Getter
+@Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "facilities")
 public class Facility {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "facilityid")
     private long id;
 
@@ -41,5 +41,23 @@ public class Facility {
     @Column(name = "facilitystatus")
     @Enumerated(EnumType.STRING)
     private FacilityStatus status;
+
+    public Facility(CampusType campusType, BuildingType buildingType, String floor, long classroomNumber, FacilityType type, FacilityStatus status) {
+        this.campusType = campusType;
+        this.buildingType = buildingType;
+        this.floor = floor;
+        this.classroomNumber = classroomNumber;
+        this.type = type;
+        this.status = status;
+    }
+
+    public void edit(CampusType campusType, BuildingType buildingType, String floor, long classroomNumber, FacilityType type, FacilityStatus status) {
+        this.campusType = campusType;
+        this.buildingType = buildingType;
+        this.floor = floor;
+        this.classroomNumber = classroomNumber;
+        this.type = type;
+        this.status = status;
+    }
 
 }

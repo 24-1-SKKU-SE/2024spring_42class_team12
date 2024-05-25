@@ -17,7 +17,7 @@ import lombok.*;
 public class Facility {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "facilityid")
+    @Column(name = "facility_id")
     private long id;
 
     @Column(name = "campus")
@@ -34,11 +34,11 @@ public class Facility {
     @Column(name = "classroom")
     private long classroomNumber;
 
-    @Column(name = "facilitytype")
+    @Column(name = "facility_type")
     @Enumerated(EnumType.STRING)
     private FacilityType type;
 
-    @Column(name = "facilitystatus")
+    @Column(name = "facility_status")
     @Enumerated(EnumType.STRING)
     private FacilityStatus status;
 

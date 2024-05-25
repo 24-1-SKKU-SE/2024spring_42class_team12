@@ -1,4 +1,4 @@
-package com.skku.fixskku.apipayload;
+package com.skku.fixskku.common.apipayload;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

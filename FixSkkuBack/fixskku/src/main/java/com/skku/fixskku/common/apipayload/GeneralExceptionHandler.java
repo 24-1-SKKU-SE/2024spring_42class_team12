@@ -1,6 +1,6 @@
-package com.skku.fixskku.apipayload;
+package com.skku.fixskku.common.apipayload;
 
-import com.skku.fixskku.apipayload.exception.GeneralException;
+import com.skku.fixskku.common.apipayload.exception.GeneralException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.http.ResponseEntity;

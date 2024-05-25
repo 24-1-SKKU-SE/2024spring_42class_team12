@@ -1,7 +1,7 @@
 package com.skku.fixskku.report.domain;
 
 import com.skku.fixskku.common.domain.ReportStatus;
-import com.skku.fixskku.facility.dto.Facility;
+import com.skku.fixskku.facility.domain.Facility;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

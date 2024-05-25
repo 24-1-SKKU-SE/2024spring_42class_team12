@@ -3,8 +3,8 @@ package com.skku.fixskku.report.service;
 import com.skku.fixskku.common.domain.FacilityStatus;
 import com.skku.fixskku.common.domain.BuildingType;
 import com.skku.fixskku.common.domain.CampusType;
-import com.skku.fixskku.facility.dto.Facility;
 import com.skku.fixskku.common.domain.FacilityType;
+import com.skku.fixskku.facility.domain.Facility;
 import com.skku.fixskku.facility.repository.FacilityRepository;
 import com.skku.fixskku.report.domain.Report;
 import com.skku.fixskku.report.repository.ReportRepository;
@@ -16,7 +16,6 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest

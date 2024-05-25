@@ -23,7 +23,10 @@ public enum ResponseStatus {
     _ADMIN_NOT_FOUND(NOT_FOUND, "해당 신고가 존재하지 않습니다."),
 
     //시설물 현황 관련
-    _FACILITY_INFO_SUCCESS(OK, "망가진 시설물 정보 조회 성공");
+    _FACILITY_INFO_SUCCESS(OK, "망가진 시설물 정보 조회 성공"),
+    //신고 관련
+    _REPORT_SUCCESS(CREATED, "신고가 성공적으로 등록되었습니다.");
+
     private final HttpStatus httpStatus;
     private final String message;
 }

@@ -1,6 +1,6 @@
 package com.skku.fixskku.facility.repository;
 
-import com.skku.fixskku.entity.Facility;
+import com.skku.fixskku.facility.domain.Facility;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.List;

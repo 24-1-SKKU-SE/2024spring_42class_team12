@@ -1,8 +1,8 @@
 package com.skku.fixskku.token.service;
 
-import com.skku.fixskku.apipayload.ResponseApi;
-import com.skku.fixskku.apipayload.ResponseStatus;
-import com.skku.fixskku.apipayload.exception.GeneralException;
+import com.skku.fixskku.common.apipayload.ResponseApi;
+import com.skku.fixskku.common.apipayload.ResponseStatus;
+import com.skku.fixskku.common.apipayload.exception.GeneralException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Service;

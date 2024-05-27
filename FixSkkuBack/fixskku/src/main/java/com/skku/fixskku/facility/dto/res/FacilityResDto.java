@@ -1,4 +1,4 @@
-package com.skku.fixskku.dto.res;
+package com.skku.fixskku.facility.dto.res;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

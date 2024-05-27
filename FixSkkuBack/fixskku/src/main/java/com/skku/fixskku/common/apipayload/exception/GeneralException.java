@@ -1,6 +1,6 @@
-package com.skku.fixskku.apipayload.exception;
+package com.skku.fixskku.common.apipayload.exception;
 
-import com.skku.fixskku.apipayload.ResponseStatus;
+import com.skku.fixskku.common.apipayload.ResponseStatus;
 import lombok.Getter;
 
 @Getter

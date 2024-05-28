@@ -1,11 +1,11 @@
 package com.skku.fixskku.facility.controller;
 
-import com.skku.fixskku.dto.res.FacilityResDto;
-import com.skku.fixskku.entity.Facility;
+import com.skku.fixskku.facility.dto.res.FacilityResDto;
+import com.skku.fixskku.facility.domain.Facility;
 import com.skku.fixskku.facility.service.FacilityService;
-import com.skku.fixskku.apipayload.ResponseApi;
-import com.skku.fixskku.apipayload.ResponseStatus;
-import com.skku.fixskku.apipayload.exception.GeneralException;
+import com.skku.fixskku.common.apipayload.ResponseApi;
+import com.skku.fixskku.common.apipayload.ResponseStatus;
+import com.skku.fixskku.common.apipayload.exception.GeneralException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +37,7 @@ public class FacilityController {
             }
 
             List<FacilityResDto> facilityResDtos = facilities.stream()
-                    .map(facility -> new FacilityResDto(facility.getFacilityId(), facility.getFacilityType(), facility.getFacilityStatus()))
+                    .map(facility -> new FacilityResDto(facility.getId(), facility.getType().getName(), facility.getStatus().getName()))
                     .collect(Collectors.toList());
 
             return ResponseApi.of(ResponseStatus._FACILITY_INFO_SUCCESS, facilityResDtos);

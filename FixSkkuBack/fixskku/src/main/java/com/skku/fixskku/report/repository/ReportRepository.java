@@ -1,6 +1,8 @@
 package com.skku.fixskku.report.repository;
 
 import com.skku.fixskku.report.domain.Report;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,4 +15,11 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
      * @return 저장한 객체
      */
     Report save(Report report);
+
+    /**
+     * 자신의 모든 신고를 조회
+     * @param token 사용자의 토큰 아이디
+     * @return 페이지 정보를 포함한 해당 사용자의 모든 신고 리스트
+     */
+    Page<Report> findAllByTokenId(String token, Pageable pageable);
 }

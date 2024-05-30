@@ -1,4 +1,4 @@
-package com.skku.fixskku.chatbot.dto.res;
+package com.skku.fixskku.chatbot.dto.req;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

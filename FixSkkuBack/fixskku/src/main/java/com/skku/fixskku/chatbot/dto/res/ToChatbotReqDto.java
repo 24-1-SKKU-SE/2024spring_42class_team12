@@ -16,6 +16,6 @@ public class ToChatbotReqDto {
     private String text;
 
     @JsonProperty("FAQ_id")
-    private long faqId;
+    private String faqId;
 
 }

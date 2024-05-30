@@ -20,7 +20,7 @@ public class ChatbotServiceImpl implements ChatbotService{
      */
     @Override
     public void faqRequest(String tokenId, long faqId, String text) {
-        ToChatbotReqDto reqDto = new ToChatbotReqDto(text, faqId);
+        ToChatbotReqDto reqDto = new ToChatbotReqDto(text, faqId+"");
         // 요청에 추가할 헤더 설정
         HttpHeaders headers = setHttpHeaders(tokenId);
         // 요청 객체 생성

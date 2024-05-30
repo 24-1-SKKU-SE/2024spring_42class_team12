@@ -11,6 +11,7 @@ import com.skku.fixskku.report.dto.req.ReportReqDto;
 import com.skku.fixskku.report.dto.res.ReportListResDto;
 import com.skku.fixskku.report.dto.res.ReportResDto;
 import com.skku.fixskku.report.service.ReportService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/report")
+@Slf4j
 public class ReportController {
     private final ReportService reportService;
     private final FacilityRepository facilityRepository;
@@ -65,7 +67,6 @@ public class ReportController {
      */
     @GetMapping("/list")
     public ResponseEntity<?> getAllReports(@RequestParam String token){
-        System.out.println(1);
         if (token== null || token.isEmpty()) {
             return ResponseApi.badRequest();
         }
@@ -79,8 +80,37 @@ public class ReportController {
             return ResponseApi.of(ResponseStatus._REPORT_LIST_SUCCESS, result);
         }catch (GeneralException e) {
             return ResponseApi.of(e.getStatus());
-        } catch (Exception e) {
+        }catch (NoSuchElementException | NullPointerException e){
+            return ResponseApi.badRequest();
+        }
+        catch (Exception e) {
             return ResponseApi.serverError();
         }
     }
+
+    /**
+     * 자신의 신고 상세조회 기능
+     * @param token 조회할 사용자의 토큰 아이디
+     * @return API 명세서에 따른 응답
+     */
+    @GetMapping("/{reportId}")
+    public ResponseEntity<?> getAllReports(@RequestParam String token, @PathVariable long reportId){
+        if (token== null || token.isEmpty()) {
+            return ResponseApi.badRequest();
+        }
+        try {
+            ReportListResDto  resultReport = reportService.getReport(reportId, token);
+            Map<String, Object> result = new HashMap<>();
+            result.put("report", resultReport);
+            return ResponseApi.of(ResponseStatus._REPORT_LIST_SUCCESS, result);
+        }catch (GeneralException e) {
+            return ResponseApi.of(e.getStatus());
+        } catch (NoSuchElementException | NullPointerException e){
+            return ResponseApi.badRequest();
+        }
+        catch (Exception e) {
+            return ResponseApi.serverError();
+        }
+    }
+
 }

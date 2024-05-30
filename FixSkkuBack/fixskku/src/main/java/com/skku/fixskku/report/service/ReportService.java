@@ -19,4 +19,12 @@ public interface ReportService {
      * @return 응답 형식에 맞게 페이징된 사용자의 신고 목록 리스트
      */
     Page<ReportListResDto> getAllReports(String token);
+
+    /**
+     * 자신의 신고를 상세조회하는 기능
+     * @param reportId 조회할 신고 아이디
+     * @param token 조회할 사용자의 토큰 아이디
+     * @return 응답 형식에 맞는 사용자의 신고 정보
+     */
+    ReportListResDto getReport(long reportId, String token);
 }

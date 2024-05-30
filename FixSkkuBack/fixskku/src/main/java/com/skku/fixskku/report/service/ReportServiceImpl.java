@@ -46,4 +46,16 @@ public class ReportServiceImpl implements ReportService{
         // Pageable 객체에서 페이지 정보 추출
         return findReports.map(ReportListResDto::new);
     }
+
+    /**
+     * 자신의 신고를 상세조회하는 기능
+     * @param reportId 조회할 신고 아이디
+     * @param token 조회할 사용자의 토큰 아이디
+     * @return 응답 형식에 맞는 사용자의 신고 정보
+     */
+    @Override
+    public ReportListResDto getReport(long reportId, String token) {
+        Report findReport = repository.findByIdAndTokenId(reportId, token);
+        return new ReportListResDto(findReport);
+    }
 }

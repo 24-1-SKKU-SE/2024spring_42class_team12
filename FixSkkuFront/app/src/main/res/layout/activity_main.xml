@@ -8,12 +8,89 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="64dp"
+        android:fontFamily="@font/gmarket_sans_bold"
+        android:text="Fix-SKKU"
+        android:textColor="#0E341C"
+        android:textSize="43sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/gmarket_sans_medium"
+        android:text="성균관대학교 학생들을 위한 어플리케이션"
+        android:textColor="#80000000"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:srcCompat="@drawable/skku" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/pretendard_variable"
+        android:text="픽스꾸가 당신의 불편함을 해결해 드리겠습니다"
+        android:textColor="#80000000"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.75" />
+
+    <Button
+        android:id="@+id/userBtn"
+        android:layout_width="900px"
+        android:layout_height="200px"
+        android:backgroundTint="#0E341C"
+        android:text="학생으로 로그인"
+        android:fontFamily="@font/pretendard_variable"
+        android:textFontWeight="700"
+        android:textSize="20sp"
+        app:cornerRadius="6dp"
+        app:layout_constraintBottom_toTopOf="@+id/adminBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <Button
+        android:id="@+id/adminBtn"
+        android:layout_width="900px"
+        android:layout_height="200px"
+        android:backgroundTint="#8DC63F"
+        android:text="관리자로 로그인"
+        android:fontFamily="@font/pretendard_variable"
+        android:textFontWeight="700"
+        android:textSize="20sp"
+        app:cornerRadius="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userBtn" />
 </androidx.constraintlayout.widget.ConstraintLayout>

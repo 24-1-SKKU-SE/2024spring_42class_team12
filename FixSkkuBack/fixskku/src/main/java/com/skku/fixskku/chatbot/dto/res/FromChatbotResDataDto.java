@@ -1,20 +1,22 @@
 package com.skku.fixskku.chatbot.dto.res;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Data
 @Getter
 @Setter
 @AllArgsConstructor
+@RequiredArgsConstructor
 public class FromChatbotResDataDto {
-    private long classroom;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String broken_item;
+    private String campus;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String building;
+
+    private String classroom;
 
 }
 

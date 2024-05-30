@@ -54,6 +54,10 @@ public class ChatbotServiceImpl implements ChatbotService{
             case NORMAL -> {
                 return returnNormalQuestion(chatbotResponse.getBody());
             }
+            // 챗봇 시설물 조회 기능
+            case FAC -> {
+                return returnFacilityInfo(chatbotResponse.getBody());
+            }
 
         }
 
@@ -68,6 +72,21 @@ public class ChatbotServiceImpl implements ChatbotService{
     public ResponseEntity<?> returnNormalQuestion(ChatbotResDto dto){
         ToFrontResDto resDto = new ToFrontResDto(dto.getText(), null, null, null, null);
         return ResponseApi.of(ResponseStatus._CHATBOT_NORMAL_SUCCESS,resDto);
+    }
+
+    /**
+     * 챗봇 시설물 조회 기능
+     * @param dto 챗봇으로부터 받은 응답 DTO
+     * @return 챗봇의 응답 DTO를 API 명세서에 맞게 바꾼 객체
+     */
+    public ResponseEntity<?> returnFacilityInfo(ChatbotResDto dto){
+        ToFrontResDto resDto = new ToFrontResDto(
+                null,
+                ChatbotUrl.FACILITY_INFO_URI,
+                dto.getData().getCampus(),
+                dto.getData().getBuilding(),
+                dto.getData().getClassroom());
+        return ResponseApi.of(ResponseStatus._CHATBOT_FAC_SUCCESS,resDto);
     }
 
     /**

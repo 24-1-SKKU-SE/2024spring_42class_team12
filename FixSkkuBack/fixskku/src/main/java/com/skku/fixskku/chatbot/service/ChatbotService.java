@@ -29,4 +29,11 @@ public interface ChatbotService {
      * @return 챗봇의 응답 DTO를 API 명세서에 맞게 바꾼 객체
      */
     ResponseEntity<?> returnNormalQuestion(ChatbotResDto dto);
+
+    /**
+     * 챗봇 시설물 조회 기능
+     * @param dto 챗봇으로부터 받은 응답 DTO
+     * @return 챗봇의 응답 DTO를 API 명세서에 맞게 바꾼 객체
+     */
+    ResponseEntity<?> returnFacilityInfo(ChatbotResDto dto);
 }

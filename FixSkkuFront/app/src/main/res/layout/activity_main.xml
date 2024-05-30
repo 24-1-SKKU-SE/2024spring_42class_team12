@@ -146,8 +146,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="FIX SKKU"
-            android:textColor="#9C9C9C"
+            android:text="Fix-SKKU"
+            android:textColor="#000000"
             android:textSize="24dp"
             android:textStyle="bold" />
 

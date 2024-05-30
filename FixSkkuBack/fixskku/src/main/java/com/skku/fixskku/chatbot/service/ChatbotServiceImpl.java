@@ -62,10 +62,12 @@ public class ChatbotServiceImpl implements ChatbotService{
             case REPORT -> {
                 return returnReportForm(chatbotResponse.getBody());
             }
-
+            // 챗봇 자신의 신고 조회 기능
+            case MYREPORT -> {
+                return returnMyReportForm(chatbotResponse.getBody());
+            }
         }
-
-        return null;
+        throw new IllegalStateException();
     }
 
     /**
@@ -106,6 +108,19 @@ public class ChatbotServiceImpl implements ChatbotService{
                 dto.getData().getCampus(),
                 dto.getData().getBuilding(),
                 dto.getData().getClassroom());
+        return ResponseApi.of(ResponseStatus._CHATBOT_FAC_SUCCESS,resDto);
+    }
+
+    /**
+     * 챗봇 자신의 신고 조회 기능
+     * @param dto 챗봇으로부터 받은 응답 DTO
+     * @return 챗봇의 응답 DTO를 API 명세서에 맞게 바꾼 객체
+     */
+    public ResponseEntity<?> returnMyReportForm(ChatbotResDto dto){
+        ToFrontResDto resDto = new ToFrontResDto(
+                null,
+                ChatbotUrl.MYREPORT_URI,
+                null, null, null);
         return ResponseApi.of(ResponseStatus._CHATBOT_FAC_SUCCESS,resDto);
     }
 

@@ -58,6 +58,10 @@ public class ChatbotServiceImpl implements ChatbotService{
             case FAC -> {
                 return returnFacilityInfo(chatbotResponse.getBody());
             }
+            // 챗봇 신고 기능
+            case REPORT -> {
+                return returnReportForm(chatbotResponse.getBody());
+            }
 
         }
 
@@ -70,7 +74,8 @@ public class ChatbotServiceImpl implements ChatbotService{
      * @return 챗봇의 응답 DTO를 API 명세서에 맞게 바꾼 객체
      */
     public ResponseEntity<?> returnNormalQuestion(ChatbotResDto dto){
-        ToFrontResDto resDto = new ToFrontResDto(dto.getText(), null, null, null, null);
+        ToFrontResDto resDto = new ToFrontResDto(
+                dto.getText(), null, null, null, null);
         return ResponseApi.of(ResponseStatus._CHATBOT_NORMAL_SUCCESS,resDto);
     }
 
@@ -90,6 +95,21 @@ public class ChatbotServiceImpl implements ChatbotService{
     }
 
     /**
+     * 챗봇 신고 기능
+     * @param dto 챗봇으로부터 받은 응답 DTO
+     * @return 챗봇의 응답 DTO를 API 명세서에 맞게 바꾼 객체
+     */
+    public ResponseEntity<?> returnReportForm(ChatbotResDto dto){
+        ToFrontResDto resDto = new ToFrontResDto(
+                null,
+                ChatbotUrl.REPORT_URI,
+                dto.getData().getCampus(),
+                dto.getData().getBuilding(),
+                dto.getData().getClassroom());
+        return ResponseApi.of(ResponseStatus._CHATBOT_FAC_SUCCESS,resDto);
+    }
+
+    /**
      * 챗봇 서버에게 요청 시 필요한 헤더를 설정하는 메서드
      * @param tokenId 사용자의 토큰 아이디
      * @return 완성된 HTTP 헤더
@@ -102,4 +122,6 @@ public class ChatbotServiceImpl implements ChatbotService{
         headers.add("token", tokenId);
         return headers;
     }
+
+
 }

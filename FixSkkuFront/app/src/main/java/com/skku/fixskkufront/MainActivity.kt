@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         val adminButton: Button = findViewById<Button>(R.id.adminBtn)
 
         userButton.setOnClickListener {
-            val intent = Intent(this@MainActivity, CampusSelectActivity::class.java)
+            val intent = Intent(this@MainActivity, UserActivity::class.java)
             startActivity(intent)
         }
 

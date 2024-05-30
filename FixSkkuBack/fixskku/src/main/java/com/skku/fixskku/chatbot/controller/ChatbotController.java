@@ -33,10 +33,13 @@ public class ChatbotController {
                 return ResponseApi.serverError();
             }
         }
-        else {
-
+        // 2. 일반 질문, 신고, 자신의 신고 조회, 시설물 조회의 경우
+        try {
+            return chatbotService.sendToChatbotAndGetAnswer(tokenId, text);
+        }catch (GeneralException e) {
+            return ResponseApi.of(e.getStatus());
+        } catch (Exception e) {
+            return ResponseApi.serverError();
         }
-        return null;
     }
-
 }

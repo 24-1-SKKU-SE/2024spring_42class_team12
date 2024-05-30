@@ -4,8 +4,11 @@ import com.skku.fixskku.common.domain.FacilityStatus;
 import com.skku.fixskku.common.domain.BuildingType;
 import com.skku.fixskku.common.domain.CampusType;
 import com.skku.fixskku.common.domain.FacilityType;
+import com.skku.fixskku.report.domain.Report;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -19,6 +22,9 @@ public class Facility {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "facility_id")
     private long id;
+
+    @OneToMany(mappedBy = "facility")
+    private List<Report> reports;
 
     @Column(name = "campus")
     @Enumerated(EnumType.STRING)

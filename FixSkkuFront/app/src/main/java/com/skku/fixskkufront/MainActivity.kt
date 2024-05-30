@@ -69,7 +69,11 @@ class MainActivity : AppCompatActivity() {
     private fun sendFAQRequest(faqNumber: Int) {
         CoroutineScope(Dispatchers.IO).launch {
             val urlString = "https://yourserver.com/chatbot?faq=$faqNumber"
-            val requestBody = "FAQ $faqNumber 대답"
+            var requestBody = ""
+            if (faqNumber == 1){ requestBody = "FAQ 1번 대답입니다." }
+            else if (faqNumber == 2){ requestBody = "FAQ 2번 대답입니다." }
+            else if (faqNumber == 3){ requestBody = "FAQ 3번 대답입니다." }
+            else if (faqNumber == 4){ requestBody = "FAQ 4번 대답입니다." }
 
             var urlConnection: HttpURLConnection? = null
 

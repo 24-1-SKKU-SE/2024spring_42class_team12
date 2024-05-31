@@ -6,6 +6,7 @@ import com.skku.fixskku.chatbot.dto.req.ToChatbotReqDto;
 import com.skku.fixskku.chatbot.dto.res.ToFrontResDto;
 import com.skku.fixskku.common.apipayload.ResponseApi;
 import com.skku.fixskku.common.apipayload.ResponseStatus;
+import com.skku.fixskku.common.domain.BuildingType;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -91,7 +92,9 @@ public class ChatbotServiceImpl implements ChatbotService{
                 null,
                 ChatbotUrl.FACILITY_INFO_URI,
                 dto.getData().getCampus(),
-                dto.getData().getBuilding(),
+                BuildingType.getBuildingNameWithCampusAndClassroom(
+                        dto.getData().getCampus(), dto.getData().getClassroom()
+                ),
                 dto.getData().getClassroom());
         return ResponseApi.of(ResponseStatus._CHATBOT_FAC_SUCCESS,resDto);
     }
@@ -106,7 +109,9 @@ public class ChatbotServiceImpl implements ChatbotService{
                 null,
                 ChatbotUrl.REPORT_URI,
                 dto.getData().getCampus(),
-                dto.getData().getBuilding(),
+                BuildingType.getBuildingNameWithCampusAndClassroom(
+                        dto.getData().getCampus(), dto.getData().getClassroom()
+                ),
                 dto.getData().getClassroom());
         return ResponseApi.of(ResponseStatus._CHATBOT_FAC_SUCCESS,resDto);
     }

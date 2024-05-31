@@ -5,79 +5,101 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:background="#E6EAFF"
+    tools:context=".ChatbotActivity">
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="픽스꾸-봇"
+        android:textColor="#9D9D9D"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline_33_v"
+        app:layout_constraintTop_toBottomOf="@+id/text_line" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/baseline_android_24"
+        android:layout_width="142dp"
+        android:layout_height="114dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@id/FAQ_btn_1"
         app:layout_constraintEnd_toEndOf="@id/guideline_33_v"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top_layout2"
-        app:layout_constraintBottom_toTopOf="@id/FAQ_btn_1"/>
+        app:srcCompat="@drawable/bot_icon" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="0dp"
         android:layout_height="70dp"
         android:layout_marginEnd="8dp"
-        android:background="@drawable/rounded_corner"
+        android:background="@drawable/rounded_corner2"
         android:gravity="center"
-        android:text="안녕하세요?\n저는 픽스꾸봇 입니다!\n무엇을 도와드릴까요?"
+        android:layout_marginBottom="80dp"
+        android:text="안녕하세요!\n무엇을 도와드릴까요?"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@id/FAQ_btn_1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/guideline_33_v"
-        app:layout_constraintTop_toBottomOf="@+id/top_layout2" />
+        app:layout_constraintStart_toStartOf="@id/guideline_33_v" />
 
     <Button
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:id="@+id/FAQ_btn_1"
         android:text="(자주 묻는 질문1)"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_margin="8dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline_33_h"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/guideline_33_h"
-        android:background="#FFFFF0" />
+        android:background="@drawable/rounded_corner" />
 
     <Button
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:id="@+id/FAQ_btn_2"
         android:text="(자주 묻는 질문2)"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_margin="8dp"
         app:layout_constraintBottom_toTopOf="@+id/FAQ_btn_3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/FAQ_btn_1"
-        android:background="#FFFFF0" />
+        android:background="@drawable/rounded_corner" />
 
     <Button
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:id="@+id/FAQ_btn_3"
+        android:layout_margin="8dp"
         android:text="(자주 묻는 질문3)"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/FAQ_btn_4"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_66_h"
+        app:layout_constraintEnd_toStartOf="@id/FAQ_btn_4"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/FAQ_btn_2"
-        android:background="#FFFFF0" />
+        app:layout_constraintTop_toTopOf="@+id/guideline_66_h"
+        android:background="@drawable/rounded_corner" />
 
     <Button
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:id="@+id/FAQ_btn_4"
+        android:layout_margin="8dp"
         android:text="(자주 묻는 질문4)"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/guideline_66_h"
+        app:layout_constraintStart_toEndOf="@id/FAQ_btn_3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline_66_h"
-        android:background="#FFFFF0" />
+        android:background="@drawable/rounded_corner" />
 
     <TextView
         android:id="@+id/text_line"
@@ -87,13 +109,13 @@
         app:layout_constraintTop_toBottomOf="@+id/top_layout2"
         android:background="#832196F3" />
 
-    <TextView
-        android:id="@+id/text_line2"
-        android:textSize="2dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/guideline_90_h"
-        android:background="#832196F3" />
+<!--    <TextView-->
+<!--        android:id="@+id/text_line2"-->
+<!--        android:textSize="2dp"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/guideline_90_h"-->
+<!--        android:background="#832196F3" />-->
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_33_v"
@@ -107,14 +129,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent=".5"/>
+        app:layout_constraintGuide_percent=".7"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_66_h"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent=".8"/>
+        app:layout_constraintGuide_percent=".93"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_90_h"
@@ -127,6 +149,7 @@
         android:id="@+id/top_layout2"
         android:layout_width="match_parent"
         android:layout_height="80dp"
+        android:background="@color/white"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton

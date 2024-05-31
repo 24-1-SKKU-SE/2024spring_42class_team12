@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity2 extends AppCompatActivity {
+public class ChatbotActivity2 extends AppCompatActivity {
     RecyclerView recyclerView;
     TextView welcomeTextView;
     EditText messageEditText;
@@ -29,7 +29,7 @@ public class MainActivity2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
+        setContentView(R.layout.activity_chatroom);
 
         messageList = new ArrayList<>();
 
@@ -52,7 +52,7 @@ public class MainActivity2 extends AppCompatActivity {
         * 첫 메세지 */
 
         intent = getIntent();
-        String FAQ = intent.getStringExtra(MainActivity.EXT_FAQ);
+        String FAQ = intent.getStringExtra(ChatbotActivity.EXT_FAQ);
         /* 만약 FAQ 가 1이라면 FAQ1에 대한 답변을 생성함. */
         if (FAQ != null && FAQ.equals("1")) {
             addToChat("(FAQ1 에 대한 답변)",Message.SENT_BY_BOT);

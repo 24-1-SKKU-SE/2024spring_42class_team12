@@ -1,7 +1,6 @@
 package com.skku.fixskkufront
 
 import android.content.Intent
-import android.os.AsyncTask
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
@@ -14,14 +13,14 @@ import java.net.HttpURLConnection
 import java.net.URL
 import kotlinx.coroutines.*
 
-class MainActivity : AppCompatActivity() {
+class ChatbotActivity : AppCompatActivity() {
 
     companion object {
         const val EXT_FAQ = "extra_key_FAQ"
 
-        private var instance: MainActivity? = null
+        private var instance: ChatbotActivity? = null
 
-        fun getInstance(): MainActivity? {
+        fun getInstance(): ChatbotActivity? {
             return instance
         }
     }
@@ -29,7 +28,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_chatmain)
 
         val btnFAQ1 = findViewById<Button>(R.id.FAQ_btn_1)
         val btnFAQ2 = findViewById<Button>(R.id.FAQ_btn_2)
@@ -58,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         sendFAQRequest(faqNumber)
 
         // 다음 액티비티로 이동
-        val intent = Intent(this, MainActivity2::class.java).apply {
+        val intent = Intent(this, ChatbotActivity2::class.java).apply {
             putExtra(EXT_FAQ, faqNumber.toString())
         }
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)

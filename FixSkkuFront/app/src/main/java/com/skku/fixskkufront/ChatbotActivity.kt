@@ -22,12 +22,7 @@ class ChatbotActivity : AppCompatActivity() {
 
     companion object {
         const val EXT_FAQ = "extra_key_FAQ"
-
         private var instance: ChatbotActivity? = null
-
-        fun getInstance(): ChatbotActivity? {
-            return instance
-        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,9 +63,7 @@ class ChatbotActivity : AppCompatActivity() {
     }
 
     private fun handleFAQButtonClick(faqNumber: Int) {
-        // 서버로 FAQ 요청을 전송
         sendFAQRequest(faqNumber)
-        // 다음 액티비티로 이동
         val intent = Intent(this, ChatbotActivity2::class.java).apply {
             putExtra(EXT_FAQ, faqNumber.toString())
         }

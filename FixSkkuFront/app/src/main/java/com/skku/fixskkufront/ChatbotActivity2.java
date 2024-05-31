@@ -88,16 +88,15 @@ public class ChatbotActivity2 extends AppCompatActivity {
                     "2. 챗봇이 시설물 담당자의 연락처를 알려줄거에요.",Message.SENT_BY_BOT);
         }
 
-        /* 메세지 전송 & 서버에도 메세지를 보내야함. */
         sendButton.setOnClickListener((v)->{
             String question = messageEditText.getText().toString().trim();
-            addToChat(question,Message.SENT_BY_ME); // 메세지 보내기
+            addToChat(question,Message.SENT_BY_ME);
             messageEditText.setText("");
             sendMessageToServer(question);
-            imageView.setAlpha(0.2f);  // 투명도를 20%로 설정
+            imageView.setAlpha(0.2f);
 
         });
-        /* 뒤로가기 */
+
         backButton.setOnClickListener((v)->{
             finish();
         });
@@ -121,7 +120,7 @@ public class ChatbotActivity2 extends AppCompatActivity {
         }
     }
     void sendMessageToServer(String message) {
-        String urlString = "http://13.124.89.169:8080/chatbot"; // 임시 url
+        String urlString = "http://13.124.89.169:8080/chatbot";
         SendNormal sendNormal = new SendNormal(message);
         Gson gson = new Gson();
         String json = gson.toJson(sendNormal);
@@ -132,7 +131,7 @@ public class ChatbotActivity2 extends AppCompatActivity {
                 .addHeader("token", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIiwianRpIjoiMTRkOTRmYjgtNzNmMi00Mzc0LWI0MGYtZWJhNWNkNmI3M2U2IiwiaWF0IjoxNzE2NjM5ODY3fQ.10427Pg37n_IEeo41t5OJVsb5VgM8CMMJBa14v7ZC")
                 .post(RequestBody.create(json, mediaType))
                 .build();
-        // Enqueue request
+
         OkHttpClient client = new OkHttpClient();
         client.newCall(req).enqueue(new Callback() {
             @Override
@@ -140,16 +139,16 @@ public class ChatbotActivity2 extends AppCompatActivity {
                 //runOnUiThread(() -> Toast.makeText(ChatbotActivity2.this, "Failed to connect to server", Toast.LENGTH_SHORT).show());
             }
 
-            @Override /* 3챗봇 신고와 2일반 질문의 차이점은, url, class 등등 이 null 이냐 아니냐의 차이임. 그리고 4신고 조회 는 url만 not null */
+            @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String responseBody = response.body().string();
                     ChatbotResponse chatbotResponse = gson.fromJson(responseBody, ChatbotResponse.class);
-                    if(!chatbotResponse.getData().getResponse().isEmpty()){ // Response 이 존재 -> 2. 일반 질문
+                    if(!chatbotResponse.getData().getResponse().isEmpty()){ // Response 이 존재 -> 일반 질문
                         runOnUiThread(() -> addToChat(chatbotResponse.getData().getResponse(), Message.SENT_BY_BOT));
                     }
                     else if(chatbotResponse.getData().getCampus().isEmpty()){ // Campus 가 빈 문자열 -> 자신의 신고 조회
-                        String url = chatbotResponse.getData().getUri(); // 딥링크로 구현
+                        String url = chatbotResponse.getData().getUri();
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                         startActivity(intent);
                     }

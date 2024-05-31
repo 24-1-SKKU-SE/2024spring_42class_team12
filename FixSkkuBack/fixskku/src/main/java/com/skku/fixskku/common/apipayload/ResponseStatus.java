@@ -21,6 +21,7 @@ public enum ResponseStatus {
 
     //관리자 관련
     _ADMIN_NOT_FOUND(NOT_FOUND, "해당 신고가 존재하지 않습니다."),
+    _ADMIN_UPDATE_SUCCESS(OK, "신고 관리 성공"),
 
     //시설물 현황 관련
     _FACILITY_INFO_SUCCESS(OK, "망가진 시설물 정보 조회 성공"),

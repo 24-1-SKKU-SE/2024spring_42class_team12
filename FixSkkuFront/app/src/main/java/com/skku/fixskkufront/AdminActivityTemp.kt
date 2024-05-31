@@ -311,12 +311,13 @@ class AdminActivityTemp : AppCompatActivity() {
                 }
 
                 val adminRoom = AdminRoom(
-                    report.facilityType + report.facilityStatus,
+                    report.facilityType + "고장",
                     "${report.building} ${report.floor} ${report.classroom}",
                     iconResId,
                     report.reportStatus,
                     report.creationDate,
-                    report.description
+                    report.description,
+                    report.photoUrl
                 )
 
                 items.add(adminRoom)

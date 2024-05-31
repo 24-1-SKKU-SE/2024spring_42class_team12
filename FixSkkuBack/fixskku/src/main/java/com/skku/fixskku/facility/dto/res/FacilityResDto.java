@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class FacilityResDto {
-    private long facilityId;
+    private Long facilityId;
     private String facilityType;
     private String facilityStatus;
 }

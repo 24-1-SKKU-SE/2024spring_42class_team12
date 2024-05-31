@@ -24,13 +24,23 @@ class ReportFragment : Fragment() {
 
         insaBtn.setOnClickListener {
             // 버튼 클릭 시 수행할 작업
-            Toast.makeText(requireContext(), "Button clicked!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Insa clicked!", Toast.LENGTH_SHORT).show()
+            openBuildingFragment()
+
         }
 
         jayeonBtn.setOnClickListener {
             // 버튼 클릭 시 수행할 작업
-            Toast.makeText(requireContext(), "Button clicked!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Jayeon clicked!", Toast.LENGTH_SHORT).show()
+            openBuildingFragment()
+
         }
+    }
+    private fun openBuildingFragment() {
+        val transaction = parentFragmentManager.beginTransaction()
+        transaction.replace(R.id.container, BuildingFragment())
+        transaction.addToBackStack(null)
+        transaction.commit()
     }
 
 

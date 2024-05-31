@@ -115,8 +115,8 @@ public class ChatbotActivity2 extends AppCompatActivity {
             this.text = text;
         }
     }
-    void sendMessageToServer(String message) { // 토큰도 보내야함.
-        String urlString = "http://10.0.2.2:8000/chatbot_test_post";
+    void sendMessageToServer(String message) {
+        String urlString = "13.124.89.169:8080/chatbot"; // 임시 url
         SendNormal sendFAQ = new SendNormal(message);
         Gson gson = new Gson();
         String json = gson.toJson(sendFAQ);
@@ -132,17 +132,17 @@ public class ChatbotActivity2 extends AppCompatActivity {
         client.newCall(req).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                runOnUiThread(() -> Toast.makeText(ChatbotActivity2.this, "Failed to connect to server", Toast.LENGTH_SHORT).show());
+                //runOnUiThread(() -> Toast.makeText(ChatbotActivity2.this, "Failed to connect to server", Toast.LENGTH_SHORT).show());
             }
 
-            @Override
+            @Override /* 3챗봇 신고와 2일반 질문의 차이점은, url, class 등등 이 null 이냐 아니냐의 차이임. 그리고 4신고 조회 는 url만 not null */
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String responseBody = response.body().string();
                     ChatbotResponse chatbotResponse = gson.fromJson(responseBody, ChatbotResponse.class);
                     runOnUiThread(() -> addToChat(chatbotResponse.getData().getResponse(), Message.SENT_BY_BOT));
                 } else {
-                    runOnUiThread(() -> Toast.makeText(ChatbotActivity2.this, "Error: " + response.message(), Toast.LENGTH_SHORT).show());
+                    //runOnUiThread(() -> Toast.makeText(ChatbotActivity2.this, "Error: " + response.message(), Toast.LENGTH_SHORT).show());
                 }
             }
         });

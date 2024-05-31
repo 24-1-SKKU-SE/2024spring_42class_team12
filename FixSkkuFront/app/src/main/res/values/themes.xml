@@ -5,6 +5,11 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="android:windowBackground">@color/background</item>
     </style>
-
+    <!-- BottomNavigationView custom style -->
+    <style name="Widget.BottomNavigationView.Custom" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="itemTextColor">@color/bottom_nav_selector</item>
+        <item name="itemIconTint">@color/bottom_nav_selector</item>
+        <item name="itemRippleColor">@color/bottom_nav_item_selected_color</item>
+    </style>
     <style name="Theme.FixSkkuFront" parent="Base.Theme.FixSkkuFront" />
 </resources>

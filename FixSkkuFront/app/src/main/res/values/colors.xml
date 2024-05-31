@@ -3,4 +3,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="background">#FFFFFFFF </color>
+
+    <color name="bottom_nav_item_selected_color">#000000</color> <!-- 원하는 색상 -->
+    <color name="bottom_nav_item_unselected_color">#808080</color> <!-- 원하는 색상 -->
 </resources>

@@ -30,7 +30,7 @@ public class AdminController {
 
     @GetMapping("/list")
     public ResponseEntity<?> getReports(
-            @RequestParam(required = false) ReportStatus reportStatus,  // Enum 타입으로 직접 받음
+            @RequestParam(required = false) String reportStatus,  // 한글로 받기 위해 String 타입으로 변경
             @RequestParam(required = false) String startDate,
             @RequestParam(required = false) String endDate,
             @RequestParam(required = false) String searchWord,
@@ -40,7 +40,11 @@ public class AdminController {
             LocalDate start = null;
             LocalDate end = null;
             DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE;
+            ReportStatus status = null;
 
+            if (reportStatus != null && !reportStatus.trim().isEmpty()) {
+                status = ReportStatus.fromName(reportStatus.trim());
+            }
             if (startDate != null && !startDate.trim().isEmpty()) {
                 start = LocalDate.parse(startDate.trim(), formatter);
             }
@@ -48,7 +52,7 @@ public class AdminController {
                 end = LocalDate.parse(endDate.trim(), formatter);
             }
 
-            Page<ReportListResDto> reports = adminService.getReports(reportStatus, start, end, searchWord, pageable);
+            Page<ReportListResDto> reports = adminService.getReports(status, start, end, searchWord, pageable);
 
             Map<String, Object> data = new HashMap<>();
             data.put("page", reports.getNumber() + 1);
@@ -60,6 +64,7 @@ public class AdminController {
             return ResponseApi.badRequest();
         }
     }
+
     @GetMapping("/{reportId}")
     public ResponseEntity<?> getReport(@PathVariable long reportId) {
         try {
@@ -75,13 +80,14 @@ public class AdminController {
             return ResponseApi.serverError();
         }
     }
+
     @PatchMapping("/{reportId}")
     public ResponseEntity<?> updateReport(@PathVariable long reportId, @RequestBody ReportUpdateDto updateDto) {
         try {
             ReportListResDto updatedReport = adminService.updateReport(reportId, updateDto);
             Map<String, Object> result = new HashMap<>();
             result.put("report", updatedReport);
-            return ResponseApi.of(ResponseStatus._ADMIN_UPDATE_SUCCESS, result);
+            return ResponseApi.of(ResponseStatus._REPORT_LIST_SUCCESS, result);
         } catch (GeneralException e) {
             return ResponseApi.of(e.getStatus());
         } catch (NoSuchElementException e) {

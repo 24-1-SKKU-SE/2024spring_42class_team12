@@ -46,37 +46,72 @@ public class AdminServiceImpl implements AdminService {
         log.debug("ReportStatus: {}, StartDate: {}, EndDate: {}, SearchWord: {}", reportStatus, startDateTime, endDateTime, searchWord);
 
         Page<Report> reports;
-        if (startDateTime != null && endDateTime != null) {
-            if (searchWord != null && !searchWord.trim().isEmpty()) {
-                reports = adminRepository.findByStatusAndCreationDateBetweenAndDescriptionContainingIgnoreCase(
-                        reportStatus, startDateTime, endDateTime, searchWord, pageable);
+        if (reportStatus != null) {
+            if (startDateTime != null && endDateTime != null) {
+                if (searchWord != null && !searchWord.trim().isEmpty()) {
+                    reports = adminRepository.findByStatusAndCreationDateBetweenAndDescriptionContainingIgnoreCase(
+                            reportStatus, startDateTime, endDateTime, searchWord, pageable);
+                } else {
+                    reports = adminRepository.findByStatusAndCreationDateBetween(
+                            reportStatus, startDateTime, endDateTime, pageable);
+                }
+            } else if (startDateTime != null) {
+                if (searchWord != null && !searchWord.trim().isEmpty()) {
+                    reports = adminRepository.findByStatusAndCreationDateAfterAndDescriptionContainingIgnoreCase(
+                            reportStatus, startDateTime, searchWord, pageable);
+                } else {
+                    reports = adminRepository.findByStatusAndCreationDateAfter(
+                            reportStatus, startDateTime, pageable);
+                }
+            } else if (endDateTime != null) {
+                if (searchWord != null && !searchWord.trim().isEmpty()) {
+                    reports = adminRepository.findByStatusAndCreationDateBeforeAndDescriptionContainingIgnoreCase(
+                            reportStatus, endDateTime, searchWord, pageable);
+                } else {
+                    reports = adminRepository.findByStatusAndCreationDateBefore(
+                            reportStatus, endDateTime, pageable);
+                }
             } else {
-                reports = adminRepository.findByStatusAndCreationDateBetween(
-                        reportStatus, startDateTime, endDateTime, pageable);
-            }
-        } else if (startDateTime != null) {
-            if (searchWord != null && !searchWord.trim().isEmpty()) {
-                reports = adminRepository.findByStatusAndCreationDateAfterAndDescriptionContainingIgnoreCase(
-                        reportStatus, startDateTime, searchWord, pageable);
-            } else {
-                reports = adminRepository.findByStatusAndCreationDateAfter(
-                        reportStatus, startDateTime, pageable);
-            }
-        } else if (endDateTime != null) {
-            if (searchWord != null && !searchWord.trim().isEmpty()) {
-                reports = adminRepository.findByStatusAndCreationDateBeforeAndDescriptionContainingIgnoreCase(
-                        reportStatus, endDateTime, searchWord, pageable);
-            } else {
-                reports = adminRepository.findByStatusAndCreationDateBefore(
-                        reportStatus, endDateTime, pageable);
+                if (searchWord != null && !searchWord.trim().isEmpty()) {
+                    reports = adminRepository.findByStatusAndDescriptionContainingIgnoreCase(
+                            reportStatus, searchWord, pageable);
+                } else {
+                    reports = adminRepository.findByStatus(
+                            reportStatus, pageable);
+                }
             }
         } else {
-            if (searchWord != null && !searchWord.trim().isEmpty()) {
-                reports = adminRepository.findByStatusAndDescriptionContainingIgnoreCase(
-                        reportStatus, searchWord, pageable);
+            if (startDateTime != null && endDateTime != null) {
+                if (searchWord != null && !searchWord.trim().isEmpty()) {
+                    reports = adminRepository.findByCreationDateBetweenAndDescriptionContainingIgnoreCase(
+                            startDateTime, endDateTime, searchWord, pageable);
+                } else {
+                    reports = adminRepository.findByCreationDateBetween(
+                            startDateTime, endDateTime, pageable);
+                }
+            } else if (startDateTime != null) {
+                if (searchWord != null && !searchWord.trim().isEmpty()) {
+                    reports = adminRepository.findByCreationDateAfterAndDescriptionContainingIgnoreCase(
+                            startDateTime, searchWord, pageable);
+                } else {
+                    reports = adminRepository.findByCreationDateAfter(
+                            startDateTime, pageable);
+                }
+            } else if (endDateTime != null) {
+                if (searchWord != null && !searchWord.trim().isEmpty()) {
+                    reports = adminRepository.findByCreationDateBeforeAndDescriptionContainingIgnoreCase(
+                            endDateTime, searchWord, pageable);
+                } else {
+                    reports = adminRepository.findByCreationDateBefore(
+                            endDateTime, pageable);
+                }
             } else {
-                reports = adminRepository.findByStatus(
-                        reportStatus, pageable);
+                if (searchWord != null && !searchWord.trim().isEmpty()) {
+                    reports = adminRepository.findByDescriptionContainingIgnoreCase(
+                            searchWord, pageable);
+                } else {
+                    reports = adminRepository.findAll(pageable);
+                }
             }
         }
 

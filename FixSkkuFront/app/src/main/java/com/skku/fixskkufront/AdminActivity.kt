@@ -2,7 +2,6 @@ package com.skku.fixskkufront
 
 import android.graphics.Color
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import android.widget.ListView
 import androidx.activity.enableEdgeToEdge
@@ -13,10 +12,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.gson.Gson
 import okhttp3.*
 import java.io.IOException
-import java.util.Collections
 import java.util.Locale
-import android.widget.Filter;
-import android.widget.Filterable;
 
 class AdminActivity : AppCompatActivity() {
 

@@ -19,7 +19,7 @@ public class Report {
     @Column(name = "reportid")
     private long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "facilityid")
     private Facility facility;
 

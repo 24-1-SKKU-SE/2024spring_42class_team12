@@ -38,9 +38,7 @@ public class Facility {
     private String type;
 
     @Column(name = "floor")
-    private String floor;  // 변경된 부분
-
-    // 기존에 사용하던 메서드를 추가합니다.
+    private String floor;
     public CampusType getCampusType() {
         return new CampusType(campus);
     }
@@ -53,7 +51,6 @@ public class Facility {
         return new Type(type);
     }
 
-    // 추가로 필요한 클래스들을 정의합니다.
     public static class CampusType {
         private final String campusName;
 

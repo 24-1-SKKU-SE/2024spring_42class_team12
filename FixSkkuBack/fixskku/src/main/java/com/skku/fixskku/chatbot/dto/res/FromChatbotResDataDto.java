@@ -13,9 +13,6 @@ public class FromChatbotResDataDto {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String campus;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String building;
-
     private String classroom;
 
 }

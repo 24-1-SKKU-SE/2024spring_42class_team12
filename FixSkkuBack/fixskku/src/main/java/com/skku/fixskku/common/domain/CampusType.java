@@ -14,4 +14,11 @@ public enum CampusType {
         this.campusName = campusName;
         this.number = number;
     }
+
+    // 문자열 캠퍼스 이름으로 캠퍼스 타입 객체를 반환하는 메서드
+    public static CampusType getCampusTypeFromString(String campus){
+        if(campus.equals(SEOUL_CAMPUS.getCampusName())) return SEOUL_CAMPUS;
+        if(campus.equals(SUWON_CAMPUS.getCampusName())) return SUWON_CAMPUS;
+        else throw new IllegalArgumentException();
+    }
 }

@@ -8,10 +8,19 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
-import java.net.HttpURLConnection
-import java.net.URL
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.Response
+import java.io.IOException
+
 
 class ChatbotActivity : AppCompatActivity() {
 
@@ -42,7 +51,7 @@ class ChatbotActivity : AppCompatActivity() {
 
         val btnBack = findViewById<ImageButton>(R.id.back_btn_main)
         btnBack.setOnClickListener {
-            // 뒤로 가기 버튼 클릭 처리
+            finish()
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -55,7 +64,6 @@ class ChatbotActivity : AppCompatActivity() {
     private fun handleFAQButtonClick(faqNumber: Int) {
         // 서버로 FAQ 요청을 전송
         sendFAQRequest(faqNumber)
-
         // 다음 액티비티로 이동
         val intent = Intent(this, ChatbotActivity2::class.java).apply {
             putExtra(EXT_FAQ, faqNumber.toString())
@@ -67,40 +75,30 @@ class ChatbotActivity : AppCompatActivity() {
 
     private fun sendFAQRequest(faqNumber: Int) {
         CoroutineScope(Dispatchers.IO).launch {
-            val urlString = "https://yourserver.com/chatbot?faq=$faqNumber"
+            val urlString = "http://10.0.2.2:8000/test"
             var requestBody = ""
-            if (faqNumber == 1){ requestBody = "FAQ 1번 대답입니다." }
-            else if (faqNumber == 2){ requestBody = "FAQ 2번 대답입니다." }
-            else if (faqNumber == 3){ requestBody = "FAQ 3번 대답입니다." }
-            else if (faqNumber == 4){ requestBody = "FAQ 4번 대답입니다." }
+            if (faqNumber == 1) { requestBody = "FAQ 1번 대답입니다." }
+            else if (faqNumber == 2) { requestBody = "FAQ 2번 대답입니다." }
+            else if (faqNumber == 3) { requestBody = "FAQ 3번 대답입니다." }
+            else if (faqNumber == 4) { requestBody = "FAQ 4번 대답입니다." }
 
-            var urlConnection: HttpURLConnection? = null
+            val client = OkHttpClient()
+            data class SendFAQ(var text: String ?= null)
+            val json = Gson().toJson(SendFAQ(requestBody))
+            val mediaType = "application/json; charset=utf-8".toMediaType()
+            val req = Request.Builder().url(urlString).post(json.toString().toRequestBody(mediaType)).build()
 
-            try {
-                val url = URL(urlString)
-                urlConnection = url.openConnection() as HttpURLConnection
-                urlConnection.requestMethod = "POST"
-                urlConnection.doOutput = true
-                urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
-                urlConnection.setRequestProperty("charset", "utf-8")
-
-                val outputBytes = requestBody.toByteArray(Charsets.UTF_8)
-                urlConnection.setRequestProperty("Content-Length", outputBytes.size.toString())
-
-                val outputStream = urlConnection.outputStream
-                outputStream.write(outputBytes)
-                outputStream.flush()
-                outputStream.close()
-
-                val responseCode = urlConnection.responseCode
-                if (responseCode == HttpURLConnection.HTTP_OK) {
-                    // 필요한 경우 응답 처리
+            client.newCall(req).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    e.printStackTrace()
                 }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            } finally {
-                urlConnection?.disconnect()
-            }
+                override fun onResponse(call: Call, response: Response) {
+                    response.use {
+                        if (!response.isSuccessful) throw IOException("Unexpected code $response")
+                        // 필요한 경우 응답 처리
+                    }
+                }
+            })
         }
     }
 }

@@ -14,6 +14,20 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.*;
 
 public class ChatbotActivity2 extends AppCompatActivity {
     RecyclerView recyclerView;
@@ -45,11 +59,7 @@ public class ChatbotActivity2 extends AppCompatActivity {
         messageAdapter = new MessageAdapter(messageList);
         recyclerView.setAdapter(messageAdapter);
         LinearLayoutManager llm = new LinearLayoutManager(this);
-        //llm.setStackFromEnd(true); //메세지가 밑에서부터 쌓이게 하는 코드
         recyclerView.setLayoutManager(llm);
-
-        /* 아이콘 넣으려고 했으나, 실패했습니다. ㅠ
-        * 첫 메세지 */
 
         intent = getIntent();
         String FAQ = intent.getStringExtra(ChatbotActivity.EXT_FAQ);
@@ -60,12 +70,13 @@ public class ChatbotActivity2 extends AppCompatActivity {
 
         //addToChat("안녕하세요! 픽스꾸 봇 입니다! 무엇을 도와드릴까요?",Message.SENT_BY_BOT);
 
-        /* 메세지 전송 */
+        /* 메세지 전송 & 서버에도 메세지를 보내야함. */
         sendButton.setOnClickListener((v)->{
             String question = messageEditText.getText().toString().trim();
             addToChat(question,Message.SENT_BY_ME); // 메세지 보내기
             messageEditText.setText("");
             //welcomeTextView.setVisibility(View.GONE);
+            sendMessageToServer(question);
             imageView.setAlpha(0.2f);  // 투명도를 20%로 설정
 
         });
@@ -87,5 +98,41 @@ public class ChatbotActivity2 extends AppCompatActivity {
         });
     }
 
+    void sendMessageToServer(String message) {
+        // Create JSON object
+        Gson gson = new Gson();
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("token", "your-token");
+        jsonObject.addProperty("message", message);
+        String jsonString = gson.toJson(jsonObject);
 
+        // Create request body
+        RequestBody body = RequestBody.create(jsonString, MediaType.get("application/json; charset=utf-8"));
+
+        // Build request
+        Request request = new Request.Builder()
+                .url("http://10.0.2.2:8000/testget")
+                .post(body)
+                .build();
+
+        // Enqueue request
+        OkHttpClient client = new OkHttpClient();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                runOnUiThread(() -> Toast.makeText(ChatbotActivity2.this, "Failed to connect to server", Toast.LENGTH_SHORT).show());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String responseBody = response.body().string();
+                    ChatbotResponse chatbotResponse = gson.fromJson(responseBody, ChatbotResponse.class);
+                    runOnUiThread(() -> addToChat(chatbotResponse.getData().getResponse(), Message.SENT_BY_BOT));
+                } else {
+                    runOnUiThread(() -> Toast.makeText(ChatbotActivity2.this, "Error: " + response.message(), Toast.LENGTH_SHORT).show());
+                }
+            }
+        });
+    }
 }

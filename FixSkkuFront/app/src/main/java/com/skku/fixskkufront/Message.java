@@ -2,7 +2,7 @@ package com.skku.fixskkufront;
 
 public class Message {
     public static String SENT_BY_ME = "me";
-    public static String SENT_BY_BOT="bot";
+    public static String SENT_BY_BOT= "bot";
 
     String message;
     String sentBy;

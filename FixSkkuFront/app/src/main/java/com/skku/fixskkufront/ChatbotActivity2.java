@@ -62,33 +62,38 @@ public class ChatbotActivity2 extends AppCompatActivity {
         intent = getIntent();
         String FAQ = intent.getStringExtra(ChatbotActivity.EXT_FAQ);
         if (FAQ != null && FAQ.equals("1")) {
-            addToChat("(FAQ1 에 대한 답변)",Message.SENT_BY_BOT);
+            addToChat("1. 챗봇에게 신고할 시설물이 있는 캠퍼스, 건물, 강의실 번호를 입력해주세요. ex) \"인문사회과학캠퍼스 경영관 33404 시설물 신고\"\n" +
+                    "2. 챗봇이 해당 내용을 바탕으로 신고 페이지에 강의실 정보를 입력해줄거에요." +
+                    "3. 나머지 신고에 필요한 내용을 신고 페이지에서 채워주세요. 사진과 상세 설명은 선택사항이에요.\n" +
+                    "4. 신고에 필요한 부분을 입력하셨으면 신고하기 버튼을 눌러주세요.\n" +
+                    "5. 신고가 완료되면 자동으로 내 신고페이지로 이동해요. 내 신고에서 신고내역을 확인할 수 있어요.\n",Message.SENT_BY_BOT);
         }
         if (FAQ != null && FAQ.equals("2")) {
-            addToChat("(FAQ2 에 대한 답변)",Message.SENT_BY_BOT);
+            addToChat("1. 챗봇에게 \"내 신고 조회\" 라고 입력해주세요.\n" +
+                    "2. 챗봇이 내 신고 페이지로 이동시켜줄거에요.\n" +
+                    "3. 내 신고 페이지에서 신고 내역을 조회할 수 있어요.\n",Message.SENT_BY_BOT);
         }
         if (FAQ != null && FAQ.equals("3")) {
-            addToChat("(FAQ3 에 대한 답변)",Message.SENT_BY_BOT);
+            addToChat("1. 챗봇에게 조회할 강의실의 캠퍼스, 건물, 강의실 번호를 입력해주세요. ex) \"인문사회과학캠퍼스 경영관 33404  강의실 정보 조회\"\n" +
+                    "2. 챗봇이 해당 내용을 바탕으로 시설물 상태 페이지의 해당 강의실 정보 페이지로 이동시켜줄거에요.\n" +
+                    "3. 강의실에서 초록색으로 표시된 부분이 사용가능한 상태를, 빨간 색으로 표시된 부분이 고장난 상태를 나타내요.\n",Message.SENT_BY_BOT);
         }
         if (FAQ != null && FAQ.equals("4")) {
-            addToChat("(FAQ4 에 대한 답변)",Message.SENT_BY_BOT);
+            addToChat("1. 챗봇에게 \"시설물 담당자 연락처\" 라고 입력해주세요.\n" +
+                    "2. 챗봇이 시설물 담당자의 연락처를 알려줄거에요.\n",Message.SENT_BY_BOT);
         }
-
-        //addToChat("안녕하세요! 픽스꾸 봇 입니다! 무엇을 도와드릴까요?",Message.SENT_BY_BOT);
 
         /* 메세지 전송 & 서버에도 메세지를 보내야함. */
         sendButton.setOnClickListener((v)->{
             String question = messageEditText.getText().toString().trim();
             addToChat(question,Message.SENT_BY_ME); // 메세지 보내기
             messageEditText.setText("");
-            //welcomeTextView.setVisibility(View.GONE);
             sendMessageToServer(question);
             imageView.setAlpha(0.2f);  // 투명도를 20%로 설정
 
         });
         /* 뒤로가기 */
         backButton.setOnClickListener((v)->{
-            //addToChat("Temp Answer...",Message.SENT_BY_BOT); // 메세지 답변
             finish();
         });
     }
@@ -103,27 +108,28 @@ public class ChatbotActivity2 extends AppCompatActivity {
             }
         });
     }
+    static class SendNormal {
+        String text;
 
-    void sendMessageToServer(String message) {
-        // Create JSON object
+        public SendNormal(String text) {
+            this.text = text;
+        }
+    }
+    void sendMessageToServer(String message) { // 토큰도 보내야함.
+        String urlString = "http://10.0.2.2:8000/chatbot_test_post";
+        SendNormal sendFAQ = new SendNormal(message);
         Gson gson = new Gson();
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("token", "your-token");
-        jsonObject.addProperty("message", message);
-        String jsonString = gson.toJson(jsonObject);
+        String json = gson.toJson(sendFAQ);
 
-        // Create request body
-        RequestBody body = RequestBody.create(jsonString, MediaType.get("application/json; charset=utf-8"));
-
-        // Build request
-        Request request = new Request.Builder()
-                .url("http://10.0.2.2:8000/testget")
-                .post(body)
+        MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
+        Request req = new Request.Builder()
+                .url(urlString)
+                .addHeader("token", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIiwianRpIjoiMTRkOTRmYjgtNzNmMi00Mzc0LWI0MGYtZWJhNWNkNmI3M2U2IiwiaWF0IjoxNzE2NjM5ODY3fQ.10427Pg37n_IEeo41t5OJVsb5VgM8CMMJBa14v7ZC")
+                .post(RequestBody.create(json, mediaType))
                 .build();
-
         // Enqueue request
         OkHttpClient client = new OkHttpClient();
-        client.newCall(request).enqueue(new Callback() {
+        client.newCall(req).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 runOnUiThread(() -> Toast.makeText(ChatbotActivity2.this, "Failed to connect to server", Toast.LENGTH_SHORT).show());

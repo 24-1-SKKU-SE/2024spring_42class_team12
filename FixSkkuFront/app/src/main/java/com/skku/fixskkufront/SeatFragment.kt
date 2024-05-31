@@ -31,7 +31,7 @@ class SeatFragment : Fragment() {
         // Setup RecyclerView
         val recyclerView: RecyclerView = view.findViewById(R.id.seatRecyclerView)
         recyclerView.layoutManager = GridLayoutManager(context, 11)
-        recyclerView.adapter = SeatAdapter(getSeatData())
+        recyclerView.adapter = SeatAdapter(getSeatData(),requireActivity())
     }
 
     private fun getListData(): List<Pair<String, List<String>>> {

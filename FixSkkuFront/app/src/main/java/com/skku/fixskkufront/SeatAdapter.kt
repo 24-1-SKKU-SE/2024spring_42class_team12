@@ -1,11 +1,13 @@
 package com.skku.fixskkufront
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
-class SeatAdapter(private val seats: List<Seat>) : RecyclerView.Adapter<SeatAdapter.SeatViewHolder>() {
+class SeatAdapter(private val seats: List<Seat>, private val activity: FragmentActivity) : RecyclerView.Adapter<SeatAdapter.SeatViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SeatViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_seat, parent, false)
@@ -20,6 +22,12 @@ class SeatAdapter(private val seats: List<Seat>) : RecyclerView.Adapter<SeatAdap
             holder.imageView.visibility = View.VISIBLE
             seat.imageResId?.let {
                 holder.imageView.setImageResource(it)
+            }
+            holder.itemView.setOnClickListener {
+                // Handle seat item click
+                val intent = Intent(activity, ReportActivity::class.java)
+                intent.putExtra("seat_image_res_id", seat.imageResId ?: 0)
+                activity.startActivity(intent)
             }
         }
     }

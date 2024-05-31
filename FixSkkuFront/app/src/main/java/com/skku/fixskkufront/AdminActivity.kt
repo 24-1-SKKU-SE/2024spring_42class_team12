@@ -2,19 +2,23 @@ package com.skku.fixskkufront
 
 import android.graphics.Color
 import android.os.Bundle
-import android.widget.Adapter
 import android.widget.Button
 import android.widget.ListView
-import android.widget.SearchView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.gson.Gson
 import java.util.Locale
+import android.widget.TextView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import okhttp3.*
+import java.io.IOException
+import java.io.InputStreamReader
 
-
-class MainActivity : AppCompatActivity() {
+class AdminActivity : AppCompatActivity() {
 
     companion object{
         var items = ArrayList<AdminRoom>()
@@ -25,17 +29,16 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_admin)
 
-        /* 복사본 생성 */
-        addDataToList()
-        addDataToList2()
+        fetchAndParseJson("13.124.89.169:8081/?reportStatus=fixed&startDate=&endDate=&searchWord=")
 
         val myAdapter = AdminRoomAdapter(items, this)
         val listView = findViewById<ListView>(R.id.listViewChatRoom)
         listView.adapter = myAdapter
 
         /* SearchView 대신 EditText로 검색 기능 구현 */
+
         /* 시간 순서대로 리스트뷰 정렬 기능 구현 */
 
         val btnBefore = findViewById<Button>(R.id.button2)
@@ -48,9 +51,10 @@ class MainActivity : AppCompatActivity() {
         var btnIngPressed = false
         var btnAfterPressed = false
         var btnRejectPressed = false
+
         /* 수리 접수 버튼을 눌렀을 때, 나머지 검정색(활성화된) 버튼을 하얀색(비활성화)으로 */
         btnBefore.setOnClickListener {
-            /* 원본 대입. clear하면 원본 리스트도 왜인지 모르게 사라져서... 대안으로 작성된 코드임 */
+            /* 원본 대입. clear하면 원본 리스트도 왜인지 모르게 사라져서 대안으로 작성된 코드 */
             items = item_init
 
             btnIngPressed = false
@@ -58,7 +62,7 @@ class MainActivity : AppCompatActivity() {
             btnRejectPressed = false
 
             if(isPressedAnyButton && !btnBeforePressed) {
-                // 다른 버튼이 눌린 상태에서(필터가 되 있는 상황에서), 이 버튼을 누른다면 (자기 자신을 누른다면은 빼야함)
+                // 다른 버튼이 눌린 상태에서(필터가 돼 있는 상황에서), 이 버튼을 누른다면 (자기 자신을 누른다면은 빼야함)
                 toggleFilter() // 필터 상태 전환
                 applyFilter(myAdapter, "수리 접수") // 필터 적용
             }
@@ -97,18 +101,17 @@ class MainActivity : AppCompatActivity() {
             btnRejectPressed = false
 
             if(isPressedAnyButton && !btnIngPressed) {
-                // 다른 버튼이 눌린 상태에서(필터가 되 있는 상황에서), 이 버튼을 누른다면 (자기 자신을 누른다면은 빼야하는데)
-                toggleFilter() // 필터 상태 전환
-                applyFilter(myAdapter, "수리 중") // 필터 적용
+                toggleFilter()
+                applyFilter(myAdapter, "수리 중")
             }
 
-            toggleFilter() // 필터 상태 전환
-            applyFilter(myAdapter, "수리 중") // 필터 적용
+            toggleFilter()
+            applyFilter(myAdapter, "수리 중")
             val currentTextColor = btnIng.currentTextColor
-            /* 텍스트 컬러가 검은색(활성화)이면 버튼을 눌렀을 때 하얀색(필터 해제 = 전체 보기)으로. */
+
             if (currentTextColor == Color.BLACK) {
-                isPressedAnyButton = true // 버튼이 눌린 상태
-                btnIngPressed = true // 자기 자신이 눌린 상태
+                isPressedAnyButton = true
+                btnIngPressed = true
 
                 btnIng.setBackgroundResource(R.drawable.rounded_corner_grey)
                 btnIng.setTextColor(Color.WHITE)
@@ -119,10 +122,10 @@ class MainActivity : AppCompatActivity() {
                 btnReject.setBackgroundResource(R.drawable.rounded_corner_white)
                 btnReject.setTextColor(Color.BLACK)
             }
-            /* 텍스트 컬러가 하얀색(비활성화)이면, 버튼을 눌렀을 때 검은색(수리 접수 필터)으로. */
+
             else {
-                isPressedAnyButton = false // 버튼이 안 눌린 상태
-                btnIngPressed = false // 자기 자신이 안 눌린 상태
+                isPressedAnyButton = false
+                btnIngPressed = false
                 btnIng.setBackgroundResource(R.drawable.rounded_corner_white)
                 btnIng.setTextColor(Color.BLACK)
             }
@@ -135,18 +138,17 @@ class MainActivity : AppCompatActivity() {
             btnRejectPressed = false
 
             if(isPressedAnyButton && !btnAfterPressed) {
-                // 다른 버튼이 눌린 상태에서(필터가 되 있는 상황에서), 이 버튼을 누른다면 (자기 자신을 누른다면은 빼야하는데)
-                toggleFilter() // 필터 상태 전환
-                applyFilter(myAdapter, "수리 완료") // 필터 적용
+                toggleFilter()
+                applyFilter(myAdapter, "수리 완료")
             }
 
-            toggleFilter() // 필터 상태 전환
-            applyFilter(myAdapter, "수리 완료") // 필터 적용
+            toggleFilter()
+            applyFilter(myAdapter, "수리 완료")
             val currentTextColor = btnAfter.currentTextColor
-            /* 텍스트 컬러가 검은색(활성화)이면 버튼을 눌렀을 때 하얀색(필터 해제 = 전체 보기)으로. */
+
             if (currentTextColor == Color.BLACK) {
-                isPressedAnyButton = true // 버튼이 눌린 상태
-                btnAfterPressed = true // 자기 자신이 눌린 상태
+                isPressedAnyButton = true
+                btnAfterPressed = true
 
                 btnAfter.setBackgroundResource(R.drawable.rounded_corner_grey)
                 btnAfter.setTextColor(Color.WHITE)
@@ -157,10 +159,10 @@ class MainActivity : AppCompatActivity() {
                 btnReject.setBackgroundResource(R.drawable.rounded_corner_white)
                 btnReject.setTextColor(Color.BLACK)
             }
-            /* 텍스트 컬러가 하얀색(비활성화)이면, 버튼을 눌렀을 때 검은색(수리 접수 필터)으로. */
+
             else {
-                isPressedAnyButton = false // 버튼이 안 눌린 상태
-                btnAfterPressed = false // 자기 자신이 안 눌린 상태
+                isPressedAnyButton = false
+                btnAfterPressed = false
                 btnAfter.setBackgroundResource(R.drawable.rounded_corner_white)
                 btnAfter.setTextColor(Color.BLACK)
             }
@@ -173,17 +175,17 @@ class MainActivity : AppCompatActivity() {
             btnAfterPressed = false
 
             if(isPressedAnyButton && !btnRejectPressed) {
-                // 다른 버튼이 눌린 상태에서(필터가 되 있는 상황에서), 이 버튼을 누른다면 (자기 자신을 누른다면은 빼야하는데)
-                toggleFilter() // 필터 상태 전환
-                applyFilter(myAdapter, "반려") // 필터 적용
+                toggleFilter()
+                applyFilter(myAdapter, "반려")
             }
-            toggleFilter() // 필터 상태 전환
-            applyFilter(myAdapter, "반려") // 필터 적용
+
+            toggleFilter()
+            applyFilter(myAdapter, "반려")
             val currentTextColor = btnReject.currentTextColor
-            /* 텍스트 컬러가 검은색(활성화)이면 버튼을 눌렀을 때 하얀색(필터 해제 = 전체 보기)으로. */
+
             if (currentTextColor == Color.BLACK) {
-                isPressedAnyButton = true // 버튼이 눌린 상태
-                btnRejectPressed = true // 자기 자신이 눌린 상태
+                isPressedAnyButton = true
+                btnRejectPressed = true
 
                 btnReject.setBackgroundResource(R.drawable.rounded_corner_grey)
                 btnReject.setTextColor(Color.WHITE)
@@ -194,10 +196,10 @@ class MainActivity : AppCompatActivity() {
                 btnIng.setBackgroundResource(R.drawable.rounded_corner_white)
                 btnIng.setTextColor(Color.BLACK)
             }
-            /* 텍스트 컬러가 하얀색(비활성화)이면, 버튼을 눌렀을 때 검은색(수리 접수 필터)으로. */
+
             else {
-                isPressedAnyButton = false // 버튼이 안 눌린 상태
-                btnRejectPressed = false // 자기 자신이 안 눌린 상태
+                isPressedAnyButton = false
+                btnRejectPressed = false
                 btnReject.setBackgroundResource(R.drawable.rounded_corner_white)
                 btnReject.setTextColor(Color.BLACK)
             }
@@ -214,35 +216,66 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun applyFilter(adapter: AdminRoomAdapter, state: String) {
-        if (isFilterApplied) {
-            // 필터가 적용된 경우, "수리 접수"인 아이템만 보이도록 필터링
+        if (isFilterApplied) { // 필터가 적용된 경우, "현재 STATE"인 아이템만 보이도록 필터링
             val filteredItems = items.filter { it.status == state }
             adapter.updateList(filteredItems) // 필터된 목록으로 어댑터 업데이트
-        } else {
-            // 필터가 적용되지 않은 경우, 전체 아이템 표시
+        } else { // 필터가 적용되지 않은 경우, 전체 아이템 표시
             adapter.updateList(items) // 전체 목록으로 어댑터 업데이트
         }
     }
+    private fun fetchAndParseJson(url: String) {
 
-    private fun addDataToList() {
-        items.add(AdminRoom("의자 고장", "제1공학관 5층 34호(21534) A-28", R.drawable.baseline_chair_24, "수리 접수", "24-05-06 8:24 p.m.", "제1공학관 5층 34호(21534) A-28 입니다!"))
-        items.add(AdminRoom("책상 고장", "제2공학관 1층 24호(22124) A-13", R.drawable.baseline_table_restaurant_24, "반려", "24-05-06 7:15 p.m.", "Can anybody give me the hint? I will be very happy if you help. If nobody help me, I will be very sad."))
-        items.add(AdminRoom("콘센트 고장", "제2공학관 1층 24호(22124) A-15", R.drawable.baseline_electrical_services_24, "수리 중", "24-05-06 4:21 p.m.", "수리 필요. 의자."))
-        items.add(AdminRoom("의자 고장", "제3공학관 2층 12호(23212) A-5", R.drawable.baseline_chair_24, "수리 완료", "24-05-06 4:05 p.m.", "공백"))
-        items.add(AdminRoom("의자 고장", "제1공학관 5층 34호(21534) A-28", R.drawable.baseline_chair_24, "수리 접수", "24-05-06 8:24 p.m.", "제1공학관 5층 34호(21534) A-28 입니다!"))
-        items.add(AdminRoom("책상 고장", "제2공학관 1층 24호(22124) A-13", R.drawable.baseline_table_restaurant_24, "반려", "24-05-06 7:15 p.m.", "Can anybody give me the hint? I will be very happy if you help. If nobody help me, I will be very sad."))
-        items.add(AdminRoom("콘센트 고장", "제2공학관 1층 24호(22124) A-15", R.drawable.baseline_electrical_services_24, "수리 중", "24-05-06 4:21 p.m.", "수리 필요. 의자."))
-        items.add(AdminRoom("의자 고장", "제3공학관 2층 12호(23212) A-5", R.drawable.baseline_chair_24, "수리 완료", "24-05-06 4:05 p.m.", "공백"))
+        val client = OkHttpClient()
+
+        val request = Request.Builder()
+            .url(url)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                runOnUiThread {
+                    //Toast.makeText(this@AdminActivity, "Failed to load data", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                response.body?.string()?.let { jsonString ->
+                    val gson = Gson()
+                    val reportResponse = gson.fromJson(url, ReportResponse::class.java)
+                    val reports = reportResponse.data.reports
+
+                    items.clear()
+                    item_init.clear()
+
+                    for (report in reports) {
+                        val iconResId = when (report.facilityType.toUpperCase(Locale.ROOT)) {
+                            "CHAIR" -> R.drawable.baseline_chair_24
+                            "TABLE" -> R.drawable.baseline_table_restaurant_24
+                            "ELECTRICAL" -> R.drawable.baseline_electrical_services_24
+                            else -> R.drawable.baseline_sort_24 // Default icon if none match
+                        }
+
+                        val adminRoom = AdminRoom(
+                            report.description,
+                            "${report.building} ${report.floor} ${report.classroom}",
+                            iconResId,
+                            report.reportStatus,
+                            report.creationDate,
+                            report.description
+                        )
+
+                        items.add(adminRoom)
+                        item_init.add(adminRoom)
+                    }
+
+                    runOnUiThread {
+                        val myAdapter = AdminRoomAdapter(items, this@AdminActivity)
+                        val listView = findViewById<ListView>(R.id.listViewChatRoom)
+                        listView.adapter = myAdapter
+                    }
+                }
+            }
+        })
     }
 
-    private fun addDataToList2() {
-        item_init.add(AdminRoom("의자 고장", "제1공학관 5층 34호(21534) A-28", R.drawable.baseline_chair_24, "수리 접수", "24-05-06 8:24 p.m.", "제1공학관 5층 34호(21534) A-28 입니다!"))
-        item_init.add(AdminRoom("책상 고장", "제2공학관 1층 24호(22124) A-13", R.drawable.baseline_table_restaurant_24, "반려", "24-05-06 7:15 p.m.", "Can anybody give me the hint? I will be very happy if you help. If nobody help me, I will be very sad."))
-        item_init.add(AdminRoom("콘센트 고장", "제2공학관 1층 24호(22124) A-15", R.drawable.baseline_electrical_services_24, "수리 중", "24-05-06 4:21 p.m.", "수리 필요. 의자."))
-        item_init.add(AdminRoom("의자 고장", "제3공학관 2층 12호(23212) A-5", R.drawable.baseline_chair_24, "수리 완료", "24-05-06 4:05 p.m.", "공백"))
-        item_init.add(AdminRoom("의자 고장", "제1공학관 5층 34호(21534) A-28", R.drawable.baseline_chair_24, "수리 접수", "24-05-06 8:24 p.m.", "제1공학관 5층 34호(21534) A-28 입니다!"))
-        item_init.add(AdminRoom("책상 고장", "제2공학관 1층 24호(22124) A-13", R.drawable.baseline_table_restaurant_24, "반려", "24-05-06 7:15 p.m.", "Can anybody give me the hint? I will be very happy if you help. If nobody help me, I will be very sad."))
-        item_init.add(AdminRoom("콘센트 고장", "제2공학관 1층 24호(22124) A-15", R.drawable.baseline_electrical_services_24, "수리 중", "24-05-06 4:21 p.m.", "수리 필요. 의자."))
-        item_init.add(AdminRoom("의자 고장", "제3공학관 2층 12호(23212) A-5", R.drawable.baseline_chair_24, "수리 완료", "24-05-06 4:05 p.m.", "공백"))
-    }
 }

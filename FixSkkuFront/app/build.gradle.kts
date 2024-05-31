@@ -33,7 +33,8 @@ android {
 }
 
 dependencies {
-
+    implementation ("com.squareup.okhttp3:okhttp:4.9.0")
+    implementation ("com.google.code.gson:gson:2.8.7")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

@@ -23,7 +23,7 @@ class AdminRoomAdapter (var data: ArrayList<AdminRoom>, val context: Context): B
 
     init {
         // 앱 시작 시 SharedPreferences 초기화
-        MainActivity.items = MainActivity.item_init
+        AdminActivity.items = AdminActivity.item_init
         clearSharedPreferences()
     }
 
@@ -132,7 +132,7 @@ class AdminRoomAdapter (var data: ArrayList<AdminRoom>, val context: Context): B
         btnCancel.setOnClickListener {
             data.removeAt(p0) // 리스트 삭제
             notifyDataSetChanged() // 데이터 변경을 어댑터에 알려줍니다.
-            MainActivity.item_init.removeAt(p0) // 원본도 업데이트
+            AdminActivity.item_init.removeAt(p0) // 원본도 업데이트
             dialog.dismiss()
         }
 

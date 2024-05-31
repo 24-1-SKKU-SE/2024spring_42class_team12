@@ -19,7 +19,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import java.util.Locale
-
+import com.google.gson.Gson
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.IOException
 
 class AdminRoomAdapter (var data: ArrayList<AdminRoom>, val context: Context): BaseAdapter(),
     Filterable {
@@ -93,7 +100,6 @@ class AdminRoomAdapter (var data: ArrayList<AdminRoom>, val context: Context): B
 
         // 다이얼로그 크기 설정
         dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-
         // 다이얼로그 외부를 터치했을 때 다이얼로그가 닫히지 않도록 설정 (optional)
         dialog.setCancelable(true)
 
@@ -128,7 +134,28 @@ class AdminRoomAdapter (var data: ArrayList<AdminRoom>, val context: Context): B
             saveComment(p0, comment) // 입력된 내용 저장
             data[p0].status = stat // 상태 변경
             notifyDataSetChanged() // 데이터 변경을 어댑터에 알려줍니다.
+            /* 서버로 변경사항 내용 JSON 파일로 보내기. */
+            val client = OkHttpClient()
+            val path = "http://13.124.89.169:8080/"
+            data class Changed_Report(var reportStatus: String ?= null, var rejectionReason: String ?= null)
+            val json = Gson().toJson(Changed_Report(stat, comment))
+            val mediaType = "application/json; charset=utf-8".toMediaType()
+
+            val req = Request.Builder().url(path).post(json.toString().toRequestBody(mediaType)).build()
+            client.newCall(req).enqueue(object : Callback{
+                override fun onFailure(call: Call, e: IOException) {
+                    e.printStackTrace()
+                }
+                override fun onResponse(call: Call, response: Response) {
+                    response.use{
+                        if (!response.isSuccessful) throw IOException("Unexpected code $response")
+
+                    }
+                }
+            })
+
             dialog.dismiss()
+
         }
         // 삭제
         val btnCancel = dialog.findViewById<Button>(R.id.btn_cancel)

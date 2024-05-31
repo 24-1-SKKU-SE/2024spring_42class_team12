@@ -6,7 +6,8 @@ class AdminRoom(
     val thumbnail: Int,
     var status: String,
     val time: String,
-    val text: String
+    val text: String,
+    val photo: String
 ) {
 
 }

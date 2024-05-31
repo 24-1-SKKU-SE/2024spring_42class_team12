@@ -311,7 +311,7 @@ class AdminActivityTemp : AppCompatActivity() {
                 }
 
                 val adminRoom = AdminRoom(
-                    report.facilityType + "고장",
+                    report.facilityType + report.facilityStatus,
                     "${report.building} ${report.floor} ${report.classroom}",
                     iconResId,
                     report.reportStatus,

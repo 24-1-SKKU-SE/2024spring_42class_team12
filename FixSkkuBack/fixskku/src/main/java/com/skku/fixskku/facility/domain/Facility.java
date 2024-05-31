@@ -47,23 +47,4 @@ public class Facility {
     @Column(name = "facility_status")
     @Enumerated(EnumType.STRING)
     private FacilityStatus status;
-
-    public Facility(CampusType campusType, BuildingType buildingType, String floor, long classroomNumber, FacilityType type, FacilityStatus status) {
-        this.campusType = campusType;
-        this.buildingType = buildingType;
-        this.floor = floor;
-        this.classroomNumber = classroomNumber;
-        this.type = type;
-        this.status = status;
-    }
-
-    public void edit(CampusType campusType, BuildingType buildingType, String floor, long classroomNumber, FacilityType type, FacilityStatus status) {
-        this.campusType = campusType;
-        this.buildingType = buildingType;
-        this.floor = floor;
-        this.classroomNumber = classroomNumber;
-        this.type = type;
-        this.status = status;
-    }
-
 }

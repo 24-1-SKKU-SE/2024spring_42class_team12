@@ -33,4 +33,25 @@ public interface AdminRepository extends JpaRepository<Report, Long> {
             ReportStatus status, String description, Pageable pageable);
 
     Page<Report> findByStatus(ReportStatus status, Pageable pageable);
+
+    Page<Report> findByCreationDateBetweenAndDescriptionContainingIgnoreCase(
+            LocalDateTime startDate, LocalDateTime endDate, String description, Pageable pageable);
+
+    Page<Report> findByCreationDateBetween(
+            LocalDateTime startDate, LocalDateTime endDate, Pageable pageable);
+
+    Page<Report> findByCreationDateAfter(
+            LocalDateTime startDate, Pageable pageable);
+
+    Page<Report> findByCreationDateAfterAndDescriptionContainingIgnoreCase(
+            LocalDateTime startDate, String description, Pageable pageable);
+
+    Page<Report> findByCreationDateBefore(
+            LocalDateTime endDate, Pageable pageable);
+
+    Page<Report> findByCreationDateBeforeAndDescriptionContainingIgnoreCase(
+            LocalDateTime endDate, String description, Pageable pageable);
+
+    Page<Report> findByDescriptionContainingIgnoreCase(
+            String description, Pageable pageable);
 }

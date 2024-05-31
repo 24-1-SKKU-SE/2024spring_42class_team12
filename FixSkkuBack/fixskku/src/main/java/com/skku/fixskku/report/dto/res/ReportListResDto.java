@@ -3,6 +3,9 @@ package com.skku.fixskku.report.dto.res;
 import com.skku.fixskku.report.domain.Report;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @Data
 public class ReportListResDto {
     private long reportId;
@@ -27,7 +30,7 @@ public class ReportListResDto {
         this.description = report.getDescription();
         this.photoUrl = report.getPhotoUrl();
         this.reportStatus = report.getStatus().getName();
-        this.creationDate = report.getCreationDate().toString();
+        this.creationDate = formatDateTime(report.getCreationDate());
         this.rejectionReason = report.getRejectionReason();
         this.campus = report.getFacility().getCampusType().getCampusName();
         this.building = report.getFacility().getBuildingType().getName();
@@ -35,5 +38,10 @@ public class ReportListResDto {
         this.classroom = report.getFacility().getClassroomNumber();
         this.facilityType = report.getFacility().getType().getName();
         this.facilityStatus = report.getFacility().getStatus().getName();
+    }
+
+    private String formatDateTime(LocalDateTime dateTime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return dateTime.format(formatter);
     }
 }

@@ -25,4 +25,11 @@ public enum ReportStatus {
                 .map(ReportStatus::getName)
                 .collect(Collectors.toList());
     }
+
+    public static ReportStatus fromName(String name) {
+        return Arrays.stream(ReportStatus.values())
+                .filter(status -> status.getName().equals(name))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Invalid status name: " + name));
+    }
 }

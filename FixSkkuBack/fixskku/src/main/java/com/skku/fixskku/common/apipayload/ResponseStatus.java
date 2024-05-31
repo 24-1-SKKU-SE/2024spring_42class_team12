@@ -24,7 +24,7 @@ public enum ResponseStatus {
     _ADMIN_UPDATE_SUCCESS(OK, "신고 관리 성공"),
 
     //시설물 현황 관련
-    _FACILITY_INFO_SUCCESS(OK, "망가진 시설물 정보 조회 성공"),
+    _FACILITY_INFO_SUCCESS(OK, "시설물 정보 조회 성공"),
     //신고 관련
     _REPORT_SUCCESS(CREATED, "신고가 성공적으로 등록되었습니다."),
     _REPORT_LIST_SUCCESS(OK, "신고가 성공적으로 조회되었습니다."),
@@ -32,7 +32,7 @@ public enum ResponseStatus {
     // 챗봇 관련
     _CHATBOT_FAQ_SUCCESS(OK,"챗봇 자주 묻는 질문 응답 성공"),
     _CHATBOT_NORMAL_SUCCESS(OK,"챗봇 일반 질문 응답 성공"),
-    _CHATBOT_FAC_SUCCESS(OK,"챗봇 망가진 시설물 정보 조회 성공"),
+    _CHATBOT_FAC_SUCCESS(OK,"챗봇 시설물 정보 조회 성공"),
     _CHATBOT_REPORT_SUCCESS(OK,"챗봇 신고 요청 성공"),
     _CHATBOT_MYREPORT_SUCCESS(OK,"챗봇 자신의 신고 조회 성공");
 

@@ -1,5 +1,6 @@
 package com.skku.fixskku.admin.controller;
 
+import com.skku.fixskku.admin.dto.req.ReportUpdateDto;
 import com.skku.fixskku.admin.service.AdminService;
 import com.skku.fixskku.common.apipayload.exception.GeneralException;
 import com.skku.fixskku.report.dto.res.ReportListResDto;
@@ -66,6 +67,21 @@ public class AdminController {
             Map<String, Object> result = new HashMap<>();
             result.put("report", report);
             return ResponseApi.of(ResponseStatus._REPORT_LIST_SUCCESS, result);
+        } catch (GeneralException e) {
+            return ResponseApi.of(e.getStatus());
+        } catch (NoSuchElementException e) {
+            return ResponseApi.of(ResponseStatus._ADMIN_NOT_FOUND);
+        } catch (Exception e) {
+            return ResponseApi.serverError();
+        }
+    }
+    @PatchMapping("/{reportId}")
+    public ResponseEntity<?> updateReport(@PathVariable long reportId, @RequestBody ReportUpdateDto updateDto) {
+        try {
+            ReportListResDto updatedReport = adminService.updateReport(reportId, updateDto);
+            Map<String, Object> result = new HashMap<>();
+            result.put("report", updatedReport);
+            return ResponseApi.of(ResponseStatus._ADMIN_UPDATE_SUCCESS, result);
         } catch (GeneralException e) {
             return ResponseApi.of(e.getStatus());
         } catch (NoSuchElementException e) {

@@ -1,5 +1,6 @@
 package com.skku.fixskku.admin.service;
 
+import com.skku.fixskku.admin.dto.req.ReportUpdateDto;
 import com.skku.fixskku.admin.repository.AdminRepository;
 import com.skku.fixskku.common.apipayload.ResponseStatus;
 import com.skku.fixskku.common.apipayload.exception.GeneralException;
@@ -80,5 +81,21 @@ public class AdminServiceImpl implements AdminService {
         }
 
         return reports.map(ReportListResDto::new);
+    }
+    @Override
+    @Transactional
+    public ReportListResDto updateReport(Long reportId, ReportUpdateDto updateDto) {
+        Report report = reportRepository.findById(reportId)
+                .orElseThrow(() -> new GeneralException(ResponseStatus._ADMIN_NOT_FOUND));
+
+        if (updateDto.getReportStatus() != null) {
+            report.setStatus(ReportStatus.valueOf(updateDto.getReportStatus()));
+        }
+        if (updateDto.getRejectionReason() != null) {
+            report.setRejectionReason(updateDto.getRejectionReason());
+        }
+
+        Report updatedReport = reportRepository.save(report);
+        return new ReportListResDto(updatedReport);
     }
 }

@@ -30,7 +30,13 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    buildFeatures{
+        viewBinding
+    }
 }
+
+
 
 dependencies {
     implementation ("com.squareup.okhttp3:okhttp:4.9.0")

@@ -12,13 +12,17 @@ import android.view.Window
 import android.widget.BaseAdapter
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import java.util.Locale
 
 
-class AdminRoomAdapter (var data: ArrayList<AdminRoom>, val context: Context): BaseAdapter() {
+class AdminRoomAdapter (var data: ArrayList<AdminRoom>, val context: Context): BaseAdapter(),
+    Filterable {
     private lateinit var dialog: Dialog
 
     init {
@@ -204,5 +208,11 @@ class AdminRoomAdapter (var data: ArrayList<AdminRoom>, val context: Context): B
         sharedPreferences.edit().clear().apply()
     }
 
+    override fun getFilter(): Filter {
+        TODO("Not yet implemented")
+
+    }
+
 
 }
+

@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.ListView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.gson.Gson
@@ -14,7 +15,8 @@ import okhttp3.*
 import java.io.IOException
 import java.util.Collections
 import java.util.Locale
-
+import android.widget.Filter;
+import android.widget.Filterable;
 
 class AdminActivity : AppCompatActivity() {
 
@@ -35,8 +37,17 @@ class AdminActivity : AppCompatActivity() {
         val listView = findViewById<ListView>(R.id.listViewChatRoom)
         listView.adapter = myAdapter
 
-        /* SearchView 대신 EditText로 검색 기능 구현 */
-
+        /* SearchView 로 검색 기능 구현 */
+        val searchView = findViewById<SearchView>(R.id.editTextSearch)
+        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                search(myAdapter ,newText)
+                return true
+            }
+        })
         /* 시간 순서대로 리스트뷰 정렬 기능 구현 */
         val btnSort = findViewById<Button>(R.id.sort_button)
         var SortToggle = true
@@ -52,22 +63,65 @@ class AdminActivity : AppCompatActivity() {
             myAdapter.updateList(items)
         }
         /* 상태 필터 버튼*/
+        val btnInit = findViewById<Button>(R.id.button6)
         val btnBefore = findViewById<Button>(R.id.button2)
         val btnIng = findViewById<Button>(R.id.button3)
         val btnAfter = findViewById<Button>(R.id.button4)
         val btnReject = findViewById<Button>(R.id.button5)
 
         /* 수리 상태에 따른 필터 버튼 */
+        var btnInitPressed = false
         var btnBeforePressed = false
         var btnIngPressed = false
         var btnAfterPressed = false
         var btnRejectPressed = false
+
+        btnInit.setOnClickListener {
+            items = item_init
+
+            btnBeforePressed = false
+            btnIngPressed = false
+            btnAfterPressed = false
+            btnRejectPressed = false
+
+            if(isPressedAnyButton && !btnInitPressed) {
+                toggleFilter()
+                applyFilter(myAdapter, "신고 접수")
+            }
+
+            toggleFilter()
+            applyFilter(myAdapter, "신고 접수")
+
+            val currentTextColor = btnInit.currentTextColor
+            if (currentTextColor == Color.BLACK) {
+                isPressedAnyButton = true
+                btnInitPressed = true
+
+                btnInit.setBackgroundResource(R.drawable.rounded_corner_grey)
+                btnInit.setTextColor(Color.WHITE)
+                btnBefore.setBackgroundResource(R.drawable.rounded_corner_white)
+                btnBefore.setTextColor(Color.BLACK)
+                btnIng.setBackgroundResource(R.drawable.rounded_corner_white)
+                btnIng.setTextColor(Color.BLACK)
+                btnAfter.setBackgroundResource(R.drawable.rounded_corner_white)
+                btnAfter.setTextColor(Color.BLACK)
+                btnReject.setBackgroundResource(R.drawable.rounded_corner_white)
+                btnReject.setTextColor(Color.BLACK)
+            }
+            else {
+                isPressedAnyButton = false
+                btnInitPressed = false
+                btnInit.setBackgroundResource(R.drawable.rounded_corner_white)
+                btnInit.setTextColor(Color.BLACK)
+            }
+        }
 
         /* 수리 접수 버튼을 눌렀을 때, 나머지 검정색(활성화된) 버튼을 하얀색(비활성화)으로 */
         btnBefore.setOnClickListener {
             /* 원본 대입. clear하면 원본 리스트도 왜인지 모르게 사라져서 대안으로 작성된 코드 */
             items = item_init
 
+            btnInitPressed = false
             btnIngPressed = false
             btnAfterPressed = false
             btnRejectPressed = false
@@ -89,6 +143,8 @@ class AdminActivity : AppCompatActivity() {
 
                 btnBefore.setBackgroundResource(R.drawable.rounded_corner_grey)
                 btnBefore.setTextColor(Color.WHITE)
+                btnInit.setBackgroundResource(R.drawable.rounded_corner_white)
+                btnInit.setTextColor(Color.BLACK)
                 btnIng.setBackgroundResource(R.drawable.rounded_corner_white)
                 btnIng.setTextColor(Color.BLACK)
                 btnAfter.setBackgroundResource(R.drawable.rounded_corner_white)
@@ -107,6 +163,7 @@ class AdminActivity : AppCompatActivity() {
 
         btnIng.setOnClickListener {
             items = item_init
+            btnInitPressed = false
             btnBeforePressed = false
             btnAfterPressed = false
             btnRejectPressed = false
@@ -126,6 +183,8 @@ class AdminActivity : AppCompatActivity() {
 
                 btnIng.setBackgroundResource(R.drawable.rounded_corner_grey)
                 btnIng.setTextColor(Color.WHITE)
+                btnInit.setBackgroundResource(R.drawable.rounded_corner_white)
+                btnInit.setTextColor(Color.BLACK)
                 btnBefore.setBackgroundResource(R.drawable.rounded_corner_white)
                 btnBefore.setTextColor(Color.BLACK)
                 btnAfter.setBackgroundResource(R.drawable.rounded_corner_white)
@@ -144,6 +203,7 @@ class AdminActivity : AppCompatActivity() {
 
         btnAfter.setOnClickListener {
             items = item_init
+            btnInitPressed = false
             btnBeforePressed = false
             btnIngPressed = false
             btnRejectPressed = false
@@ -163,6 +223,8 @@ class AdminActivity : AppCompatActivity() {
 
                 btnAfter.setBackgroundResource(R.drawable.rounded_corner_grey)
                 btnAfter.setTextColor(Color.WHITE)
+                btnInit.setBackgroundResource(R.drawable.rounded_corner_white)
+                btnInit.setTextColor(Color.BLACK)
                 btnBefore.setBackgroundResource(R.drawable.rounded_corner_white)
                 btnBefore.setTextColor(Color.BLACK)
                 btnIng.setBackgroundResource(R.drawable.rounded_corner_white)
@@ -181,6 +243,7 @@ class AdminActivity : AppCompatActivity() {
 
         btnReject.setOnClickListener {
             items = item_init
+            btnInitPressed = false
             btnBeforePressed = false
             btnIngPressed = false
             btnAfterPressed = false
@@ -200,6 +263,8 @@ class AdminActivity : AppCompatActivity() {
 
                 btnReject.setBackgroundResource(R.drawable.rounded_corner_grey)
                 btnReject.setTextColor(Color.WHITE)
+                btnInit.setBackgroundResource(R.drawable.rounded_corner_white)
+                btnInit.setTextColor(Color.BLACK)
                 btnBefore.setBackgroundResource(R.drawable.rounded_corner_white)
                 btnBefore.setTextColor(Color.BLACK)
                 btnAfter.setBackgroundResource(R.drawable.rounded_corner_white)
@@ -220,6 +285,18 @@ class AdminActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+    }
+    private fun search(adapter: AdminRoomAdapter, newText: String?) {
+        if( newText != null){
+            val searchedItems = AdminActivityTemp.items.filter { it.name.toLowerCase().contains(newText.toLowerCase())
+                    || it.text.toLowerCase().contains(newText.toLowerCase())
+                    || it.status.toLowerCase().contains(newText.toLowerCase())
+                    || it.time.toLowerCase().contains(newText.toLowerCase())  }
+            adapter.updateList(searchedItems) // 필터된 목록으로 어댑터 업데이트
+        }
+        else {
+            adapter.updateList(AdminActivityTemp.items) // 전체 목록으로 어댑터 업데이트
         }
     }
     private fun toggleFilter() {

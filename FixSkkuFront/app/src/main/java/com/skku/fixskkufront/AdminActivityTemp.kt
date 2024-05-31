@@ -11,6 +11,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.gson.Gson
 import java.util.Locale
 import android.widget.TextView
+import androidx.appcompat.widget.SearchView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -79,6 +80,19 @@ class AdminActivityTemp : AppCompatActivity() {
         val myAdapter = AdminRoomAdapter(items, this)
         val listView = findViewById<ListView>(R.id.listViewChatRoom)
         listView.adapter = myAdapter
+
+        val searchView = findViewById<SearchView>(R.id.editTextSearch)
+        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                search(myAdapter ,newText)
+                return true
+            }
+        })
+
         val btnSort = findViewById<Button>(R.id.sort_button)
         var SortToggle = true
         btnSort.setOnClickListener {
@@ -254,6 +268,18 @@ class AdminActivityTemp : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+    }
+    private fun search(adapter: AdminRoomAdapter, newText: String?) {
+        if( newText != null){
+            val searchedItems = items.filter { it.name.toLowerCase().contains(newText.toLowerCase())
+                    || it.text.toLowerCase().contains(newText.toLowerCase())
+                    || it.status.toLowerCase().contains(newText.toLowerCase())
+                    || it.time.toLowerCase().contains(newText.toLowerCase())  }
+            adapter.updateList(searchedItems) // 필터된 목록으로 어댑터 업데이트
+        }
+        else {
+            adapter.updateList(items) // 전체 목록으로 어댑터 업데이트
         }
     }
     private fun toggleFilter() {

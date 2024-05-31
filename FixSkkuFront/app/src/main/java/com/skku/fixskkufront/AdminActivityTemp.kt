@@ -79,7 +79,19 @@ class AdminActivityTemp : AppCompatActivity() {
         val myAdapter = AdminRoomAdapter(items, this)
         val listView = findViewById<ListView>(R.id.listViewChatRoom)
         listView.adapter = myAdapter
-
+        val btnSort = findViewById<Button>(R.id.sort_button)
+        var SortToggle = true
+        btnSort.setOnClickListener {
+            if (SortToggle){
+                items.sortBy { it.time } // 오름차순
+                SortToggle = false
+            }
+            else{
+                items.sortByDescending { it.time } // 내림차순
+                SortToggle = true
+            }
+            myAdapter.updateList(items)
+        }
         val btnBefore = findViewById<Button>(R.id.button2)
         val btnIng = findViewById<Button>(R.id.button3)
         val btnAfter = findViewById<Button>(R.id.button4)

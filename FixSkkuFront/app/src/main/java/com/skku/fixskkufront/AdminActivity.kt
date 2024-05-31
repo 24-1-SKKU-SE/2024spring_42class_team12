@@ -2,6 +2,7 @@ package com.skku.fixskkufront
 
 import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.ListView
 import androidx.activity.enableEdgeToEdge
@@ -9,14 +10,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.gson.Gson
-import java.util.Locale
-import android.widget.TextView
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import okhttp3.*
 import java.io.IOException
-import java.io.InputStreamReader
+import java.util.Collections
+import java.util.Locale
+
 
 class AdminActivity : AppCompatActivity() {
 
@@ -31,7 +29,7 @@ class AdminActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_admin)
 
-        fetchAndParseJson("13.124.89.169:8081/?reportStatus=fixed&startDate=&endDate=&searchWord=")
+        fetchAndParseJson("http://13.124.89.169:8081/?reportStatus=fixed&startDate=&endDate=&searchWord=")
 
         val myAdapter = AdminRoomAdapter(items, this)
         val listView = findViewById<ListView>(R.id.listViewChatRoom)
@@ -40,7 +38,20 @@ class AdminActivity : AppCompatActivity() {
         /* SearchView 대신 EditText로 검색 기능 구현 */
 
         /* 시간 순서대로 리스트뷰 정렬 기능 구현 */
-
+        val btnSort = findViewById<Button>(R.id.sort_button)
+        var SortToggle = true
+        btnSort.setOnClickListener {
+            if (SortToggle){
+                items.sortBy { it.time } // 오름차순
+                SortToggle = false
+            }
+            else{
+                items.sortByDescending { it.time } // 내림차순
+                SortToggle = true
+            }
+            myAdapter.updateList(items)
+        }
+        /* 상태 필터 버튼*/
         val btnBefore = findViewById<Button>(R.id.button2)
         val btnIng = findViewById<Button>(R.id.button3)
         val btnAfter = findViewById<Button>(R.id.button4)

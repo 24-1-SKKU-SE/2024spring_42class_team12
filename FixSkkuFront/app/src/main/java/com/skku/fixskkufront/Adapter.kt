@@ -26,7 +26,6 @@ class AdminRoomAdapter (var data: ArrayList<AdminRoom>, val context: Context): B
         AdminActivity.items = AdminActivity.item_init
         clearSharedPreferences()
     }
-
     fun updateList(newList: List<AdminRoom>) {
         data.clear() // 기존 목록 지우기
         data.addAll(newList) // 새로운 목록 추가

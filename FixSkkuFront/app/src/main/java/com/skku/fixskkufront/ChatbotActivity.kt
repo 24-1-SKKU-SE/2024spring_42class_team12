@@ -54,6 +54,16 @@ class ChatbotActivity : AppCompatActivity() {
             finish()
         }
 
+        val btnClose = findViewById<ImageButton>(R.id.btn_close)
+        btnClose.setOnClickListener {
+            val intent = Intent(this, ChatbotActivity2::class.java).apply {
+                putExtra(EXT_FAQ, "0")
+            }
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            startActivity(intent)
+            instance = this
+        }
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)

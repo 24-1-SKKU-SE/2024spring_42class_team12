@@ -54,8 +54,6 @@ public class ChatbotActivity2 extends AppCompatActivity {
         imageView = findViewById(R.id.SKKU_imageView);
         backButton = findViewById(R.id.back_btn);
 
-
-        //setup recycler view
         messageAdapter = new MessageAdapter(messageList);
         recyclerView.setAdapter(messageAdapter);
         LinearLayoutManager llm = new LinearLayoutManager(this);
@@ -63,9 +61,17 @@ public class ChatbotActivity2 extends AppCompatActivity {
 
         intent = getIntent();
         String FAQ = intent.getStringExtra(ChatbotActivity.EXT_FAQ);
-        /* 만약 FAQ 가 1이라면 FAQ1에 대한 답변을 생성함. */
         if (FAQ != null && FAQ.equals("1")) {
             addToChat("(FAQ1 에 대한 답변)",Message.SENT_BY_BOT);
+        }
+        if (FAQ != null && FAQ.equals("2")) {
+            addToChat("(FAQ2 에 대한 답변)",Message.SENT_BY_BOT);
+        }
+        if (FAQ != null && FAQ.equals("3")) {
+            addToChat("(FAQ3 에 대한 답변)",Message.SENT_BY_BOT);
+        }
+        if (FAQ != null && FAQ.equals("4")) {
+            addToChat("(FAQ4 에 대한 답변)",Message.SENT_BY_BOT);
         }
 
         //addToChat("안녕하세요! 픽스꾸 봇 입니다! 무엇을 도와드릴까요?",Message.SENT_BY_BOT);

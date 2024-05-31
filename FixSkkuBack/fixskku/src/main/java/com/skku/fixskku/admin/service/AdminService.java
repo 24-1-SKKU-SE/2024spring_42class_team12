@@ -9,4 +9,5 @@ import java.time.LocalDate;
 
 public interface AdminService {
     Page<ReportListResDto> getReports(ReportStatus reportStatus, LocalDate startDate, LocalDate endDate, String searchWord, Pageable pageable);
+    ReportListResDto getReportById(Long reportId);
 }

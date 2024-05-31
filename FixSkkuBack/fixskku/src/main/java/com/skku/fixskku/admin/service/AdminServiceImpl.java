@@ -1,9 +1,12 @@
 package com.skku.fixskku.admin.service;
 
 import com.skku.fixskku.admin.repository.AdminRepository;
+import com.skku.fixskku.common.apipayload.ResponseStatus;
+import com.skku.fixskku.common.apipayload.exception.GeneralException;
 import com.skku.fixskku.common.domain.ReportStatus;
 import com.skku.fixskku.report.dto.res.ReportListResDto;
 import com.skku.fixskku.report.domain.Report;
+import com.skku.fixskku.report.repository.ReportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +26,16 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     private AdminRepository adminRepository;
 
+    @Autowired
+    private ReportRepository reportRepository;
+
+    @Override
+    @Transactional(readOnly = true)
+    public ReportListResDto getReportById(Long id) {
+        Report report = reportRepository.findById(id)
+                .orElseThrow(() -> new GeneralException(ResponseStatus._ADMIN_NOT_FOUND));
+        return new ReportListResDto(report);
+    }
     @Override
     @Transactional(readOnly = true)
     public Page<ReportListResDto> getReports(ReportStatus reportStatus, LocalDate startDate, LocalDate endDate, String searchWord, Pageable pageable) {

@@ -66,7 +66,7 @@ class SeatFragment : Fragment() {
         }
 
         // Setup Next Button
-        val nextButton: Button = view.findViewById(R.id.nextButton)
+        val nextButton: Button = view.findViewById(R.id.queryButton)
         nextButton.setOnClickListener {
             val selectedCampus = campusSpinner.selectedItem.toString()
             val selectedBuilding = buildingSpinner.selectedItem.toString()
@@ -144,4 +144,4 @@ class SeatFragment : Fragment() {
     }
 }
 
-data class Seat(var imageResId: Int? = null, val isEmpty: Boolean = false)
+data class Seat(var imageResId: Int? = null, var isEmpty: Boolean = false)

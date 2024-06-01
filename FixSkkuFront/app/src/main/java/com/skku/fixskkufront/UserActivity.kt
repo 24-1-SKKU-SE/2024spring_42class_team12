@@ -39,8 +39,8 @@ class UserActivity : AppCompatActivity() {
                     true
                 }
                 R.id.chat -> {
-                    val intent = Intent(this@UserActivity, ChatbotActivity::class.java)
-                    startActivity(intent)
+                    val chatFragment = ChatFragment()
+                    openFragment(chatFragment)
                     true
                 }
                 R.id.myReport -> {

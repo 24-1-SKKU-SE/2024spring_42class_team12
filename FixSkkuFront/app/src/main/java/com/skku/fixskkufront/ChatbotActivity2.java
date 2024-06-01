@@ -129,10 +129,15 @@ public class ChatbotActivity2 extends AppCompatActivity {
         RequestBody body = RequestBody.create(json, mediaType);
         Log.d("JSON", json);
 
+        MultipartBody.Builder builder = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("text", message);
+        RequestBody requestBody = builder.build();
+
         Request req = new Request.Builder()
                 .url(urlString)
                 .addHeader("token", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIiwianRpIjoiMTRkOTRmYjgtNzNmMi00Mzc0LWI0MGYtZWJhNWNkNmI3M2U2IiwiaWF0IjoxNzE2NjM5ODY3fQ.10427Pg37n_IEeo41t5OJVsb5VgM8CMMJBa14v7ZC")
-                .post(body)
+                .post(requestBody)
                 .build();
         Log.d("req", req.toString());
         OkHttpClient client = new OkHttpClient();

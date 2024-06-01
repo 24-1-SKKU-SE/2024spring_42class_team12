@@ -126,7 +126,7 @@ public class ChatbotServiceImpl implements ChatbotService{
                 null,
                 ChatbotUrl.MYREPORT_URI,
                 null, null, null);
-        return ResponseApi.of(ResponseStatus._CHATBOT_FAC_SUCCESS,resDto);
+        return ResponseApi.of(ResponseStatus._CHATBOT_MYREPORT_SUCCESS,resDto);
     }
 
     /**

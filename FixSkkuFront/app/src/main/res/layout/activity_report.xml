@@ -24,10 +24,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:fontFamily="@font/dmsans"
             android:layout_weight="700"
+            android:fontFamily="@font/dmsans_bold"
             android:text="시설물 신고"
-            android:textSize="24sp"
+            android:textFontWeight="900"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
@@ -35,9 +36,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:textFontWeight="700"
             android:fontFamily="@font/dmsans"
-            android:text="신고 일자" />
+            android:text="신고 일자"
+            android:textFontWeight="900" />
 
         <EditText
             android:id="@+id/reportDate"
@@ -52,10 +53,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:textFontWeight="700"
-            android:fontFamily="@font/dmsans"
             android:layout_marginBottom="8dp"
-            android:text="캠퍼스명" />
+            android:fontFamily="@font/dmsans"
+            android:text="캠퍼스명"
+            android:textFontWeight="900" />
 
         <EditText
             android:id="@+id/campusName"
@@ -69,67 +70,77 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:textFontWeight="700"
-            android:fontFamily="@font/dmsans"
             android:layout_marginBottom="8dp"
-            android:text="강의실명" />
+            android:fontFamily="@font/dmsans"
+            android:text="강의실명"
+            android:textFontWeight="900" />
 
         <EditText
             android:id="@+id/classroomName"
             android:layout_width="match_parent"
-            android:layout_height="48dp"            android:background="@drawable/edittext_custom"
+            android:layout_height="48dp"
+            android:background="@drawable/edittext_custom"
             android:fontFamily="@font/dmsans"
 
             android:layout_marginBottom="8dp"/>
-
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-            <TextView
+            <LinearLayout
                 android:layout_width="465px"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textFontWeight="700"
-                android:fontFamily="@font/dmsans"
+                android:orientation="vertical">
 
-                android:text="시설물 ID" />
-            <TextView
+                <TextView
+                    android:layout_width="465px"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="@font/dmsans"
+                    android:text="시설물 ID"
+
+                    android:textFontWeight="900" />
+                <EditText
+                    android:id="@+id/facilityId"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:fontFamily="@font/dmsans"
+                    android:background="@drawable/edittext_custom"
+                    android:layout_weight="1"
+                    />
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textFontWeight="700"
-                android:fontFamily="@font/dmsans"
+                android:layout_marginStart="8dp"
+                android:orientation="vertical">
 
-                android:text="고장 유형" />
+                <TextView
+                    android:layout_width="465px"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="@font/dmsans"
+                    android:text="고장 유형"
 
-
+                    android:textFontWeight="900" />
+                <EditText
+                    android:id="@+id/faultType"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:fontFamily="@font/dmsans"
+                    android:background="@drawable/edittext_custom"
+                    android:layout_weight="1"
+                    />
+            </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="8dp">
-
-            <EditText
-                android:id="@+id/facilityId"
-                android:layout_width="0dp"
-                android:layout_height="48dp"                android:fontFamily="@font/dmsans"
-                android:background="@drawable/edittext_custom"
-                android:layout_weight="1"
-              />
-
-            <EditText
-                android:id="@+id/faultType"
-                android:layout_width="0dp"
-                android:layout_height="48dp"                android:fontFamily="@font/dmsans"
-                android:background="@drawable/edittext_custom"
-                android:layout_weight="1"
-                android:layout_marginStart="8dp"/>
-        </LinearLayout>
 
         <CheckBox
             android:id="@+id/isUserFacility"
@@ -139,14 +150,15 @@
             android:textFontWeight="700"
             android:fontFamily="@font/dmsans"
             android:layout_marginBottom="8dp"/>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:textFontWeight="700"
-            android:fontFamily="@font/dmsans"
             android:layout_marginBottom="8dp"
-            android:text="상세 설명" />
+            android:fontFamily="@font/dmsans"
+            android:text="상세 설명"
+            android:textFontWeight="900" />
         <EditText
             android:id="@+id/additionalInfo"
             android:layout_width="match_parent"
@@ -158,12 +170,12 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/reportButton"
-            android:layout_width="210dp"
+            android:layout_width="match_parent"
             android:layout_height="62dp"
-            app:cornerRadius="6dp"
-            android:backgroundTint="#130160"
             android:layout_gravity="center_horizontal"
+            android:backgroundTint="#130160"
             android:text="신고하기"
-            android:textColor="@android:color/white"/>
+            android:textColor="@android:color/white"
+            app:cornerRadius="6dp" />
     </LinearLayout>
 </ScrollView>

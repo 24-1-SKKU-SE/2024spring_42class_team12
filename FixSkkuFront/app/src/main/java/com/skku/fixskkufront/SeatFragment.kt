@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class SeatFragment : Fragment() {
+    private var selectedSeatIndex: Int? = null
+    private val actualSeatIndices = mutableListOf<Int>() // 실제 좌석 인덱스 리스트
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,20 +29,28 @@ class SeatFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val campusType = arguments?.getInt("campusType") ?: 0
-        var buildingName = arguments?.getString("building_name") ?: ""
+        val buildingName = arguments?.getString("building_name") ?: ""
 
         // Setup Spinners and EditText
         val campusSpinner: Spinner = view.findViewById(R.id.campusSpinner)
         val buildingSpinner: Spinner = view.findViewById(R.id.buildingSpinner)
         val classRoomEditText: EditText = view.findViewById(R.id.classroomName)
 
-        setupCampusSpinner(campusSpinner)
-        setupBuildingSpinner(buildingSpinner, campusType)
+        setupCampusSpinner(campusSpinner, campusType)
+        setupBuildingSpinner(buildingSpinner, campusType, buildingName)
 
         // Setup RecyclerView
         val recyclerView: RecyclerView = view.findViewById(R.id.seatRecyclerView)
         recyclerView.layoutManager = GridLayoutManager(context, 11)
-        recyclerView.adapter = SeatAdapter(getSeatData(), requireActivity())
+        val seats = getSeatData()
+        seats.forEachIndexed { index, seat ->
+            if (!seat.isEmpty) {
+                actualSeatIndices.add(index)
+            }
+        }
+        recyclerView.adapter = SeatAdapter(seats, requireActivity()) { index ->
+            selectedSeatIndex = actualSeatIndices.indexOf(index)
+        }
 
         // Setup Next Button
         val nextButton: Button = view.findViewById(R.id.nextButton)
@@ -49,29 +59,37 @@ class SeatFragment : Fragment() {
             val selectedBuilding = buildingSpinner.selectedItem.toString()
             val classRoomName = classRoomEditText.text.toString()
 
-            openNextActivity(campusType, selectedBuilding, classRoomName)
+            openNextActivity(campusType, selectedBuilding, classRoomName, selectedSeatIndex)
         }
     }
 
-    private fun setupCampusSpinner(spinner: Spinner) {
+    private fun setupCampusSpinner(spinner: Spinner, campusType: Int) {
         val campuses = listOf("인문사회캠퍼스", "자연과학캠퍼스")
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, campuses)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
+        spinner.setSelection(campusType)
     }
 
-    private fun setupBuildingSpinner(spinner: Spinner, campusType: Int?) {
+    private fun setupBuildingSpinner(spinner: Spinner, campusType: Int, buildingName: String) {
         val buildings = getBuildings(campusType).map { it.name }
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, buildings)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
+        val buildingPosition = buildings.indexOf(buildingName)
+        if (buildingPosition >= 0) {
+            spinner.setSelection(buildingPosition) // Set the selected item based on buildingName
+        }
     }
 
-    private fun openNextActivity(campusType: Int, buildingName: String, classRoomName: String) {
+    private fun openNextActivity(campusType: Int, buildingName: String, classRoomName: String, selectedSeatIndex: Int?) {
         val intent = Intent(requireActivity(), ReportActivity::class.java)
         intent.putExtra("campusType", campusType)
         intent.putExtra("building_name", buildingName)
         intent.putExtra("classRoomName", classRoomName)
+        selectedSeatIndex?.let {
+            intent.putExtra("selected_seat_index", it)
+        }
         startActivity(intent)
     }
 
@@ -106,13 +124,11 @@ class SeatFragment : Fragment() {
         // Example data for seats
         return List(99) { index ->
             when (index % 11) {
-                1, 2 -> Seat(R.drawable.seat_green) // green seat
-                4, 5, 6 -> Seat(R.drawable.seat_red)  // red seat
                 0, 3, 7, 10 -> Seat(isEmpty = true) // empty seat
-                else -> Seat(R.drawable.seat_black) // black seat
+                else -> Seat(R.drawable.seat_green) // green seat
             }
         }
     }
 }
 
-data class Seat(val imageResId: Int? = null, val isEmpty: Boolean = false)
+data class Seat(var imageResId: Int? = null, val isEmpty: Boolean = false)

@@ -25,6 +25,7 @@
         android:padding="4dp"
         app:backgroundTint="#FFFFFF"
         app:itemActiveIndicatorStyle="@style/Widget.BottomNavigationView.Custom"
+        app:itemIconSize="18dp"
         app:itemIconTint="#0E341C"
         app:itemTextAppearanceActive="@style/CustomBottomNavigationViewTextStyle"
         app:itemTextAppearanceInactive="@style/CustomBottomNavigationViewTextStyle"

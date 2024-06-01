@@ -40,7 +40,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:srcCompat="@drawable/skku" />
+        app:srcCompat="@drawable/skku_removebg" />
 
     <TextView
         android:id="@+id/textView3"
@@ -68,6 +68,7 @@
         android:backgroundTint="#0E341C"
         android:fontFamily="@font/pretendard_variable"
         android:text="학생으로 로그인"
+        android:textColor="#FFFFFF"
         android:textFontWeight="700"
         android:textSize="20sp"
         app:cornerRadius="6dp"
@@ -84,6 +85,7 @@
         android:backgroundTint="#8DC63F"
         android:fontFamily="@font/pretendard_variable"
         android:text="관리자로 로그인"
+        android:textColor="#FFFFFF"
         android:textFontWeight="700"
         android:textSize="20sp"
         app:cornerRadius="6dp"

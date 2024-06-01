@@ -1,33 +1,14 @@
 package com.skku.fixskkufront
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [MyReportFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class MyReportFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,23 +18,22 @@ class MyReportFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_my_report, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment MyReportFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            MyReportFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val recyclerView: RecyclerView = view.findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.adapter = MyReportAdatper(getDummyData())
+    }
+
+    private fun getDummyData(): List<MyReportItem> {
+        // Example data
+        return listOf(
+            MyReportItem(R.drawable.icon_home, "의자 등받이 부러짐", "자연과학캠퍼스 제2공학관", "27232", "A-32", "의자 고장"),
+            MyReportItem(R.drawable.icon_home, "콘센트 충전 불가", "자연과학캠퍼스 제2공학관", "26123", "A-12", "콘센트 고장"),
+            MyReportItem(R.drawable.icon_home, "의자 등받이 부러짐", "자연과학캠퍼스 제2공학관", "31312", "A-31", "의자 고장")
+        )
     }
 }
+
+data class MyReportItem(val imageResId: Int, val title: String, val subtitle: String, val tag1: String, val tag2: String, val tag3: String)

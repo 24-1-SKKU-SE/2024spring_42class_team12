@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 
-class BuildingAdapter(private val buildings: List<Building>, private val activity: FragmentActivity) : RecyclerView.Adapter<BuildingAdapter.BuildingViewHolder>() {
+class BuildingAdapter(private val buildings: List<Building>, private val activity: FragmentActivity, private val campusType: Int?) : RecyclerView.Adapter<BuildingAdapter.BuildingViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BuildingViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_card, parent, false)
@@ -24,6 +24,9 @@ class BuildingAdapter(private val buildings: List<Building>, private val activit
             val fragment = SeatFragment()
             val bundle = Bundle()
             bundle.putString("building_name", building.name)
+            if (campusType != null) {
+                bundle.putInt("campusType", campusType)
+            }
             fragment.arguments = bundle
             activity.supportFragmentManager.beginTransaction()
                 .replace(R.id.container, fragment)

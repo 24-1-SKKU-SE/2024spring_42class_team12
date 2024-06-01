@@ -1,25 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".SeatFragment">
 
-    <ExpandableListView
-        android:id="@+id/expandableListView"
+    <Spinner
+        android:id="@+id/campusSpinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="200px"
+        android:background="@drawable/spinner_background"
+        android:elevation="4dp"
+        android:paddingHorizontal="16dp" />
 
-    </ExpandableListView>
+    <Spinner
+        android:id="@+id/buildingSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="200px"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/spinner_background"
+        android:elevation="4dp"
+        android:paddingHorizontal="16dp" />
+
+    <EditText
+        android:id="@+id/classroomName"
+        android:layout_width="match_parent"
+        android:layout_height="200px"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/spinner_background"
+        android:elevation="4dp"
+        android:paddingHorizontal="26dp"
+        android:ems="10"
+        android:inputType="text"
+        android:fontFamily="@font/pretendard_variable"
+        android:hint="강의실을 입력하시오" />
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="80px"
         android:paddingHorizontal="32dp"
         android:paddingVertical="0dp"
+        android:layout_marginTop="24dp"
         android:src="@drawable/screen" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -27,6 +50,16 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:padding="16dp" />
+        android:padding="16dp" >
 
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <Button
+        android:id="@+id/nextButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/design_default_color_primary"
+        android:text="다음"
+        android:textColor="@android:color/white" />
 </LinearLayout>

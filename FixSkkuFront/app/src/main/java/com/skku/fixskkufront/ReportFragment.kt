@@ -25,20 +25,25 @@ class ReportFragment : Fragment() {
         insaBtn.setOnClickListener {
             // 버튼 클릭 시 수행할 작업
             Toast.makeText(requireContext(), "Insa clicked!", Toast.LENGTH_SHORT).show()
-            openBuildingFragment()
+            openBuildingFragment(0)
 
         }
 
         jayeonBtn.setOnClickListener {
             // 버튼 클릭 시 수행할 작업
             Toast.makeText(requireContext(), "Jayeon clicked!", Toast.LENGTH_SHORT).show()
-            openBuildingFragment()
+            openBuildingFragment(1)
 
         }
     }
-    private fun openBuildingFragment() {
+    private fun openBuildingFragment(campusType : Int) {
+        val buildingFragment = BuildingFragment()
+        val args = Bundle()
+        args.putInt("campusType", campusType)
+        buildingFragment.arguments = args
+
         val transaction = parentFragmentManager.beginTransaction()
-        transaction.replace(R.id.container, BuildingFragment())
+        transaction.replace(R.id.container, buildingFragment) // 수정된 부분: 올바른 인스턴스 사용
         transaction.addToBackStack(null)
         transaction.commit()
     }

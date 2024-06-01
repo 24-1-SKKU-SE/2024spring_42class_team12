@@ -2,6 +2,7 @@ package com.skku.fixskku.chatbot.service;
 
 import com.skku.fixskku.chatbot.dto.res.ToFrontResDto;
 import com.skku.fixskku.common.apipayload.ResponseApi;
+import com.skku.fixskku.common.apipayload.ResponseStatus;
 import com.skku.fixskku.common.domain.BuildingType;
 import com.skku.fixskku.common.domain.CampusType;
 import com.skku.fixskku.report.repository.ReportRepository;
@@ -60,7 +61,7 @@ class ChatbotServiceImplTest {
 
         //then
         assertEquals(HttpStatus.OK.value(), code);
-        assertEquals("챗봇 일반 질문 응답 성공", message);
+        assertEquals(ResponseStatus._CHATBOT_NORMAL_SUCCESS.getMessage(), message);
         assertNotNull(response);
     }
 
@@ -82,7 +83,7 @@ class ChatbotServiceImplTest {
 
         //then
         assertEquals(HttpStatus.CREATED.value(), code);
-        assertEquals("챗봇 신고 요청 성공", message);
+        assertEquals(ResponseStatus._CHATBOT_REPORT_SUCCESS.getMessage(), message);
         assertNotNull(uri);
         assertEquals(CampusType.SUWON_CAMPUS.getCampusName(), campus);
         assertEquals(BuildingType.SUSUNG.getName(), building);
@@ -105,7 +106,7 @@ class ChatbotServiceImplTest {
 
         //then
         assertEquals(HttpStatus.OK.value(), code);
-        assertEquals("챗봇 자신의 신고 조회 성공", message);
+        assertEquals(ResponseStatus._CHATBOT_MYREPORT_SUCCESS.getMessage(), message);
         assertNotNull(uri);
     }
 
@@ -128,7 +129,7 @@ class ChatbotServiceImplTest {
 
         //then
         assertEquals(HttpStatus.OK.value(), code);
-        assertEquals("챗봇 망가진 시설물 정보 조회 성공", message);
+        assertEquals(ResponseStatus._CHATBOT_FAC_SUCCESS.getMessage(), message);
         assertNotNull(uri);
         assertEquals(CampusType.SEOUL_CAMPUS.getCampusName(), campus);
         assertEquals(BuildingType.BUS.getName(), building);

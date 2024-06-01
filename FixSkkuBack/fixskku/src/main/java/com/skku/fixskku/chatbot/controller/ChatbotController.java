@@ -28,8 +28,10 @@ public class ChatbotController {
                 chatbotService.faqRequest(tokenId, faqId, text);
                 return ResponseApi.of(ResponseStatus._CHATBOT_FAQ_SUCCESS,null);
             }catch (GeneralException e) {
+                log.error(e.toString());
                 return ResponseApi.of(e.getStatus());
             } catch (Exception e) {
+                log.error(e.toString());
                 return ResponseApi.serverError();
             }
         }
@@ -37,8 +39,10 @@ public class ChatbotController {
         try {
             return chatbotService.sendToChatbotAndGetAnswer(tokenId, text);
         }catch (GeneralException e) {
+            log.error(e.toString());
             return ResponseApi.of(e.getStatus());
         } catch (Exception e) {
+            log.error(e.toString());
             return ResponseApi.serverError();
         }
     }

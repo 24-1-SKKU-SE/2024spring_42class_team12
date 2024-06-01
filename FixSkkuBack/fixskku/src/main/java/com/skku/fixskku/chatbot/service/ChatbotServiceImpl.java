@@ -44,7 +44,7 @@ public class ChatbotServiceImpl implements ChatbotService{
     @Override
     public ResponseEntity<?> sendToChatbotAndGetAnswer(String tokenId, String text) {
         // 텍스트를 챗봇에게 전달
-        ToChatbotReqDto reqDto = new ToChatbotReqDto(text, null);
+        ToChatbotReqDto reqDto = new ToChatbotReqDto(text, "");
         // 요청에 추가할 헤더 설정
         HttpHeaders headers = setHttpHeaders(tokenId);
         // 요청 객체 생성
@@ -113,7 +113,7 @@ public class ChatbotServiceImpl implements ChatbotService{
                         dto.getData().getCampus(), dto.getData().getClassroom()
                 ),
                 dto.getData().getClassroom());
-        return ResponseApi.of(ResponseStatus._CHATBOT_FAC_SUCCESS,resDto);
+        return ResponseApi.of(ResponseStatus._CHATBOT_REPORT_SUCCESS,resDto);
     }
 
     /**
@@ -126,7 +126,7 @@ public class ChatbotServiceImpl implements ChatbotService{
                 null,
                 ChatbotUrl.MYREPORT_URI,
                 null, null, null);
-        return ResponseApi.of(ResponseStatus._CHATBOT_FAC_SUCCESS,resDto);
+        return ResponseApi.of(ResponseStatus._CHATBOT_MYREPORT_SUCCESS,resDto);
     }
 
     /**

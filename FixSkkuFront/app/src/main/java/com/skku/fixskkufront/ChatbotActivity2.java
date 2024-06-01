@@ -119,7 +119,7 @@ public class ChatbotActivity2 extends AppCompatActivity {
         }
     }
     void sendMessageToServer(String message) {
-        String urlString = "http://13.124.89.169:8080/chatbot";
+        String urlString = "http://13.124.89.169/chatbot";
         SendNormal sendNormal = new SendNormal(message);
         Gson gson = new Gson();
         String json = gson.toJson(sendNormal);

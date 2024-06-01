@@ -73,7 +73,7 @@ class ChatbotActivity : AppCompatActivity() {
     }
 
     private fun sendFAQRequest(faqNumber: Int) {
-        val urlString = "http://13.124.89.169:8080/chatbot?faq=$faqNumber"
+        val urlString = "http://13.124.89.169/chatbot?faq=$faqNumber"
         var requestBody = ""
         if (faqNumber == 1) { requestBody = "1. 챗봇에게 신고할 시설물이 있는 캠퍼스, 건물, 강의실 번호를 입력해주세요. ex) \\\"인문사회과학캠퍼스 경영관 33404 시설물 신고\\\"\\n\" +\n" +
                 "                    \"2. 챗봇이 해당 내용을 바탕으로 신고 페이지에 강의실 정보를 입력해줄거에요.\" +\n" +

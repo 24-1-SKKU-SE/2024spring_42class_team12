@@ -33,7 +33,7 @@ class AdminActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_admin)
 
-        fetchAndParseJson("http://13.124.89.169/admin/list?reportStatus=&startDate=&endDate=&searchWord=")
+        fetchAndParseJson("http://13.124.89.169:8081/?reportStatus=fixed&startDate=&endDate=&searchWord=")
         val myAdapter = AdminRoomAdapter(items, this)
         val listView = findViewById<ListView>(R.id.listViewChatRoom)
         listView.adapter = myAdapter
@@ -83,7 +83,6 @@ class AdminActivity : AppCompatActivity() {
         val btnNew = findViewById<ImageButton>(R.id.new_btn)
         btnNew.setOnClickListener {
             myAdapter.updateList(item_init)
-            fetchAndParseJson("http://13.124.89.169/admin/list?reportStatus=&startDate=&endDate=&searchWord=")
             btnInitPressed = false
             btnBeforePressed = false
             btnIngPressed = false
@@ -344,13 +343,13 @@ class AdminActivity : AppCompatActivity() {
                     val gson = Gson()
                     val str = response.body!!.string()
                     val reportResponse = gson.fromJson(str, ReportResponse::class.java)
-                    val reports = reportResponse.data?.reports ?: emptyList()
+                    val reports = reportResponse.data.reports
 
                     items.clear()
                     item_init.clear()
 
                     for (report in reports) {
-                        val iconResId = when (report.facilityType?.toUpperCase(Locale.ROOT)) {
+                        val iconResId = when (report.facilityType.toUpperCase(Locale.ROOT)) {
                             "의자" -> R.drawable.baseline_chair_24
                             "테이블" -> R.drawable.baseline_table_restaurant_24
                             "콘센트" -> R.drawable.baseline_electrical_services_24
@@ -358,15 +357,14 @@ class AdminActivity : AppCompatActivity() {
                             else -> R.drawable.baseline_question_mark_24 // Default icon if none match
                         }
 
-                        val facilityDescription = "${report.building ?: ""} ${report.floor ?: ""}${report.classroom ?: ""}"
                         val adminRoom = AdminRoom(
-                            "${report.facilityType ?: ""}${report.facilityStatus ?: ""}",
-                            facilityDescription,
+                            report.facilityType + report.facilityStatus,
+                            "${report.building} ${report.floor}${report.classroom}",
                             iconResId,
-                            report.reportStatus ?: "",
-                            report.creationDate ?: "",
-                            report.description ?: "",
-                            report.photoUrl ?: ""
+                            report.reportStatus,
+                            report.creationDate,
+                            report.description,
+                            report.photoUrl
                         )
 
                         items.add(adminRoom)

@@ -1,5 +1,6 @@
 package com.skku.fixskkufront
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -33,9 +34,12 @@ class UserActivity : AppCompatActivity() {
                     true
                 }
                 R.id.chat -> {
-                    val chatFragment = ChatFragment()
-                    openFragment(chatFragment)
+//                    val chatFragment = ChatFragment()
+//                    openFragment(chatFragment)
+                    val intent = Intent(this@UserActivity, ChatbotActivity::class.java)
+                    startActivity(intent)
                     true
+
                 }
                 R.id.myReport -> {
                     val myReportFragment = MyReportFragment()

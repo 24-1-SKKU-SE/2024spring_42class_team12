@@ -33,7 +33,7 @@ public enum ResponseStatus {
     _CHATBOT_FAQ_SUCCESS(OK,"챗봇 자주 묻는 질문 응답 성공"),
     _CHATBOT_NORMAL_SUCCESS(OK,"챗봇 일반 질문 응답 성공"),
     _CHATBOT_FAC_SUCCESS(OK,"챗봇 시설물 정보 조회 성공"),
-    _CHATBOT_REPORT_SUCCESS(OK,"챗봇 신고 요청 성공"),
+    _CHATBOT_REPORT_SUCCESS(CREATED,"챗봇 신고 요청 성공"),
     _CHATBOT_MYREPORT_SUCCESS(OK,"챗봇 자신의 신고 조회 성공");
 
     private final HttpStatus httpStatus;

@@ -30,6 +30,8 @@ class SeatFragment : Fragment() {
 
         val campusType = arguments?.getInt("campusType") ?: 0
         val buildingName = arguments?.getString("building_name") ?: ""
+        val classRoomName = arguments?.getString("classRoomName") ?: ""
+        val receivedSeatIndex = arguments?.getInt("selected_seat_index", -1) ?: -1
 
         // Setup Spinners and EditText
         val campusSpinner: Spinner = view.findViewById(R.id.campusSpinner)
@@ -38,6 +40,7 @@ class SeatFragment : Fragment() {
 
         setupCampusSpinner(campusSpinner, campusType)
         setupBuildingSpinner(buildingSpinner, campusType, buildingName)
+        classRoomEditText.setText(classRoomName)
 
         // Setup RecyclerView
         val recyclerView: RecyclerView = view.findViewById(R.id.seatRecyclerView)
@@ -48,8 +51,18 @@ class SeatFragment : Fragment() {
                 actualSeatIndices.add(index)
             }
         }
-        recyclerView.adapter = SeatAdapter(seats, requireActivity()) { index ->
+
+        val adapter = SeatAdapter(seats, requireActivity()) { index ->
             selectedSeatIndex = actualSeatIndices.indexOf(index)
+        }
+        recyclerView.adapter = adapter
+
+        // Check and update the received seat
+        if (receivedSeatIndex in actualSeatIndices.indices) {
+            val realIndex = actualSeatIndices[receivedSeatIndex]
+            seats[realIndex].imageResId = R.drawable.seat_red
+            adapter.notifyItemChanged(realIndex)
+            selectedSeatIndex = receivedSeatIndex
         }
 
         // Setup Next Button

@@ -33,7 +33,7 @@ class ReportActivity : AppCompatActivity() {
             finish() // 현재 Activity를 종료하여 이전 화면으로 돌아갑니다.
         }
 
-        val reportDate = findViewById<EditText>(R.id.reportDate)
+//        val reportDate = findViewById<EditText>(R.id.reportDate)
         val campusName = findViewById<EditText>(R.id.campusName)
         val classroomName = findViewById<EditText>(R.id.classroomName)
         val facilityId = findViewById<EditText>(R.id.facilityId)
@@ -64,6 +64,7 @@ class ReportActivity : AppCompatActivity() {
         }
 
         classroomName.setText(classRoomName)
+        facilityId.setText(classRoomName + selectedSeatIndex)
         // 로그 출력
         Log.d("ReportActivity", "campusType: $campusType")
         Log.d("ReportActivity", "buildingName: $buildingName")
@@ -84,6 +85,7 @@ class ReportActivity : AppCompatActivity() {
                     photoUrl = ""
                 )
             }
+
         }
     }
 
@@ -115,7 +117,8 @@ class ReportActivity : AppCompatActivity() {
             .url("http://13.124.89.169/report")
             .post(requestBody)
             .build()
-
+        Log.d("request",request.toString())
+        Log.d("body",requestBody.toString())
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 runOnUiThread {

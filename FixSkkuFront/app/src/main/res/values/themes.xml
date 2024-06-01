@@ -3,6 +3,7 @@
     <style name="Base.Theme.FixSkkuFront" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:windowAnimationStyle">@style/DialogAnimation</item> <!--custom animation style-->
         <item name="android:windowBackground">@color/background</item>
     </style>
     <!-- BottomNavigationView custom style -->
@@ -10,6 +11,11 @@
         <item name="itemTextColor">@color/bottom_nav_selector</item>
         <item name="itemIconTint">@color/bottom_nav_selector</item>
         <item name="itemRippleColor">@color/bottom_nav_item_selected_color</item>
+    </style>
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
     </style>
     <style name="Theme.FixSkkuFront" parent="Base.Theme.FixSkkuFront" />
 </resources>

@@ -2,8 +2,11 @@ package com.skku.fixskkufront
 
 import android.graphics.Color
 import android.os.Bundle
+import android.widget.Adapter
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ListView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -13,6 +16,9 @@ import com.google.gson.Gson
 import okhttp3.*
 import java.io.IOException
 import java.util.Locale
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class AdminActivity : AppCompatActivity() {
 
@@ -20,7 +26,7 @@ class AdminActivity : AppCompatActivity() {
         var items = ArrayList<AdminRoom>()
         var item_init = ArrayList<AdminRoom>()
     }
-    var isFilterApplied = false // 필터 적용 여부를 추적하기 위한 변수
+    var isFilterApplied = false
     var isPressedAnyButton = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +34,6 @@ class AdminActivity : AppCompatActivity() {
         setContentView(R.layout.activity_admin)
 
         fetchAndParseJson("http://13.124.89.169:8081/?reportStatus=fixed&startDate=&endDate=&searchWord=")
-
         val myAdapter = AdminRoomAdapter(items, this)
         val listView = findViewById<ListView>(R.id.listViewChatRoom)
         listView.adapter = myAdapter
@@ -40,6 +45,7 @@ class AdminActivity : AppCompatActivity() {
                 return false
             }
             override fun onQueryTextChange(newText: String?): Boolean {
+                items = item_init
                 search(myAdapter ,newText)
                 return true
             }
@@ -49,28 +55,50 @@ class AdminActivity : AppCompatActivity() {
         var SortToggle = true
         btnSort.setOnClickListener {
             if (SortToggle){
-                items.sortBy { it.time } // 오름차순
+                items.sortBy { it.time }
+                item_init.sortBy { it.time }
                 SortToggle = false
             }
             else{
-                items.sortByDescending { it.time } // 내림차순
+                items.sortByDescending { it.time }
+                item_init.sortByDescending { it.time }
                 SortToggle = true
             }
             myAdapter.updateList(items)
         }
-        /* 상태 필터 버튼*/
+
         val btnInit = findViewById<Button>(R.id.button6)
         val btnBefore = findViewById<Button>(R.id.button2)
         val btnIng = findViewById<Button>(R.id.button3)
         val btnAfter = findViewById<Button>(R.id.button4)
         val btnReject = findViewById<Button>(R.id.button5)
 
-        /* 수리 상태에 따른 필터 버튼 */
         var btnInitPressed = false
         var btnBeforePressed = false
         var btnIngPressed = false
         var btnAfterPressed = false
         var btnRejectPressed = false
+
+        /* 새로고침(초기화) 버튼 */
+        val btnNew = findViewById<ImageButton>(R.id.new_btn)
+        btnNew.setOnClickListener {
+            myAdapter.updateList(item_init)
+            btnInitPressed = false
+            btnBeforePressed = false
+            btnIngPressed = false
+            btnAfterPressed = false
+            btnRejectPressed = false
+            btnInit.setBackgroundResource(R.drawable.rounded_corner_white)
+            btnInit.setTextColor(Color.BLACK)
+            btnBefore.setBackgroundResource(R.drawable.rounded_corner_white)
+            btnBefore.setTextColor(Color.BLACK)
+            btnIng.setBackgroundResource(R.drawable.rounded_corner_white)
+            btnIng.setTextColor(Color.BLACK)
+            btnAfter.setBackgroundResource(R.drawable.rounded_corner_white)
+            btnAfter.setTextColor(Color.BLACK)
+            btnReject.setBackgroundResource(R.drawable.rounded_corner_white)
+            btnReject.setTextColor(Color.BLACK)
+        }
 
         btnInit.setOnClickListener {
             items = item_init
@@ -112,9 +140,7 @@ class AdminActivity : AppCompatActivity() {
             }
         }
 
-        /* 수리 접수 버튼을 눌렀을 때, 나머지 검정색(활성화된) 버튼을 하얀색(비활성화)으로 */
         btnBefore.setOnClickListener {
-            /* 원본 대입. clear하면 원본 리스트도 왜인지 모르게 사라져서 대안으로 작성된 코드 */
             items = item_init
 
             btnInitPressed = false
@@ -123,19 +149,17 @@ class AdminActivity : AppCompatActivity() {
             btnRejectPressed = false
 
             if(isPressedAnyButton && !btnBeforePressed) {
-                // 다른 버튼이 눌린 상태에서(필터가 돼 있는 상황에서), 이 버튼을 누른다면 (자기 자신을 누른다면은 빼야함)
-                toggleFilter() // 필터 상태 전환
-                applyFilter(myAdapter, "수리 접수") // 필터 적용
+                toggleFilter()
+                applyFilter(myAdapter, "수리 접수")
             }
 
-            toggleFilter() // 필터 상태 전환
-            applyFilter(myAdapter, "수리 접수") // 필터 적용
+            toggleFilter()
+            applyFilter(myAdapter, "수리 접수")
 
             val currentTextColor = btnBefore.currentTextColor
-            /* 텍스트 컬러가 검은색(활성화)이면 버튼을 눌렀을 때 하얀색(필터 해제 = 전체 보기)으로. 나머지 버튼 배경 모두 하얀색 */
             if (currentTextColor == Color.BLACK) {
-                isPressedAnyButton = true // 버튼이 눌린 상태
-                btnBeforePressed = true // 자기 자신이 눌린 상태
+                isPressedAnyButton = true
+                btnBeforePressed = true
 
                 btnBefore.setBackgroundResource(R.drawable.rounded_corner_grey)
                 btnBefore.setTextColor(Color.WHITE)
@@ -148,9 +172,8 @@ class AdminActivity : AppCompatActivity() {
                 btnReject.setBackgroundResource(R.drawable.rounded_corner_white)
                 btnReject.setTextColor(Color.BLACK)
             }
-            /* 텍스트 컬러가 하얀색(비활성화)이면, 버튼을 눌렀을 때 검은색(수리 접수 필터)으로. */
             else {
-                isPressedAnyButton = false // 버튼이 안 눌린 상태
+                isPressedAnyButton = false
                 btnBeforePressed = false
                 btnBefore.setBackgroundResource(R.drawable.rounded_corner_white)
                 btnBefore.setTextColor(Color.BLACK)
@@ -283,48 +306,43 @@ class AdminActivity : AppCompatActivity() {
             insets
         }
     }
+
     private fun search(adapter: AdminRoomAdapter, newText: String?) {
         if( newText != null){
-            val searchedItems = AdminActivityTemp.items.filter { it.name.toLowerCase().contains(newText.toLowerCase())
+            val searchedItems = items.filter { it.name.toLowerCase().contains(newText.toLowerCase())
                     || it.text.toLowerCase().contains(newText.toLowerCase())
                     || it.status.toLowerCase().contains(newText.toLowerCase())
                     || it.time.toLowerCase().contains(newText.toLowerCase())  }
-            adapter.updateList(searchedItems) // 필터된 목록으로 어댑터 업데이트
+            items = searchedItems as ArrayList<AdminRoom>
+            adapter.updateList(items)
         }
-        else {
-            adapter.updateList(AdminActivityTemp.items) // 전체 목록으로 어댑터 업데이트
-        }
+        else { adapter.updateList(item_init) }
     }
+
     private fun toggleFilter() {
-        isFilterApplied = !isFilterApplied // 필터 상태를 토글
+        isFilterApplied = !isFilterApplied
     }
 
     private fun applyFilter(adapter: AdminRoomAdapter, state: String) {
-        if (isFilterApplied) { // 필터가 적용된 경우, "현재 STATE"인 아이템만 보이도록 필터링
+        if (isFilterApplied) {
             val filteredItems = items.filter { it.status == state }
-            adapter.updateList(filteredItems) // 필터된 목록으로 어댑터 업데이트
-        } else { // 필터가 적용되지 않은 경우, 전체 아이템 표시
-            adapter.updateList(items) // 전체 목록으로 어댑터 업데이트
-        }
+            items = filteredItems as ArrayList<AdminRoom>
+            adapter.updateList(items)
+        } else { adapter.updateList(item_init) }
     }
+
     private fun fetchAndParseJson(url: String) {
         val client = OkHttpClient()
-
-        val request = Request.Builder()
-            .url(url)
-            .build()
-
+        val request = Request.Builder().url(url).build()
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                runOnUiThread {
-                    //Toast.makeText(this@AdminActivity, "Failed to load data", Toast.LENGTH_SHORT).show()
-                }
+                e.printStackTrace()
             }
-
             override fun onResponse(call: Call, response: Response) {
-                response.body?.string()?.let { jsonString ->
+                response.use{
                     val gson = Gson()
-                    val reportResponse = gson.fromJson(url, ReportResponse::class.java)
+                    val str = response.body!!.string()
+                    val reportResponse = gson.fromJson(str, ReportResponse::class.java)
                     val reports = reportResponse.data.reports
 
                     items.clear()
@@ -332,15 +350,16 @@ class AdminActivity : AppCompatActivity() {
 
                     for (report in reports) {
                         val iconResId = when (report.facilityType.toUpperCase(Locale.ROOT)) {
-                            "CHAIR" -> R.drawable.baseline_chair_24
-                            "TABLE" -> R.drawable.baseline_table_restaurant_24
-                            "ELECTRICAL" -> R.drawable.baseline_electrical_services_24
-                            else -> R.drawable.baseline_sort_24 // Default icon if none match
+                            "의자" -> R.drawable.baseline_chair_24
+                            "테이블" -> R.drawable.baseline_table_restaurant_24
+                            "콘센트" -> R.drawable.baseline_electrical_services_24
+                            "에어컨" -> R.drawable.baseline_air_24
+                            else -> R.drawable.baseline_question_mark_24 // Default icon if none match
                         }
 
                         val adminRoom = AdminRoom(
                             report.facilityType + report.facilityStatus,
-                            "${report.building} ${report.floor} ${report.classroom}",
+                            "${report.building} ${report.floor}${report.classroom}",
                             iconResId,
                             report.reportStatus,
                             report.creationDate,
@@ -349,17 +368,14 @@ class AdminActivity : AppCompatActivity() {
                         )
 
                         items.add(adminRoom)
-                        item_init.add(adminRoom)
                     }
 
-                    runOnUiThread {
-                        val myAdapter = AdminRoomAdapter(items, this@AdminActivity)
-                        val listView = findViewById<ListView>(R.id.listViewChatRoom)
-                        listView.adapter = myAdapter
-                    }
+                    item_init = items
                 }
+
             }
         })
+
     }
 
 }

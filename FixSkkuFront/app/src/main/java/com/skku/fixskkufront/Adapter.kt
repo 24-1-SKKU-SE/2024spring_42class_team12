@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
 import java.util.Locale
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
@@ -33,14 +35,13 @@ class AdminRoomAdapter (var data: ArrayList<AdminRoom>, val context: Context): B
     private lateinit var dialog: Dialog
 
     init {
-        // 앱 시작 시 SharedPreferences 초기화
         AdminActivity.items = AdminActivity.item_init
         clearSharedPreferences()
     }
     fun updateList(newList: List<AdminRoom>) {
-        data.clear() // 기존 목록 지우기
-        data.addAll(newList) // 새로운 목록 추가
-        notifyDataSetChanged() // UI 업데이트 요청
+        data.clear()
+        data.addAll(newList)
+        notifyDataSetChanged()
     }
     override fun getCount(): Int {
         return data.size
@@ -68,25 +69,20 @@ class AdminRoomAdapter (var data: ArrayList<AdminRoom>, val context: Context): B
         textViewName.text = data[p0].name
         textViewPos.text = data[p0].pos
 
-
-        if(data[p0].status == "반려") {
-            textViewStatus.setTextColor(Color.RED)
-        }
+        if(data[p0].status == "반려") { textViewStatus.setTextColor(Color.RED) }
 
         textViewTime.text = data[p0].time
         textViewStatus.text = data[p0].status
         imageViewThumbnail.setImageResource(data[p0].thumbnail)
 
-
         btnDetail.setOnClickListener {
-            showPopupDialog(p0, data[p0].name, data[p0].time ,data[p0].text, data[p0].status, data[p0].pos, data[p0].thumbnail)
+            showPopupDialog(p0, data[p0].name, data[p0].time ,data[p0].text, data[p0].status, data[p0].pos, data[p0].thumbnail, data[p0].photo)
         }
 
         return generatedView
     }
 
-    private fun showPopupDialog(p0: Int, name: String, day: String, text: String, status:String ,pos: String, thumbnail: Int) {
-        // 다이얼로그 생성
+    private fun showPopupDialog(p0: Int, name: String, day: String, text: String, status:String ,pos: String, thumbnail: Int, photo: String) {
         dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE) // 타이틀 바 숨기기 (optional)
 
@@ -103,19 +99,29 @@ class AdminRoomAdapter (var data: ArrayList<AdminRoom>, val context: Context): B
         // 다이얼로그 외부를 터치했을 때 다이얼로그가 닫히지 않도록 설정 (optional)
         dialog.setCancelable(true)
 
-        // 초기화
         val imageThumnail = dialog.findViewById<ImageView>(R.id.imageViewDetailThum)
         val textDetailName = dialog.findViewById<TextView>(R.id.textViewDetailName)
         val textDetailDay = dialog.findViewById<TextView>(R.id.textViewDetailDay)
         val textDetailText = dialog.findViewById<TextView>(R.id.textViewDetailText)
         val textDetailPos = dialog.findViewById<TextView>(R.id.textViewDetailPos)
         val textDetailStatus = dialog.findViewById<TextView>(R.id.textViewDetailStatus)
+        val imagePhoto = dialog.findViewById<ImageView>(R.id.imagePhoto)
         imageThumnail.setImageResource(thumbnail)
         textDetailStatus.text = status
         textDetailName.text = name
         textDetailDay.text = day
         textDetailText.text = "'" + text + "'"
         textDetailPos.text = pos
+        if (photo.isEmpty()) {
+            imagePhoto.setImageResource(R.drawable.baseline_image_not_supported_24)
+        }
+        else {
+            Glide.with(context)
+                .load(photo)
+                //.placeholder(R.drawable.placeholder) // 로딩 중에 표시할 이미지 (선택 사항)
+                .error(R.drawable.baseline_error_outline_24) // 에러가 발생할 경우 표시할 이미지 (선택 사항)
+                .into(imagePhoto)
+        }
 
         val textreject = dialog.findViewById<EditText>(R.id.textViewDetailReject)
         val savedComment = getSavedComment(p0)
@@ -127,13 +133,13 @@ class AdminRoomAdapter (var data: ArrayList<AdminRoom>, val context: Context): B
         btnClose.setOnClickListener {
             dialog.dismiss()
         }
-        // Okay 버튼 누를 때 변경 사항 저장.
+
         val btnOkay = dialog.findViewById<Button>(R.id.btn_okay)
         btnOkay.setOnClickListener {
             val comment = textreject.text.toString() // 에딧텍스트에 입력된 텍스트 가져오기
             saveComment(p0, comment) // 입력된 내용 저장
-            data[p0].status = stat // 상태 변경
-            notifyDataSetChanged() // 데이터 변경을 어댑터에 알려줍니다.
+            data[p0].status = stat
+            notifyDataSetChanged()
             /* 서버로 변경사항 내용 JSON 파일로 보내기. */
             val client = OkHttpClient()
             val path = "http://13.124.89.169:8080/"
@@ -157,66 +163,56 @@ class AdminRoomAdapter (var data: ArrayList<AdminRoom>, val context: Context): B
             dialog.dismiss()
 
         }
-        // 삭제
+
         val btnCancel = dialog.findViewById<Button>(R.id.btn_cancel)
         btnCancel.setOnClickListener {
-            data.removeAt(p0) // 리스트 삭제
-            notifyDataSetChanged() // 데이터 변경을 어댑터에 알려줍니다.
-            AdminActivity.item_init.removeAt(p0) // 원본도 업데이트
+            val originalIndex = AdminActivity.item_init.indexOf(data[p0]) // 원본 인덱스를 찾음
+            // 인덱스가 유효한지
+            if (originalIndex != -1 && originalIndex < AdminActivity.item_init.size) {
+                data.removeAt(p0)
+                notifyDataSetChanged()
+                AdminActivity.item_init.removeAt(originalIndex)
+            } else {
+                Log.e("AdminRoomAdapter", "Invalid index: $originalIndex for item: $data[p0]")
+            }
             dialog.dismiss()
         }
 
-
-        // 상태 변경 버튼
         val btnRight = dialog.findViewById<ImageButton>(R.id.imageButtonRight)
         btnRight.setOnClickListener{
-            if(stat == "수리 접수"){
+            if(stat == "수리 접수") {
                 stat = "수리 중"
-                textDetailStatus.text = stat // UI 상태 변경
-            }
-            else if(stat == "수리 중"){
+                textDetailStatus.text = stat }
+            else if(stat == "수리 중") {
                 stat = "수리 완료"
-                textDetailStatus.text = stat // UI 상태 변경
-            }
-            else if(stat == "수리 완료"){
+                textDetailStatus.text = stat }
+            else if(stat == "수리 완료") {
                 stat = "반려"
-                textDetailStatus.text = stat // UI 상태 변경
-            }
-            else if(stat == "반려"){
+                textDetailStatus.text = stat }
+            else if(stat == "반려") {
                 stat = "수리 접수"
-                textDetailStatus.text = stat // UI 상태 변경
-            }
+                textDetailStatus.text = stat }
         }
         val btnLeft = dialog.findViewById<ImageButton>(R.id.imageButtonLeft)
         btnLeft.setOnClickListener{
-            if(stat == "수리 접수"){
+            if(stat == "수리 접수") {
                 stat = "반려"
-                textDetailStatus.text = stat // UI 상태 변경
-            }
-            else if(stat == "수리 중"){
+                textDetailStatus.text = stat }
+            else if(stat == "수리 중") {
                 stat = "수리 접수"
-                textDetailStatus.text = stat // UI 상태 변경
-            }
-            else if(stat == "수리 완료"){
+                textDetailStatus.text = stat }
+            else if(stat == "수리 완료") {
                 stat = "수리 중"
-                textDetailStatus.text = stat // UI 상태 변경
-            }
-            else if(stat == "반려"){
+                textDetailStatus.text = stat }
+            else if(stat == "반려") {
                 stat = "수리 완료"
-                textDetailStatus.text = stat // UI 상태 변경
-            }
-
-
+                textDetailStatus.text = stat }
         }
 
         textDetailStatus.text = status
-
-        // 다이얼로그 표시
         dialog.show()
-
     }
 
-    // SharedPreferences를 이용하여 itemId에 대한 입력된 내용 저장
     private fun saveComment(itemId: Int, comment: String) {
         val sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
@@ -224,7 +220,6 @@ class AdminRoomAdapter (var data: ArrayList<AdminRoom>, val context: Context): B
         editor.apply()
     }
 
-    // SharedPreferences에서 itemId에 대한 입력된 내용 불러오기
     private fun getSavedComment(itemId: Int): String {
         val sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
         return sharedPreferences.getString("comment_$itemId", "") ?: ""
@@ -237,7 +232,6 @@ class AdminRoomAdapter (var data: ArrayList<AdminRoom>, val context: Context): B
 
     override fun getFilter(): Filter {
         TODO("Not yet implemented")
-
     }
 
 

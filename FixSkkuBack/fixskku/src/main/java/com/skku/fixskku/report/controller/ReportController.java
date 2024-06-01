@@ -54,8 +54,10 @@ public class ReportController {
             long saveReportId = reportService.doReport(report);
             return ResponseApi.of(ResponseStatus._REPORT_SUCCESS, new ReportResDto(saveReportId));
         }catch (GeneralException e) {
+            log.error(e.toString());
             return ResponseApi.of(e.getStatus());
         } catch (Exception e) {
+            log.error(e.toString());
             return ResponseApi.serverError();
         }
     }
@@ -79,11 +81,14 @@ public class ReportController {
             result.put("totalPages", resultReports.getTotalPages());
             return ResponseApi.of(ResponseStatus._REPORT_LIST_SUCCESS, result);
         }catch (GeneralException e) {
+            log.error(e.toString());
             return ResponseApi.of(e.getStatus());
         }catch (NoSuchElementException | NullPointerException e){
+            log.error(e.toString());
             return ResponseApi.badRequest();
         }
         catch (Exception e) {
+            log.error(e.toString());
             return ResponseApi.serverError();
         }
     }
@@ -96,6 +101,7 @@ public class ReportController {
     @GetMapping("/{reportId}")
     public ResponseEntity<?> getAllReports(@RequestParam String token, @PathVariable long reportId){
         if (token== null || token.isEmpty()) {
+            log.error("================토큰이 없는 오류 발생===================");
             return ResponseApi.badRequest();
         }
         try {
@@ -104,13 +110,15 @@ public class ReportController {
             result.put("report", resultReport);
             return ResponseApi.of(ResponseStatus._REPORT_LIST_SUCCESS, result);
         }catch (GeneralException e) {
+            log.error(e.toString());
             return ResponseApi.of(e.getStatus());
         } catch (NoSuchElementException | NullPointerException e){
+            log.error(e.toString());
             return ResponseApi.badRequest();
         }
         catch (Exception e) {
+            log.error(e.toString());
             return ResponseApi.serverError();
         }
     }
-
 }

@@ -23,38 +23,40 @@
             android:id="@+id/reportTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="8dp"
             android:layout_weight="700"
             android:fontFamily="@font/dmsans_bold"
             android:text="시설물 신고"
             android:textFontWeight="900"
-            android:textSize="20sp"
+            android:textSize="24sp"
             android:textStyle="bold" />
 
+<!--        <TextView-->
+<!--            android:id="@+id/textView5"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="24dp"-->
+<!--            android:fontFamily="@font/dmsans"-->
+<!--            android:text="신고 일자"-->
+<!--            android:textFontWeight="900" />-->
+
+<!--        <EditText-->
+<!--            android:id="@+id/reportDate"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="48dp"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            android:layout_marginBottom="8dp"-->
+<!--            android:fontFamily="@font/dmsans"-->
+<!--            android:textSize="12dp"-->
+<!--            android:background="@drawable/edittext_custom" />-->
+
         <TextView
-            android:id="@+id/textView5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:fontFamily="@font/dmsans"
-            android:text="신고 일자"
-            android:textFontWeight="900" />
-
-        <EditText
-            android:id="@+id/reportDate"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="18dp"
             android:layout_marginBottom="8dp"
             android:fontFamily="@font/dmsans"
-            android:background="@drawable/edittext_custom" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="8dp"
-            android:fontFamily="@font/dmsans"
+            android:textSize="12dp"
             android:text="캠퍼스명"
             android:textFontWeight="900" />
 
@@ -64,6 +66,7 @@
             android:layout_height="48dp"
             android:background="@drawable/edittext_custom"
             android:fontFamily="@font/dmsans"
+            android:textSize="12dp"
             android:layout_marginBottom="8dp"/>
 
         <TextView
@@ -72,6 +75,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="8dp"
             android:fontFamily="@font/dmsans"
+            android:textSize="12dp"
             android:text="강의실명"
             android:textFontWeight="900" />
 
@@ -81,7 +85,7 @@
             android:layout_height="48dp"
             android:background="@drawable/edittext_custom"
             android:fontFamily="@font/dmsans"
-
+            android:textSize="12dp"
             android:layout_marginBottom="8dp"/>
 
         <LinearLayout
@@ -100,13 +104,14 @@
                     android:layout_marginBottom="8dp"
                     android:fontFamily="@font/dmsans"
                     android:text="시설물 ID"
-
+                    android:textSize="12dp"
                     android:textFontWeight="900" />
                 <EditText
                     android:id="@+id/facilityId"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:fontFamily="@font/dmsans"
+                    android:textSize="12dp"
                     android:background="@drawable/edittext_custom"
                     android:layout_weight="1"
                     />
@@ -128,13 +133,14 @@
                     android:layout_marginBottom="8dp"
                     android:fontFamily="@font/dmsans"
                     android:text="고장 유형"
-
+                    android:textSize="12dp"
                     android:textFontWeight="900" />
                 <EditText
                     android:id="@+id/faultType"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:fontFamily="@font/dmsans"
+                    android:textSize="12dp"
                     android:background="@drawable/edittext_custom"
                     android:layout_weight="1"
                     />
@@ -147,6 +153,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="본인이 사용한 시설물이 아닙니까?"
+            android:textSize="12dp"
             android:textFontWeight="700"
             android:fontFamily="@font/dmsans"
             android:layout_marginBottom="8dp"/>
@@ -158,13 +165,16 @@
             android:layout_marginBottom="8dp"
             android:fontFamily="@font/dmsans"
             android:text="상세 설명"
+            android:textSize="12dp"
             android:textFontWeight="900" />
         <EditText
             android:id="@+id/additionalInfo"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"            android:background="@drawable/edittext_custom"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_custom"
             android:minHeight="120dp"
             android:fontFamily="@font/dmsans"
+            android:textSize="12dp"
             android:gravity="top"
             android:layout_marginBottom="16dp"/>
 

@@ -86,6 +86,7 @@ class AdminActivity : AppCompatActivity() {
         /* 새로고침(초기화) 버튼 */
         val btnNew = findViewById<ImageButton>(R.id.new_btn)
         btnNew.setOnClickListener {
+            fetchAndParseJson("http://13.124.89.169:8081/?reportStatus=fixed&startDate=&endDate=&searchWord=")
             myAdapter.updateList(item_init)
             btnInitPressed = false
             btnBeforePressed = false

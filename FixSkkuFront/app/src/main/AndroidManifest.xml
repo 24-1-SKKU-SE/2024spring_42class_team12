@@ -21,7 +21,7 @@
             android:name=".MyReportAdatper"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ReportActivity"
             android:exported="false" />
         <activity
             android:name=".UserActivity"
@@ -30,7 +30,7 @@
             android:name=".AdminActivity"
             android:exported="false" />
         <activity
-            android:name=".ReportActivity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -33,8 +33,7 @@ class AdminActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_admin)
 
-        //fetchAndParseJson("http://13.124.89.169/?reportStatus=fixed&startDate=&endDate=&searchWord=")
-        fetchAndParseJson("http://10.0.2.2:8000/chatbot_test_get")
+        fetchAndParseJson("http://13.124.89.169/admin/list?reportStatus=&startDate=&endDate=&searchWord=")
         val myAdapter = AdminRoomAdapter(items, this)
         val listView = findViewById<ListView>(R.id.listViewChatRoom)
         listView.adapter = myAdapter
@@ -84,7 +83,7 @@ class AdminActivity : AppCompatActivity() {
         val btnNew = findViewById<ImageButton>(R.id.new_btn)
         btnNew.setOnClickListener {
             myAdapter.updateList(item_init)
-            fetchAndParseJson("http://13.124.89.169/?reportStatus=fixed&startDate=&endDate=&searchWord=")
+            fetchAndParseJson("http://13.124.89.169/admin/list?reportStatus=&startDate=&endDate=&searchWord=")
             btnInitPressed = false
             btnBeforePressed = false
             btnIngPressed = false

@@ -57,11 +57,9 @@ class AdminActivity : AppCompatActivity() {
         val btnSort = findViewById<Button>(R.id.sort_button)
         var SortToggle = true
         btnSort.setOnClickListener {
-            val url = "myreportactivity://detail"
-            //val url = "reportactivity://detail" // 신고 제출 url
-
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            startActivity(intent)
+//            val url = "seatfragment://detail"
+//            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url));
+//            startActivity(intent)
 
             if (SortToggle){
                 items.sortBy { it.time }

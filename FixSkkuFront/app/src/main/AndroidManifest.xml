@@ -31,6 +31,19 @@
 
         </activity>
         <activity
+            android:name=".SeatFragment"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="detail"
+                    android:scheme="seatfragment" />
+            </intent-filter>
+
+        </activity>
+        <activity
             android:name=".UserActivity"
             android:exported="false" />
         <activity

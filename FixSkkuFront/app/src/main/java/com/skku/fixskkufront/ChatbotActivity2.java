@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -111,46 +112,48 @@ public class ChatbotActivity2 extends AppCompatActivity {
             }
         });
     }
-    static class SendNormal {
-        String text;
-
+    public class SendNormal {
+        private String text;
         public SendNormal(String text) {
             this.text = text;
         }
     }
     void sendMessageToServer(String message) {
         String urlString = "http://13.124.89.169/chatbot";
+        //String urlString = "http://10.0.2.2:8000/test_post";
         SendNormal sendNormal = new SendNormal(message);
         Gson gson = new Gson();
         String json = gson.toJson(sendNormal);
-
         MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
+        RequestBody body = RequestBody.create(json, mediaType);
         Request req = new Request.Builder()
                 .url(urlString)
-                .addHeader("token", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIiwianRpIjoiMTRkOTRmYjgtNzNmMi00Mzc0LWI0MGYtZWJhNWNkNmI3M2U2IiwiaWF0IjoxNzE2NjM5ODY3fQ.10427Pg37n_IEeo41t5OJVsb5VgM8CMMJBa14v7ZC")
-                .post(RequestBody.create(json, mediaType))
+                //.addHeader("token", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIiwianRpIjoiMTRkOTRmYjgtNzNmMi00Mzc0LWI0MGYtZWJhNWNkNmI3M2U2IiwiaWF0IjoxNzE2NjM5ODY3fQ.10427Pg37n_IEeo41t5OJVsb5VgM8CMMJBa14v7ZC")
+                .post(body)
                 .build();
 
         OkHttpClient client = new OkHttpClient();
         client.newCall(req).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                //runOnUiThread(() -> Toast.makeText(ChatbotActivity2.this, "Failed to connect to server", Toast.LENGTH_SHORT).show());
+                e.printStackTrace();
             }
-
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String responseBody = response.body().string();
                     ChatbotResponse chatbotResponse = gson.fromJson(responseBody, ChatbotResponse.class);
+
                     if(!chatbotResponse.getData().getResponse().isEmpty()){ // Response 이 존재 -> 일반 질문
                         runOnUiThread(() -> addToChat(chatbotResponse.getData().getResponse(), Message.SENT_BY_BOT));
                     }
+
                     else if(chatbotResponse.getData().getCampus().isEmpty()){ // Campus 가 빈 문자열 -> 자신의 신고 조회
                         String url = chatbotResponse.getData().getUri();
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                         startActivity(intent);
                     }
+
                     else { // 나머지 -> 시설물(강의실) 조회 & 신고
                         String url = chatbotResponse.getData().getUri();
 //                        String campus = chatbotResponse.getData().getCampus();
@@ -159,6 +162,7 @@ public class ChatbotActivity2 extends AppCompatActivity {
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                         startActivity(intent);
                     }
+
                 } else {
                     runOnUiThread(() -> Toast.makeText(ChatbotActivity2.this, "Error: " + response.message(), Toast.LENGTH_SHORT).show());
                 }

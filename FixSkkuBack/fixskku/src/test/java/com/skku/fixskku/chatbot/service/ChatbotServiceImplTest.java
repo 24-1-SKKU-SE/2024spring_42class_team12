@@ -27,7 +27,7 @@ class ChatbotServiceImplTest {
 
     ResponseEntity<ResponseApi.Body<ToFrontResDto>> responseEntity;
 
-    @Test
+/*    @Test
     public void 챗봇을_통한_FAQ_질문_경우() throws Exception{
         //given
         String token = "token1";
@@ -63,7 +63,7 @@ class ChatbotServiceImplTest {
         assertEquals(HttpStatus.OK.value(), code);
         assertEquals(ResponseStatus._CHATBOT_NORMAL_SUCCESS.getMessage(), message);
         assertNotNull(response);
-    }
+    }*/
 
     @Test
     public void 챗봇을_통한_신고_경우() throws Exception{

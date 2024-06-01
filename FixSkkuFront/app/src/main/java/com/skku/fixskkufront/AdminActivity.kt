@@ -1,6 +1,9 @@
 package com.skku.fixskkufront
 
+import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Adapter
 import android.widget.Button
@@ -54,6 +57,7 @@ class AdminActivity : AppCompatActivity() {
         val btnSort = findViewById<Button>(R.id.sort_button)
         var SortToggle = true
         btnSort.setOnClickListener {
+
             if (SortToggle){
                 items.sortBy { it.time }
                 item_init.sortBy { it.time }
@@ -82,21 +86,23 @@ class AdminActivity : AppCompatActivity() {
         /* 새로고침(초기화) 버튼 */
         val btnNew = findViewById<ImageButton>(R.id.new_btn)
         btnNew.setOnClickListener {
+            fetchAndParseJson("http://13.124.89.169:8081/?reportStatus=fixed&startDate=&endDate=&searchWord=")
             myAdapter.updateList(item_init)
             btnInitPressed = false
             btnBeforePressed = false
             btnIngPressed = false
             btnAfterPressed = false
             btnRejectPressed = false
-            btnInit.setBackgroundResource(R.drawable.rounded_corner_white)
+
+            btnInit.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
             btnInit.setTextColor(Color.BLACK)
-            btnBefore.setBackgroundResource(R.drawable.rounded_corner_white)
+            btnBefore.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
             btnBefore.setTextColor(Color.BLACK)
-            btnIng.setBackgroundResource(R.drawable.rounded_corner_white)
+            btnIng.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
             btnIng.setTextColor(Color.BLACK)
-            btnAfter.setBackgroundResource(R.drawable.rounded_corner_white)
+            btnAfter.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
             btnAfter.setTextColor(Color.BLACK)
-            btnReject.setBackgroundResource(R.drawable.rounded_corner_white)
+            btnReject.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
             btnReject.setTextColor(Color.BLACK)
         }
 
@@ -121,21 +127,21 @@ class AdminActivity : AppCompatActivity() {
                 isPressedAnyButton = true
                 btnInitPressed = true
 
-                btnInit.setBackgroundResource(R.drawable.rounded_corner_grey)
+                btnInit.backgroundTintList = ColorStateList.valueOf(Color.BLACK)
                 btnInit.setTextColor(Color.WHITE)
-                btnBefore.setBackgroundResource(R.drawable.rounded_corner_white)
+                btnBefore.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
                 btnBefore.setTextColor(Color.BLACK)
-                btnIng.setBackgroundResource(R.drawable.rounded_corner_white)
+                btnIng.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
                 btnIng.setTextColor(Color.BLACK)
-                btnAfter.setBackgroundResource(R.drawable.rounded_corner_white)
+                btnAfter.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
                 btnAfter.setTextColor(Color.BLACK)
-                btnReject.setBackgroundResource(R.drawable.rounded_corner_white)
+                btnReject.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
                 btnReject.setTextColor(Color.BLACK)
             }
             else {
                 isPressedAnyButton = false
                 btnInitPressed = false
-                btnInit.setBackgroundResource(R.drawable.rounded_corner_white)
+                btnInit.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
                 btnInit.setTextColor(Color.BLACK)
             }
         }
@@ -161,21 +167,21 @@ class AdminActivity : AppCompatActivity() {
                 isPressedAnyButton = true
                 btnBeforePressed = true
 
-                btnBefore.setBackgroundResource(R.drawable.rounded_corner_grey)
+                btnBefore.backgroundTintList = ColorStateList.valueOf(Color.BLACK)
                 btnBefore.setTextColor(Color.WHITE)
-                btnInit.setBackgroundResource(R.drawable.rounded_corner_white)
+                btnInit.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
                 btnInit.setTextColor(Color.BLACK)
-                btnIng.setBackgroundResource(R.drawable.rounded_corner_white)
+                btnIng.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
                 btnIng.setTextColor(Color.BLACK)
-                btnAfter.setBackgroundResource(R.drawable.rounded_corner_white)
+                btnAfter.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
                 btnAfter.setTextColor(Color.BLACK)
-                btnReject.setBackgroundResource(R.drawable.rounded_corner_white)
+                btnReject.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
                 btnReject.setTextColor(Color.BLACK)
             }
             else {
                 isPressedAnyButton = false
                 btnBeforePressed = false
-                btnBefore.setBackgroundResource(R.drawable.rounded_corner_white)
+                btnBefore.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
                 btnBefore.setTextColor(Color.BLACK)
             }
         }
@@ -200,22 +206,22 @@ class AdminActivity : AppCompatActivity() {
                 isPressedAnyButton = true
                 btnIngPressed = true
 
-                btnIng.setBackgroundResource(R.drawable.rounded_corner_grey)
+                btnIng.backgroundTintList = ColorStateList.valueOf(Color.BLACK)
                 btnIng.setTextColor(Color.WHITE)
-                btnInit.setBackgroundResource(R.drawable.rounded_corner_white)
+                btnInit.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
                 btnInit.setTextColor(Color.BLACK)
-                btnBefore.setBackgroundResource(R.drawable.rounded_corner_white)
+                btnBefore.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
                 btnBefore.setTextColor(Color.BLACK)
-                btnAfter.setBackgroundResource(R.drawable.rounded_corner_white)
+                btnAfter.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
                 btnAfter.setTextColor(Color.BLACK)
-                btnReject.setBackgroundResource(R.drawable.rounded_corner_white)
+                btnReject.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
                 btnReject.setTextColor(Color.BLACK)
             }
 
             else {
                 isPressedAnyButton = false
                 btnIngPressed = false
-                btnIng.setBackgroundResource(R.drawable.rounded_corner_white)
+                btnIng.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
                 btnIng.setTextColor(Color.BLACK)
             }
         }
@@ -240,22 +246,22 @@ class AdminActivity : AppCompatActivity() {
                 isPressedAnyButton = true
                 btnAfterPressed = true
 
-                btnAfter.setBackgroundResource(R.drawable.rounded_corner_grey)
+                btnAfter.backgroundTintList = ColorStateList.valueOf(Color.BLACK)
                 btnAfter.setTextColor(Color.WHITE)
-                btnInit.setBackgroundResource(R.drawable.rounded_corner_white)
+                btnInit.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
                 btnInit.setTextColor(Color.BLACK)
-                btnBefore.setBackgroundResource(R.drawable.rounded_corner_white)
+                btnBefore.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
                 btnBefore.setTextColor(Color.BLACK)
-                btnIng.setBackgroundResource(R.drawable.rounded_corner_white)
+                btnIng.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
                 btnIng.setTextColor(Color.BLACK)
-                btnReject.setBackgroundResource(R.drawable.rounded_corner_white)
+                btnReject.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
                 btnReject.setTextColor(Color.BLACK)
             }
 
             else {
                 isPressedAnyButton = false
                 btnAfterPressed = false
-                btnAfter.setBackgroundResource(R.drawable.rounded_corner_white)
+                btnAfter.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
                 btnAfter.setTextColor(Color.BLACK)
             }
         }
@@ -280,22 +286,22 @@ class AdminActivity : AppCompatActivity() {
                 isPressedAnyButton = true
                 btnRejectPressed = true
 
-                btnReject.setBackgroundResource(R.drawable.rounded_corner_grey)
+                btnReject.backgroundTintList = ColorStateList.valueOf(Color.BLACK)
                 btnReject.setTextColor(Color.WHITE)
-                btnInit.setBackgroundResource(R.drawable.rounded_corner_white)
+                btnInit.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
                 btnInit.setTextColor(Color.BLACK)
-                btnBefore.setBackgroundResource(R.drawable.rounded_corner_white)
+                btnBefore.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
                 btnBefore.setTextColor(Color.BLACK)
-                btnAfter.setBackgroundResource(R.drawable.rounded_corner_white)
+                btnAfter.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
                 btnAfter.setTextColor(Color.BLACK)
-                btnIng.setBackgroundResource(R.drawable.rounded_corner_white)
+                btnIng.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
                 btnIng.setTextColor(Color.BLACK)
             }
 
             else {
                 isPressedAnyButton = false
                 btnRejectPressed = false
-                btnReject.setBackgroundResource(R.drawable.rounded_corner_white)
+                btnReject.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
                 btnReject.setTextColor(Color.BLACK)
             }
         }

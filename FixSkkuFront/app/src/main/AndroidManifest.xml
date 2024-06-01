@@ -20,7 +20,17 @@
             android:exported="false" />
         <activity
             android:name=".ReportActivity"
-            android:exported="false" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="detail"
+                    android:scheme="reportactivity" />
+            </intent-filter>
+
+        </activity>
         <activity
             android:name=".UserActivity"
             android:exported="false" />

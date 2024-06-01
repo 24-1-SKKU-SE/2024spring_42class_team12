@@ -90,13 +90,15 @@ class ChatbotActivity : AppCompatActivity() {
                 "                    \"2. 챗봇이 시설물 담당자의 연락처를 알려줄거에요.\\n" }
         val client = OkHttpClient()
 
-        data class SendFAQ(var text: String = "")
-        val json = Gson().toJson(SendFAQ(requestBody))
-        val mediaType = "application/json; charset=utf-8".toMediaType()
+        val builder = MultipartBody.Builder()
+            .setType(MultipartBody.FORM)
+            .addFormDataPart("text", requestBody)
+        val reqBody = builder.build()
+
         val req = Request.Builder().url(urlString)
             .addHeader("token", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIiwianRpIjoiMTRkOTRmYjgtNzNmMi00Mzc0LWI0MGYtZWJhNWNkNmI3M2U2IiwiaWF0IjoxNzE2NjM5ODY3fQ.10427Pg37n_IEeo41t5OJVsb5VgM8CMMJBa14v7ZC")
             .addHeader("Accept", "application/json")
-            .post(json.toString().toRequestBody(mediaType)).build()
+            .post(reqBody).build()
 
         client.newCall(req).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {

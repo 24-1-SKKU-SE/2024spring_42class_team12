@@ -87,7 +87,7 @@ public class AdminController {
             ReportListResDto updatedReport = adminService.updateReport(reportId, updateDto);
             Map<String, Object> result = new HashMap<>();
             result.put("report", updatedReport);
-            return ResponseApi.of(ResponseStatus._REPORT_LIST_SUCCESS, result);
+            return ResponseApi.of(ResponseStatus._ADMIN_UPDATE_SUCCESS, result);
         } catch (GeneralException e) {
             return ResponseApi.of(e.getStatus());
         } catch (NoSuchElementException e) {

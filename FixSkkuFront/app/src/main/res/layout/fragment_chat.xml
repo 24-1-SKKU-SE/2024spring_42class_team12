@@ -60,7 +60,7 @@
             android:textColor="@color/white"
             app:layout_constraintBottom_toTopOf="@id/FAQ_btn_1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="@id/guideline_33_v" />
 
         <Button
             android:id="@+id/FAQ_btn_1"

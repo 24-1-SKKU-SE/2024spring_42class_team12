@@ -13,13 +13,14 @@
         android:id="@+id/faq_section"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#E6EAFF"
+        android:background="#F1F1F1"
         android:visibility="visible">
 
         <ImageButton
             android:id="@+id/btn_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:background="@drawable/baseline_close_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_line" />
@@ -28,18 +29,22 @@
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/pretendard_variable"
             android:gravity="center"
-            android:text="픽스꾸-봇"
+            android:text="픽스꾸봇"
             android:textColor="#9D9D9D"
+            android:textFontWeight="700"
             android:textSize="15dp"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_line" />
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="142dp"
-            android:layout_height="114dp"
+            android:layout_width="110dp"
+            android:layout_height="80dp"
             android:layout_marginStart="8dp"
             android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toTopOf="@id/FAQ_btn_1"
@@ -54,10 +59,13 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="80dp"
             android:background="@drawable/chatbox1"
+            android:fontFamily="@font/pretendard_variable"
             android:gravity="center"
+            android:paddingStart="32dp"
             android:paddingBottom="16dp"
             android:text="안녕하세요!\n무엇을 도와드릴까요?"
             android:textColor="@color/white"
+            android:textFontWeight="700"
             app:layout_constraintBottom_toTopOf="@id/FAQ_btn_1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/guideline_33_v" />
@@ -68,9 +76,13 @@
             android:layout_height="60dp"
             android:layout_margin="8dp"
             android:backgroundTint="@color/white"
+            android:fontFamily="@font/pretendard_variable"
             android:text="챗봇으로 신고 방법"
             android:textColor="@color/black"
+            android:elevation="4dp"
+            android:textFontWeight="700"
             android:textStyle="bold"
+            app:cornerRadius="8dp"
             app:layout_constraintBottom_toTopOf="@+id/guideline_33_h"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -82,9 +94,12 @@
             android:layout_height="60dp"
             android:layout_margin="8dp"
             android:backgroundTint="@color/white"
+            android:fontFamily="@font/pretendard_variable"
             android:text="챗봇으로 내 신고 조회 방법"
             android:textColor="@color/black"
+            android:textFontWeight="700"
             android:textStyle="bold"
+            app:cornerRadius="8dp"
             app:layout_constraintBottom_toTopOf="@+id/FAQ_btn_3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -98,7 +113,10 @@
             android:backgroundTint="@color/white"
             android:text="시설물 상태 조회 방법"
             android:textColor="@color/black"
+
+            android:textSize="12sp"
             android:textStyle="bold"
+            app:cornerRadius="8dp"
             app:layout_constraintBottom_toTopOf="@+id/guideline_66_h"
             app:layout_constraintEnd_toStartOf="@id/FAQ_btn_4"
             app:layout_constraintStart_toStartOf="parent"
@@ -110,9 +128,13 @@
             android:layout_height="60dp"
             android:layout_margin="8dp"
             android:backgroundTint="@color/white"
+            android:fontFamily="@font/pretendard_variable"
             android:text="담당자 연락처 조회 방법"
             android:textColor="@color/black"
+            android:textFontWeight="700"
+            android:textSize="12sp"
             android:textStyle="bold"
+            app:cornerRadius="8dp"
             app:layout_constraintBottom_toTopOf="@+id/guideline_66_h"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/FAQ_btn_3"
@@ -122,7 +144,7 @@
             android:id="@+id/text_line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#832196F3"
+
             android:textSize="2dp"
             app:layout_constraintTop_toBottomOf="@+id/top_layout2" />
 
@@ -157,8 +179,9 @@
         <RelativeLayout
             android:id="@+id/top_layout2"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="wrap_content"
             android:background="@color/white"
+            android:padding="4dp"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageButton
@@ -174,12 +197,14 @@
 
             <TextView
                 android:id="@+id/textView_main"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:fontFamily="@font/pretendard_variable"
                 android:gravity="center"
                 android:text="Fix-SKKU"
                 android:textColor="#000000"
+                android:textFontWeight="700"
                 android:textSize="24dp"
                 android:textStyle="bold" />
 
@@ -197,8 +222,9 @@
         <RelativeLayout
             android:id="@+id/top_layout"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:background="@color/white">
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="4dp">
 
             <ImageButton
                 android:id="@+id/back_btn"
@@ -213,12 +239,14 @@
 
             <TextView
                 android:id="@+id/textView"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:fontFamily="@font/pretendard_variable"
                 android:gravity="center"
                 android:text="Fix-SKKU"
                 android:textColor="#000000"
+                android:textFontWeight="700"
                 android:textSize="24dp"
                 android:textStyle="bold" />
 
@@ -230,7 +258,7 @@
             android:layout_height="match_parent"
             android:layout_above="@id/bottom_layout"
             android:layout_below="@id/top_layout"
-            android:background="#E6EAFF" />
+            android:background="#F9F9F9" />
 
         <TextView
             android:id="@+id/welcome_text"
@@ -245,8 +273,9 @@
         <RelativeLayout
             android:id="@+id/bottom_layout"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:background="#F1F1F1"
             android:padding="8dp">
 
             <EditText
@@ -254,21 +283,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+
                 android:layout_toLeftOf="@id/send_btn"
                 android:background="@drawable/rounded_corner"
+                android:fontFamily="@font/pretendard_variable"
                 android:hint="Write Here!"
                 android:inputType="text"
-                android:padding="16dp" />
+                android:padding="12dp"
+                android:textSize="14sp" />
 
             <ImageButton
                 android:id="@+id/send_btn"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerInParent="true"
                 android:layout_marginStart="10dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="8dp"
+                android:scaleType="centerCrop"
                 android:src="@drawable/baseline_send_24" />
         </RelativeLayout>
 
@@ -278,7 +310,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerInParent="true"
-            app:srcCompat="@drawable/skku_logo1" />
+            app:srcCompat="@drawable/skku_removebg" />
 
         <FrameLayout
             android:id="@+id/chat_container"

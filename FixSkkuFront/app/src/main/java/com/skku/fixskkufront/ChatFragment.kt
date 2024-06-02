@@ -2,15 +2,24 @@ package com.skku.fixskkufront
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.view.WindowInsets
+import android.view.WindowInsetsController
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
+import com.google.gson.JsonObject
 import okhttp3.*
 import java.io.IOException
 
@@ -61,16 +70,19 @@ class ChatFragment : Fragment() {
             setupChatSection(view)
         }
 
-
+        val btnBackMain = view.findViewById<ImageButton>(R.id.back_btn_main)
+        btnBackMain.setOnClickListener {
+            activity?.finish()
+        }
     }
 
     private fun handleFAQButtonClick(faqNumber: Int) {
-        sendFAQRequest(faqNumber)
-        val intent = Intent(activity, ChatbotActivity2::class.java).apply {
-            putExtra(EXT_FAQ, faqNumber.toString())
-        }
-        intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
-        startActivity(intent)
+        faqSection.visibility = View.GONE
+        chatSection.visibility = View.VISIBLE
+        setupChatSection(requireView())
+        handleFAQ(faqNumber.toString())
+        hideSystemUI()
+        imageView.alpha = 0.2f
     }
 
     private fun sendFAQRequest(faqNumber: Int) {
@@ -134,12 +146,15 @@ class ChatFragment : Fragment() {
             val question = messageEditText.text.toString().trim()
             addToChat(question, Message.SENT_BY_ME)
             messageEditText.setText("")
+            hideSystemUI()
             sendMessageToServer(question)
+
             imageView.alpha = 0.2f
         }
 
         backButton.setOnClickListener {
-            activity?.finish()
+            faqSection.visibility = View.VISIBLE
+            chatSection.visibility = View.GONE
         }
 
         val faqNumber = arguments?.getString(EXT_FAQ)
@@ -177,6 +192,7 @@ class ChatFragment : Fragment() {
     }
 
     private fun sendMessageToServer(message: String) {
+        Log.d("Log", "sendMessageToServer")
         val urlString = "http://13.124.89.169/chatbot"
         val client = OkHttpClient()
 
@@ -199,23 +215,85 @@ class ChatFragment : Fragment() {
             override fun onResponse(call: Call, response: Response) {
                 if (response.isSuccessful) {
                     val responseBody = response.body?.string()
+                    Log.d("ChatRB", responseBody.toString())
                     val gson = Gson()
-                    val chatbotResponse = gson.fromJson(responseBody, ChatbotResponse::class.java)
+                    val jsonObject = gson.fromJson(responseBody, JsonObject::class.java)
+                    val data = jsonObject.getAsJsonObject("data")
+
                     activity?.runOnUiThread {
-                        if (!chatbotResponse.data.response.isNullOrEmpty()) {
-                            addToChat(chatbotResponse.data.response, Message.SENT_BY_BOT)
-                        } else if (chatbotResponse.data.campus.isNullOrEmpty()) {
-                            val url = chatbotResponse.data.uri
-                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                            startActivity(intent)
-                        } else {
-                            val url = chatbotResponse.data.uri
-                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                            startActivity(intent)
+                        when (jsonObject.get("message").asString) {
+                            "챗봇 자주 묻는 질문 응답 성공" -> {
+                                // Handle FAQ response
+                                addToChat(message, Message.SENT_BY_BOT)
+                                handleGeneralQuestionResponse(data)
+                                handleFAQResponse(data)
+                            }
+                            "챗봇 일반 질문 응답 성공" -> {
+                                // Handle general question response
+                                val message = data.get("response").asString
+                                addToChat(message, Message.SENT_BY_BOT)
+                                handleGeneralQuestionResponse(data)
+                            }
+                            "챗봇 망가진 시설물 정보 조회 성공" -> {
+                                // Handle faulty facilities response
+                                handleFaultyFacilitiesResponse(data)
+                            }
+                            "챗봇 신고 요청 성공" -> {
+                                // Handle report request response
+                                handleReportRequestResponse(data)
+                            }
+                            "챗봇 자신의 신고 조회 성공" -> {
+                                // Handle own reports response
+                                handleOwnReportsResponse(data)
+                            }
+                            else -> {
+                                Log.d("ChatResponse", "Unknown response type")
+                            }
                         }
                     }
                 }
             }
         })
+    }
+
+    private fun handleFAQResponse(data: JsonObject) {
+        val message = data.get("response").asString
+        addToChat(message, Message.SENT_BY_BOT)
+    }
+
+    private fun handleGeneralQuestionResponse(data: JsonObject) {
+        val message = data.get("response").asString
+        addToChat(message, Message.SENT_BY_BOT)
+    }
+
+    private fun handleFaultyFacilitiesResponse(data: JsonObject) {
+        navigateToUserActivity("시설물 조회")
+    }
+
+    private fun handleReportRequestResponse(data: JsonObject) {
+        navigateToUserActivity("신고 요청")
+    }
+
+    private fun handleOwnReportsResponse(data: JsonObject) {
+        navigateToUserActivity("신고 조회")
+    }
+
+    private fun navigateToUserActivity(action: String) {
+        val intent = Intent(requireContext(), UserActivity::class.java)
+        intent.action = action
+        startActivity(intent)
+    }
+
+    private fun hideSystemUI() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            requireActivity().window.insetsController?.hide(WindowInsets.Type.navigationBars())
+            requireActivity().window.insetsController?.systemBarsBehavior =
+                WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        } else {
+            @Suppress("DEPRECATION")
+            requireActivity().window.decorView.systemUiVisibility = (
+                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+        }
     }
 }

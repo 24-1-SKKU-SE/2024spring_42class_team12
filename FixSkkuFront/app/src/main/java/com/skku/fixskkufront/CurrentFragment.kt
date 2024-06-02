@@ -1,10 +1,14 @@
 package com.skku.fixskkufront
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowInsets
+import android.view.WindowInsetsController
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
@@ -41,7 +45,28 @@ class CurrentFragment : Fragment() {
 
         setupCampusSpinner(campusSpinner)
         setupBuildingSpinner(buildingSpinner, 1) // 기본값 0 (캠퍼스 선택 기본값)
+        hideSystemUI()
+        // Spinner 선택 이벤트 리스너 설정
+        campusSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                setupBuildingSpinner(buildingSpinner, position)
+                hideSystemUI() // Spinner 선택 후 하단 바 숨기기
+            }
 
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                hideSystemUI() // 아무것도 선택되지 않은 경우에도 하단 바 숨기기
+            }
+        }
+
+        buildingSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                hideSystemUI() // Spinner 선택 후 하단 바 숨기기
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                hideSystemUI() // 아무것도 선택되지 않은 경우에도 하단 바 숨기기
+            }
+        }
         // Setup RecyclerView
         val recyclerView: RecyclerView = view.findViewById(R.id.seatRecyclerView)
         recyclerView.layoutManager = GridLayoutManager(context, 11)
@@ -60,7 +85,21 @@ class CurrentFragment : Fragment() {
         val queryButton: Button = view.findViewById(R.id.queryButton)
         queryButton.setOnClickListener {
             val classRoomName = classRoomEditText.text.toString()
+            hideSystemUI()
             sendGetRequest(classRoomName)
+        }
+    }
+
+    private fun hideSystemUI() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            requireActivity().window.insetsController?.hide(WindowInsets.Type.navigationBars())
+            requireActivity().window.insetsController?.systemBarsBehavior =
+                WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        } else {
+            @Suppress("DEPRECATION")
+            requireActivity().window.decorView.systemUiVisibility = (
+                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
         }
     }
 
@@ -140,7 +179,7 @@ class CurrentFragment : Fragment() {
     }
 
     private fun getBuildings(campusType: Int): List<Building> {
-        return if (campusType == 0) {
+        return if (campusType == 1) {
             listOf(
                 Building("경영관", R.drawable.fundamentalstudy),
                 Building("다산경제관", R.drawable.fundamentalstudy),
@@ -175,4 +214,6 @@ class CurrentFragment : Fragment() {
             }
         }
     }
+
+
 }

@@ -81,7 +81,18 @@ class UserActivity : AppCompatActivity() {
                 }
             }
             openFragment(fragment)
-        } else {
+        }
+        else if (action == "시설물 조회") {
+            val fragment = CurrentFragment()
+            openFragment(fragment)
+        } else if (action == "신고 요청") {
+            val fragment = SeatFragment()
+            openFragment(fragment)
+        } else if (action == "신고 조회") {
+            val fragment = MyReportFragment()
+            openFragment(fragment)
+        }
+        else {
             val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNav)
             bottomNavigationView.selectedItemId = R.id.home
         }

@@ -77,7 +77,7 @@ class SeatFragment : Fragment() {
     }
 
     private fun setupCampusSpinner(spinner: Spinner, campusType: Int) {
-        val campuses = listOf("인문사회캠퍼스", "자연과학캠퍼스")
+        val campuses = listOf("자연과학캠퍼스", "인문사회캠퍼스")
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, campuses)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter

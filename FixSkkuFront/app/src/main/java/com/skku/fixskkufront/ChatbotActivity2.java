@@ -13,7 +13,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import android.widget.Toast;
@@ -113,25 +112,22 @@ public class ChatbotActivity2 extends AppCompatActivity {
             }
         });
     }
-    public class SendNormal {
-        private String text;
+    static class SendNormal {
+        String text;
+
         public SendNormal(String text) {
             this.text = text;
         }
     }
+
     void sendMessageToServer(String message) {
+        Log.d("message", message);
         String urlString = "http://13.124.89.169/chatbot";
-        //String urlString = "http://10.0.2.2:8000/test_post";
-        SendNormal sendNormal = new SendNormal(message);
-        Gson gson = new Gson();
-        String json = gson.toJson(sendNormal);
-        MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
-        RequestBody body = RequestBody.create(json, mediaType);
-        Log.d("JSON", json);
 
         MultipartBody.Builder builder = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("text", message);
+
         RequestBody requestBody = builder.build();
 
         Request req = new Request.Builder()
@@ -139,42 +135,40 @@ public class ChatbotActivity2 extends AppCompatActivity {
                 .addHeader("token", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIiwianRpIjoiMTRkOTRmYjgtNzNmMi00Mzc0LWI0MGYtZWJhNWNkNmI3M2U2IiwiaWF0IjoxNzE2NjM5ODY3fQ.10427Pg37n_IEeo41t5OJVsb5VgM8CMMJBa14v7ZC")
                 .post(requestBody)
                 .build();
+
         Log.d("req", req.toString());
         OkHttpClient client = new OkHttpClient();
         client.newCall(req).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
+                Log.d("Fail", e.toString());
+                //runOnUiThread(() -> Toast.makeText(ChatbotActivity2.this, "Failed to connect to server", Toast.LENGTH_SHORT).show());
             }
+
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                Log.d("Suc", response.toString());
+
                 if (response.isSuccessful()) {
                     String responseBody = response.body().string();
+                    Gson gson = new Gson();
                     ChatbotResponse chatbotResponse = gson.fromJson(responseBody, ChatbotResponse.class);
-
-                    if(!chatbotResponse.getData().getResponse().isEmpty()){ // Response 이 존재 -> 일반 질문
+                    if (!chatbotResponse.getData().getResponse().isEmpty()) { // Response exists -> normal question
                         runOnUiThread(() -> addToChat(chatbotResponse.getData().getResponse(), Message.SENT_BY_BOT));
-                    }
-
-                    else if(chatbotResponse.getData().getCampus().isEmpty()){ // Campus 가 빈 문자열 -> 자신의 신고 조회
+                    } else if (chatbotResponse.getData().getCampus().isEmpty()) { // Campus is empty -> view own reports
+                        String url = chatbotResponse.getData().getUri();
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        startActivity(intent);
+                    } else { // Else -> facility (classroom) lookup & report
                         String url = chatbotResponse.getData().getUri();
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                         startActivity(intent);
                     }
-
-                    else { // 나머지 -> 시설물(강의실) 조회 & 신고
-                        String url = chatbotResponse.getData().getUri();
-//                        String campus = chatbotResponse.getData().getCampus();
-//                        String building = chatbotResponse.getData().getBuilding();
-//                        String classroom = chatbotResponse.getData().getClassroom();
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                        startActivity(intent);
-                    }
-
                 } else {
                     runOnUiThread(() -> Toast.makeText(ChatbotActivity2.this, "Error: " + response.message(), Toast.LENGTH_SHORT).show());
                 }
             }
         });
     }
+
 }

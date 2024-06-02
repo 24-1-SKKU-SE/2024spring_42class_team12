@@ -31,24 +31,24 @@
             android:textSize="24sp"
             android:textStyle="bold" />
 
-<!--        <TextView-->
-<!--            android:id="@+id/textView5"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="24dp"-->
-<!--            android:fontFamily="@font/dmsans"-->
-<!--            android:text="신고 일자"-->
-<!--            android:textFontWeight="900" />-->
+        <!--        <TextView-->
+        <!--            android:id="@+id/textView5"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="24dp"-->
+        <!--            android:fontFamily="@font/dmsans"-->
+        <!--            android:text="신고 일자"-->
+        <!--            android:textFontWeight="900" />-->
 
-<!--        <EditText-->
-<!--            android:id="@+id/reportDate"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="48dp"-->
-<!--            android:layout_marginTop="8dp"-->
-<!--            android:layout_marginBottom="8dp"-->
-<!--            android:fontFamily="@font/dmsans"-->
-<!--            android:textSize="12dp"-->
-<!--            android:background="@drawable/edittext_custom" />-->
+        <!--        <EditText-->
+        <!--            android:id="@+id/reportDate"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="48dp"-->
+        <!--            android:layout_marginTop="8dp"-->
+        <!--            android:layout_marginBottom="8dp"-->
+        <!--            android:fontFamily="@font/dmsans"-->
+        <!--            android:textSize="12dp"-->
+        <!--            android:background="@drawable/edittext_custom" />-->
 
         <TextView
             android:layout_width="match_parent"
@@ -178,14 +178,5 @@
             android:gravity="top"
             android:layout_marginBottom="16dp"/>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/reportButton"
-            android:layout_width="match_parent"
-            android:layout_height="62dp"
-            android:layout_gravity="center_horizontal"
-            android:backgroundTint="#130160"
-            android:text="신고하기"
-            android:textColor="@android:color/white"
-            app:cornerRadius="6dp" />
     </LinearLayout>
 </ScrollView>

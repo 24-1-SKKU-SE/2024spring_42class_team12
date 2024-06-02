@@ -1,14 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CurrentFragment">
+    android:orientation="vertical"
+    tools:context=".SeatFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="current" />
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/dmsans_bold"
+        android:text="조회하려는 강의실을 입력하세요"
+        android:textFontWeight="700"
+        android:textSize="18sp" />
 
-</FrameLayout>
+    <Spinner
+        android:layout_marginTop="16dp"
+        android:id="@+id/campusSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/spinner_background"
+        android:elevation="4dp"
+        android:paddingHorizontal="16dp" />
+
+    <Spinner
+        android:id="@+id/buildingSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/spinner_background"
+        android:elevation="4dp"
+        android:paddingHorizontal="16dp" />
+
+    <EditText
+        android:id="@+id/classroomName"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/spinner_background"
+        android:elevation="4dp"
+        android:paddingHorizontal="26dp"
+        android:textSize="16sp"
+        android:ems="10"
+        android:inputType="text"
+        android:fontFamily="@font/pretendard_variable"
+        android:hint="강의실을 입력하시오" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="80px"
+                android:layout_gravity="center"
+                android:paddingHorizontal="32dp"
+                android:paddingVertical="0dp"
+                android:layout_marginTop="24dp"
+                android:src="@drawable/screen" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/seatRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp" />
+        </LinearLayout>
+    </ScrollView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/queryButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="#0E341C"
+        android:fontFamily="@font/dmsans_bold"
+        android:padding="16dp"
+        android:text="시설물 상태 조회"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        app:cornerRadius="12dp" />
+</LinearLayout>

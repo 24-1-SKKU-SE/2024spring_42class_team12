@@ -1,15 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".SeatFragment">
 
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/dmsans_bold"
+        android:text="신고하려는 시설물 위치를 선택하세요"
+        android:textFontWeight="700"
+        android:textSize="18sp" />
+
     <Spinner
+        android:layout_marginTop="16dp"
         android:id="@+id/campusSpinner"
         android:layout_width="match_parent"
-        android:layout_height="200px"
+        android:layout_height="60dp"
         android:background="@drawable/spinner_background"
         android:elevation="4dp"
         android:paddingHorizontal="16dp" />
@@ -17,7 +31,7 @@
     <Spinner
         android:id="@+id/buildingSpinner"
         android:layout_width="match_parent"
-        android:layout_height="200px"
+        android:layout_height="60dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/spinner_background"
         android:elevation="4dp"
@@ -26,40 +40,57 @@
     <EditText
         android:id="@+id/classroomName"
         android:layout_width="match_parent"
-        android:layout_height="200px"
+        android:layout_height="60dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/spinner_background"
         android:elevation="4dp"
         android:paddingHorizontal="26dp"
+        android:textSize="16sp"
         android:ems="10"
         android:inputType="text"
         android:fontFamily="@font/pretendard_variable"
         android:hint="강의실을 입력하시오" />
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="80px"
-        android:paddingHorizontal="32dp"
-        android:paddingVertical="0dp"
-        android:layout_marginTop="24dp"
-        android:src="@drawable/screen" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/seatRecyclerView"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:padding="16dp" >
+        android:fillViewport="true">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <Button
-        android:id="@+id/nextButton"
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="80px"
+                android:layout_gravity="center"
+                android:paddingHorizontal="32dp"
+                android:paddingVertical="0dp"
+                android:layout_marginTop="24dp"
+                android:src="@drawable/screen" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/seatRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp" />
+        </LinearLayout>
+    </ScrollView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/queryButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="16dp"
         android:layout_marginTop="16dp"
-        android:backgroundTint="@color/design_default_color_primary"
+        android:backgroundTint="#0E341C"
+        android:fontFamily="@font/dmsans_bold"
+        android:padding="16dp"
         android:text="다음"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        app:cornerRadius="12dp" />
 </LinearLayout>

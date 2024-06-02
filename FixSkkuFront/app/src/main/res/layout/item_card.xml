@@ -5,7 +5,7 @@
     android:layout_height="480px"
     android:layout_margin="8dp"
     app:cardCornerRadius="8dp"
-    app:cardElevation="4dp"
+    app:cardElevation="8dp"
     app:layout_constraintWidth_percent="0.45">
 
     <FrameLayout
@@ -36,7 +36,7 @@
             android:text="Building"
             android:textColor="@android:color/white"
             android:textFontWeight="700"
-            android:textSize="20sp"
+            android:textSize="18sp"
             />
 
     </FrameLayout>

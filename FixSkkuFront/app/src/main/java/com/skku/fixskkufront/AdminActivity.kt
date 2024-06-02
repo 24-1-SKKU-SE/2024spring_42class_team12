@@ -35,7 +35,6 @@ class AdminActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_admin)
-
         fetchAndParseJson("http://13.124.89.169/admin/list?reportStatus=&startDate=&endDate=&searchWord=")
         val myAdapter = AdminRoomAdapter(items, this)
         val listView = findViewById<ListView>(R.id.listViewChatRoom)

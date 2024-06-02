@@ -7,7 +7,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
-class SeatAdapter(private val seats: List<Seat>, private val activity: FragmentActivity) : RecyclerView.Adapter<SeatAdapter.SeatViewHolder>() {
+
+class SeatAdapter(
+    private val seats: List<Seat>,
+    private val activity: FragmentActivity,
+    private val onSeatClick: (Int) -> Unit
+) : RecyclerView.Adapter<SeatAdapter.SeatViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SeatViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_seat, parent, false)
@@ -25,9 +30,13 @@ class SeatAdapter(private val seats: List<Seat>, private val activity: FragmentA
             }
             holder.itemView.setOnClickListener {
                 // Handle seat item click
-                val intent = Intent(activity, ReportActivity::class.java)
-                intent.putExtra("seat_image_res_id", seat.imageResId ?: 0)
-                activity.startActivity(intent)
+                onSeatClick(position)
+                if (seat.imageResId == R.drawable.seat_red) {
+                    seat.imageResId = R.drawable.seat_green
+                } else {
+                    seat.imageResId = R.drawable.seat_red
+                }
+                notifyItemChanged(position)
             }
         }
     }

@@ -142,7 +142,7 @@ class AdminRoomAdapter (var data: ArrayList<AdminRoom>, val context: Context): B
             notifyDataSetChanged()
             /* 서버로 변경사항 내용 JSON 파일로 보내기. */
             val client = OkHttpClient()
-            val path = "http://13.124.89.169:8080/"
+            val path = "http://13.124.89.169/admin/1"
 //            data class Changed_Report(var reportStatus: String ?= null, var rejectionReason: String ?= null)
 //            val json = Gson().toJson(Changed_Report(stat, comment))
 //            val mediaType = "application/json; charset=utf-8".toMediaType()
@@ -154,7 +154,7 @@ class AdminRoomAdapter (var data: ArrayList<AdminRoom>, val context: Context): B
             val reqBody = builder.build()
 
 
-            val req = Request.Builder().url(path).post(reqBody).build()
+            val req = Request.Builder().url(path).patch(reqBody).build()
             client.newCall(req).enqueue(object : Callback{
                 override fun onFailure(call: Call, e: IOException) {
                     e.printStackTrace()

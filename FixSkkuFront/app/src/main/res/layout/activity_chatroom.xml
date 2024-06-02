@@ -27,6 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
+            android:fontFamily="@font/pretendard_variable"
             android:text="Fix-SKKU"
             android:textStyle="bold"
             android:textSize="24dp"

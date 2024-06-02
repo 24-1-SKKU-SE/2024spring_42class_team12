@@ -219,7 +219,7 @@ class ChatFragment : Fragment() {
                     val gson = Gson()
                     val jsonObject = gson.fromJson(responseBody, JsonObject::class.java)
                     val data = jsonObject.getAsJsonObject("data")
-
+                    Log.d("JSON-response", jsonObject.toString())
                     activity?.runOnUiThread {
                         when (jsonObject.get("message").asString) {
                             "챗봇 자주 묻는 질문 응답 성공" -> {

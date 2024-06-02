@@ -34,6 +34,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_corner_default"
         android:layout_margin="8dp"
+        android:fontFamily="@font/pretendard_variable"
         app:iconifiedByDefault="false"
         app:queryHint="Search Here!"
         app:layout_constraintBottom_toTopOf="@+id/guideline_10_h"
@@ -83,7 +84,8 @@
         android:layout_height="wrap_content"
         android:text="시설물 관리 현황"
         android:gravity="center"
-        android:textSize="30dp"
+        android:fontFamily="@font/pretendard_variable"
+        android:textSize="28dp"
         app:layout_constraintBottom_toTopOf="@id/guideline_10_h"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -135,6 +137,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/white"
+                android:fontFamily="@font/pretendard_variable"
                 android:text="신고 접수"
                 android:textColor="@color/black" />
             <Button
@@ -144,20 +147,21 @@
                 android:layout_marginHorizontal="8dp"
                 android:layout_marginVertical="4dp"
                 android:layout_weight="1"
-
+                android:fontFamily="@font/pretendard_variable"
                 android:textColor="@color/black"
                 android:backgroundTint="@color/white"
                 android:text="수리 접수" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button3"
-                android:layout_width="wrap_content"
+                android:layout_width="89dp"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="4dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/white"
-                android:textColor="@color/black"
-                android:text="수리 중" />
+                android:fontFamily="@font/pretendard_variable"
+                android:text="수리 중"
+                android:textColor="@color/black" />
 
             <Button
                 android:id="@+id/button4"
@@ -166,6 +170,7 @@
                 android:layout_marginHorizontal="8dp"
                 android:layout_marginVertical="4dp"
                 android:layout_weight="1"
+                android:fontFamily="@font/pretendard_variable"
                 android:backgroundTint="@color/white"
                 android:textColor="@color/black"
                 android:text="수리 완료" />
@@ -178,6 +183,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/white"
+                android:fontFamily="@font/pretendard_variable"
                 android:text="반려"
                 android:textColor="@color/black" />
 

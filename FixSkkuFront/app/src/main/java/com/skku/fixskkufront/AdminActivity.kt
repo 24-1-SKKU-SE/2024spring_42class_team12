@@ -28,9 +28,18 @@ class AdminActivity : AppCompatActivity() {
     companion object{
         var items = ArrayList<AdminRoom>()
         var item_init = ArrayList<AdminRoom>()
+        var item_filter_state = ArrayList<AdminRoom>()
+        var item_filter_search = ArrayList<AdminRoom>()
     }
+    var isSearchApplied = false
     var isFilterApplied = false
     var isPressedAnyButton = false
+    var btnInitPressed = false
+    var btnBeforePressed = false
+    var btnIngPressed = false
+    var btnAfterPressed = false
+    var btnRejectPressed = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -47,7 +56,7 @@ class AdminActivity : AppCompatActivity() {
                 return false
             }
             override fun onQueryTextChange(newText: String?): Boolean {
-                items = item_init
+                if(!isFilterApplied) { items = item_init }
                 search(myAdapter ,newText)
                 return true
             }
@@ -76,11 +85,6 @@ class AdminActivity : AppCompatActivity() {
         val btnAfter = findViewById<Button>(R.id.button4)
         val btnReject = findViewById<Button>(R.id.button5)
 
-        var btnInitPressed = false
-        var btnBeforePressed = false
-        var btnIngPressed = false
-        var btnAfterPressed = false
-        var btnRejectPressed = false
 
         /* 새로고침(초기화) 버튼 */
         val btnNew = findViewById<ImageButton>(R.id.new_btn)
@@ -92,6 +96,7 @@ class AdminActivity : AppCompatActivity() {
             btnIngPressed = false
             btnAfterPressed = false
             btnRejectPressed = false
+            isSearchApplied = false
 
             btnInit.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
             btnInit.setTextColor(Color.BLACK)
@@ -106,7 +111,7 @@ class AdminActivity : AppCompatActivity() {
         }
 
         btnInit.setOnClickListener {
-            items = item_init
+            if (!isSearchApplied) { items = item_init }
 
             btnBeforePressed = false
             btnIngPressed = false
@@ -146,7 +151,7 @@ class AdminActivity : AppCompatActivity() {
         }
 
         btnBefore.setOnClickListener {
-            items = item_init
+            if (!isSearchApplied) { items = item_init }
 
             btnInitPressed = false
             btnIngPressed = false
@@ -186,7 +191,8 @@ class AdminActivity : AppCompatActivity() {
         }
 
         btnIng.setOnClickListener {
-            items = item_init
+            if (!isSearchApplied) { items = item_init }
+
             btnInitPressed = false
             btnBeforePressed = false
             btnAfterPressed = false
@@ -226,7 +232,7 @@ class AdminActivity : AppCompatActivity() {
         }
 
         btnAfter.setOnClickListener {
-            items = item_init
+            if (!isSearchApplied) { items = item_init }
             btnInitPressed = false
             btnBeforePressed = false
             btnIngPressed = false
@@ -266,7 +272,7 @@ class AdminActivity : AppCompatActivity() {
         }
 
         btnReject.setOnClickListener {
-            items = item_init
+            if (!isSearchApplied) { items = item_init }
             btnInitPressed = false
             btnBeforePressed = false
             btnIngPressed = false
@@ -313,15 +319,22 @@ class AdminActivity : AppCompatActivity() {
     }
 
     private fun search(adapter: AdminRoomAdapter, newText: String?) {
-        if( newText != null){
+        if(newText != null && newText.isNotEmpty()){
+            isSearchApplied = true
             val searchedItems = items.filter { it.name.toLowerCase().contains(newText.toLowerCase())
                     || it.text.toLowerCase().contains(newText.toLowerCase())
                     || it.status.toLowerCase().contains(newText.toLowerCase())
                     || it.time.toLowerCase().contains(newText.toLowerCase())  }
             items = searchedItems as ArrayList<AdminRoom>
+            item_filter_search = searchedItems as ArrayList<AdminRoom>
             adapter.updateList(items)
         }
-        else { adapter.updateList(item_init) }
+        else {
+            if(isFilterApplied) { adapter.updateList(item_filter_state) }
+            else { adapter.updateList(item_init) }
+            isSearchApplied = false
+
+        }
     }
 
     private fun toggleFilter() {
@@ -332,8 +345,13 @@ class AdminActivity : AppCompatActivity() {
         if (isFilterApplied) {
             val filteredItems = items.filter { it.status == state }
             items = filteredItems as ArrayList<AdminRoom>
+            item_filter_state = filteredItems as ArrayList<AdminRoom>
             adapter.updateList(items)
-        } else { adapter.updateList(item_init) }
+        } else {
+            if (isSearchApplied) { adapter.updateList(item_filter_search) }
+            else { adapter.updateList(item_init) }
+
+        }
     }
 
     private fun fetchAndParseJson(url: String) {

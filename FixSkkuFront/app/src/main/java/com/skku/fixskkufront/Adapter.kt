@@ -187,7 +187,10 @@ class AdminRoomAdapter (var data: ArrayList<AdminRoom>, val context: Context): B
 
         val btnRight = dialog.findViewById<ImageButton>(R.id.imageButtonRight)
         btnRight.setOnClickListener{
-            if(stat == "수리 접수") {
+            if(stat == "신고 접수") {
+                stat = "수리 접수"
+                textDetailStatus.text = stat }
+            else if(stat == "수리 접수") {
                 stat = "수리 중"
                 textDetailStatus.text = stat }
             else if(stat == "수리 중") {
@@ -202,8 +205,11 @@ class AdminRoomAdapter (var data: ArrayList<AdminRoom>, val context: Context): B
         }
         val btnLeft = dialog.findViewById<ImageButton>(R.id.imageButtonLeft)
         btnLeft.setOnClickListener{
-            if(stat == "수리 접수") {
+            if(stat == "신고 접수") {
                 stat = "반려"
+                textDetailStatus.text = stat }
+            else if(stat == "수리 접수") {
+                stat = "신고 접수"
                 textDetailStatus.text = stat }
             else if(stat == "수리 중") {
                 stat = "수리 접수"

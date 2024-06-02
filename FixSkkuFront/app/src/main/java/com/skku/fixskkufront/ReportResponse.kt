@@ -5,6 +5,10 @@ data class ReportResponse(
     val message: String,
     val data: ReportData
 )
+data class Changed_Report(
+    var reportStatus: String? = null,
+    var rejectionReason: String? = null
+)
 
 data class ReportData(
     val page: Int,

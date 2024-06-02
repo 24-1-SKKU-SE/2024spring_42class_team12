@@ -83,6 +83,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="시설물 관리 현황"
+        android:textStyle="bold"
         android:gravity="center"
         android:fontFamily="@font/pretendard_variable"
         android:textSize="28dp"

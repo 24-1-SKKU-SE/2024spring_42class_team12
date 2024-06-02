@@ -8,10 +8,10 @@ import java.util.stream.Collectors;
 
 @Getter
 public enum ReportStatus {
-    REPORT_RECEIVED("신고접수"),   // 신고접수
-    REPAIR_REQUESTED("수리접수"),  // 수리접수
-    UNDER_REPAIR("수리중"),      // 수리중
-    REPAIR_COMPLETED("수리완료"),  // 수리 완료
+    REPORT_RECEIVED("신고 접수"),   // 신고 접수
+    REPAIR_REQUESTED("수리 접수"),  // 수리 접수
+    UNDER_REPAIR("수리 중"),      // 수리 중
+    REPAIR_COMPLETED("수리 완료"),  // 수리 완료
     REJECTED("반려");           // 반려
 
     private final String name;

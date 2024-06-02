@@ -190,10 +190,10 @@ class CurrentFragment : Fragment() {
             )
         } else {
             listOf(
+                Building("약학관", R.drawable.medicine),
                 Building("삼성학술정보관", R.drawable.samsunglib),
                 Building("N센터", R.drawable.ncenter),
                 Building("화학관", R.drawable.chemistry),
-                Building("약학관", R.drawable.medicine),
                 Building("제1공학관", R.drawable.firstengine),
                 Building("제2공학관", R.drawable.secondengine),
                 Building("제1과학관", R.drawable.firstscience),

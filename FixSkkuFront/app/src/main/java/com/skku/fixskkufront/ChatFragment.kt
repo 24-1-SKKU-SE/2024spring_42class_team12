@@ -234,7 +234,7 @@ class ChatFragment : Fragment() {
                                 addToChat(message, Message.SENT_BY_BOT)
                                 handleGeneralQuestionResponse(data)
                             }
-                            "챗봇 망가진 시설물 정보 조회 성공" -> {
+                            "챗봇 시설물 정보 조회 성공" -> {
                                 // Handle faulty facilities response
                                 handleFaultyFacilitiesResponse(data)
                             }

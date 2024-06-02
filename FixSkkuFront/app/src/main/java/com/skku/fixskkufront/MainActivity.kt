@@ -9,6 +9,7 @@ import android.view.WindowInsets
 import android.view.WindowInsetsController
 import android.widget.Button
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
@@ -44,9 +45,21 @@ class MainActivity : AppCompatActivity() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Enter Admin Code")
 
+        // Create a container to hold the EditText
+        val container = FrameLayout(this)
         val input = EditText(this)
         input.inputType = InputType.TYPE_CLASS_NUMBER
-        builder.setView(input)
+
+        // Set layout parameters to match the width of the dialog title and buttons
+        val params = FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.MATCH_PARENT,
+            FrameLayout.LayoutParams.WRAP_CONTENT
+        )
+        params.setMargins(50, 0, 50, 0)  // Set margin to add some space
+        input.layoutParams = params
+
+        container.addView(input)
+        builder.setView(container)
 
         builder.setPositiveButton("Enter") { dialog, _ ->
             val enteredCode = input.text.toString()
@@ -62,6 +75,7 @@ class MainActivity : AppCompatActivity() {
 
         builder.show()
     }
+
 
     private fun hideSystemUI() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {

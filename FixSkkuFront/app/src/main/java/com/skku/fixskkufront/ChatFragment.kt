@@ -224,14 +224,14 @@ class ChatFragment : Fragment() {
                         when (jsonObject.get("message").asString) {
                             "챗봇 자주 묻는 질문 응답 성공" -> {
                                 // Handle FAQ response
-                                addToChat(message, Message.SENT_BY_BOT)
+                                //addToChat(message, Message.SENT_BY_BOT)
                                 handleGeneralQuestionResponse(data)
                                 handleFAQResponse(data)
                             }
                             "챗봇 일반 질문 응답 성공" -> {
                                 // Handle general question response
                                 val message = data.get("response").asString
-                                addToChat(message, Message.SENT_BY_BOT)
+                                //addToChat(message, Message.SENT_BY_BOT)
                                 handleGeneralQuestionResponse(data)
                             }
                             "챗봇 시설물 정보 조회 성공" -> {

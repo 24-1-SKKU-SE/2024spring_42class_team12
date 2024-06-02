@@ -111,6 +111,7 @@
             android:layout_height="60dp"
             android:layout_margin="8dp"
             android:backgroundTint="@color/white"
+            android:fontFamily="@font/pretendard_variable"
             android:text="시설물 상태 조회 방법"
             android:textColor="@color/black"
 
